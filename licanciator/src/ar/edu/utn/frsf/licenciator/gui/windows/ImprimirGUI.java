@@ -30,12 +30,12 @@ public class ImprimirGUI extends JDialog {
 	private JTextField tf_localidad;
 	private JTextField tf_fechaExp;
 	private JTextField tf_nro_lic;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField tf_fechaNac;
+	private JTextField tf_factor;
+	private JTextField tf_doc;
+	private JTextField tf_don;
+	private JTextField tf_grupo;
+	private JTextField tf_fechaEmision;
 
 	/**
 	 * Launch the application.
@@ -272,16 +272,16 @@ public class ImprimirGUI extends JDialog {
 				panel_1.add(lblFechaDeNacimiento, gbc_lblFechaDeNacimiento);
 			}
 			{
-				textField = new JTextField();
-				textField.setColumns(10);
-				textField.setBackground(SystemColor.menu);
-				GridBagConstraints gbc_textField = new GridBagConstraints();
-				gbc_textField.gridwidth = 3;
-				gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField.insets = new Insets(0, 0, 5, 5);
-				gbc_textField.gridx = 1;
-				gbc_textField.gridy = 0;
-				panel_1.add(textField, gbc_textField);
+				tf_fechaNac = new JTextField();
+				tf_fechaNac.setColumns(10);
+				tf_fechaNac.setBackground(SystemColor.menu);
+				GridBagConstraints gbc_tf_fechaNac = new GridBagConstraints();
+				gbc_tf_fechaNac.gridwidth = 3;
+				gbc_tf_fechaNac.fill = GridBagConstraints.HORIZONTAL;
+				gbc_tf_fechaNac.insets = new Insets(0, 0, 5, 5);
+				gbc_tf_fechaNac.gridx = 1;
+				gbc_tf_fechaNac.gridy = 0;
+				panel_1.add(tf_fechaNac, gbc_tf_fechaNac);
 			}
 			{
 				JLabel lblDocumento = new JLabel("Documento:");
@@ -294,17 +294,17 @@ public class ImprimirGUI extends JDialog {
 				panel_1.add(lblDocumento, gbc_lblDocumento);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setForeground(Color.BLACK);
-				textField_2.setColumns(10);
-				textField_2.setBackground(SystemColor.menu);
-				GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-				gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField_2.gridwidth = 3;
-				gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-				gbc_textField_2.gridx = 1;
-				gbc_textField_2.gridy = 1;
-				panel_1.add(textField_2, gbc_textField_2);
+				tf_doc = new JTextField();
+				tf_doc.setForeground(Color.BLACK);
+				tf_doc.setColumns(10);
+				tf_doc.setBackground(SystemColor.menu);
+				GridBagConstraints gbc_tf_doc = new GridBagConstraints();
+				gbc_tf_doc.fill = GridBagConstraints.HORIZONTAL;
+				gbc_tf_doc.gridwidth = 3;
+				gbc_tf_doc.insets = new Insets(0, 0, 5, 0);
+				gbc_tf_doc.gridx = 1;
+				gbc_tf_doc.gridy = 1;
+				panel_1.add(tf_doc, gbc_tf_doc);
 			}
 			{
 				JLabel lblDonanteDerganos = new JLabel("Donante de \u00F3rganos:");
@@ -317,17 +317,17 @@ public class ImprimirGUI extends JDialog {
 				panel_1.add(lblDonanteDerganos, gbc_lblDonanteDerganos);
 			}
 			{
-				textField_3 = new JTextField();
-				textField_3.setForeground(Color.BLACK);
-				textField_3.setColumns(10);
-				textField_3.setBackground(SystemColor.menu);
-				GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-				gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField_3.gridwidth = 3;
-				gbc_textField_3.insets = new Insets(0, 0, 5, 0);
-				gbc_textField_3.gridx = 1;
-				gbc_textField_3.gridy = 2;
-				panel_1.add(textField_3, gbc_textField_3);
+				tf_don = new JTextField();
+				tf_don.setForeground(Color.BLACK);
+				tf_don.setColumns(10);
+				tf_don.setBackground(SystemColor.menu);
+				GridBagConstraints gbc_tf_don = new GridBagConstraints();
+				gbc_tf_don.fill = GridBagConstraints.HORIZONTAL;
+				gbc_tf_don.gridwidth = 3;
+				gbc_tf_don.insets = new Insets(0, 0, 5, 0);
+				gbc_tf_don.gridx = 1;
+				gbc_tf_don.gridy = 2;
+				panel_1.add(tf_don, gbc_tf_don);
 			}
 			{
 				JLabel lblGrupo = new JLabel("Grupo:");
@@ -340,16 +340,16 @@ public class ImprimirGUI extends JDialog {
 				panel_1.add(lblGrupo, gbc_lblGrupo);
 			}
 			{
-				textField_4 = new JTextField();
-				textField_4.setForeground(Color.BLACK);
-				textField_4.setColumns(10);
-				textField_4.setBackground(SystemColor.menu);
-				GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-				gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-				gbc_textField_4.gridx = 1;
-				gbc_textField_4.gridy = 3;
-				panel_1.add(textField_4, gbc_textField_4);
+				tf_grupo = new JTextField();
+				tf_grupo.setForeground(Color.BLACK);
+				tf_grupo.setColumns(10);
+				tf_grupo.setBackground(SystemColor.menu);
+				GridBagConstraints gbc_tf_grupo = new GridBagConstraints();
+				gbc_tf_grupo.fill = GridBagConstraints.HORIZONTAL;
+				gbc_tf_grupo.insets = new Insets(0, 0, 5, 5);
+				gbc_tf_grupo.gridx = 1;
+				gbc_tf_grupo.gridy = 3;
+				panel_1.add(tf_grupo, gbc_tf_grupo);
 			}
 			{
 				JLabel lblFactor = new JLabel("Factor:");
@@ -361,16 +361,16 @@ public class ImprimirGUI extends JDialog {
 				panel_1.add(lblFactor, gbc_lblFactor);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setForeground(Color.BLACK);
-				textField_1.setColumns(10);
-				textField_1.setBackground(SystemColor.menu);
-				GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-				gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-				gbc_textField_1.gridx = 3;
-				gbc_textField_1.gridy = 3;
-				panel_1.add(textField_1, gbc_textField_1);
+				tf_factor = new JTextField();
+				tf_factor.setForeground(Color.BLACK);
+				tf_factor.setColumns(10);
+				tf_factor.setBackground(SystemColor.menu);
+				GridBagConstraints gbc_tf_factor = new GridBagConstraints();
+				gbc_tf_factor.fill = GridBagConstraints.HORIZONTAL;
+				gbc_tf_factor.insets = new Insets(0, 0, 5, 0);
+				gbc_tf_factor.gridx = 3;
+				gbc_tf_factor.gridy = 3;
+				panel_1.add(tf_factor, gbc_tf_factor);
 			}
 			{
 				JLabel lblFechaDeEmisin = new JLabel("Fecha de emisi\u00F3n:");
@@ -383,17 +383,17 @@ public class ImprimirGUI extends JDialog {
 				panel_1.add(lblFechaDeEmisin, gbc_lblFechaDeEmisin);
 			}
 			{
-				textField_5 = new JTextField();
-				textField_5.setForeground(Color.BLACK);
-				textField_5.setColumns(10);
-				textField_5.setBackground(SystemColor.menu);
-				GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-				gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField_5.gridwidth = 3;
-				gbc_textField_5.insets = new Insets(0, 0, 5, 0);
-				gbc_textField_5.gridx = 1;
-				gbc_textField_5.gridy = 4;
-				panel_1.add(textField_5, gbc_textField_5);
+				tf_fechaEmision = new JTextField();
+				tf_fechaEmision.setForeground(Color.BLACK);
+				tf_fechaEmision.setColumns(10);
+				tf_fechaEmision.setBackground(SystemColor.menu);
+				GridBagConstraints gbc_tf_fechaEmision = new GridBagConstraints();
+				gbc_tf_fechaEmision.fill = GridBagConstraints.HORIZONTAL;
+				gbc_tf_fechaEmision.gridwidth = 3;
+				gbc_tf_fechaEmision.insets = new Insets(0, 0, 5, 0);
+				gbc_tf_fechaEmision.gridx = 1;
+				gbc_tf_fechaEmision.gridy = 4;
+				panel_1.add(tf_fechaEmision, gbc_tf_fechaEmision);
 			}
 		}
 		{
