@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import ar.edu.utn.frsf.licenciator.dao.DaoUsuarios;
+
 import com.sun.istack.NotNull;
 
 @Entity
@@ -23,11 +25,18 @@ public class Usuario {
 
 	public Usuario(String nombre, String password, boolean superuser) {
 		super();
-		
+		this.nombre = nombre;
+		this.password = password; //TODO: Guardar MD5 del password
+		this.superuser = superuser;
 	}
 
 	/* Metodos de instancia */
 	public boolean changePassword(Usuario responsable, String new_password) {
+		if(this.equals(responsable) ||
+				(responsable != null && responsable.isSuperuser())) {
+			this.password = new_password;
+			DaoUsuarios.update(this);
+		}
 		return false;
 	}
 	

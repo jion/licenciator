@@ -6,7 +6,26 @@ import ar.edu.utn.frsf.licenciator.sesion.Usuario;
 import junit.framework.TestCase;
 
 public class GestorSesionTest extends TestCase {
-
+	
+	public void testLoginExistente() {
+		Usuario test = GestorSesion.login("admin", "admin");
+		
+		assertNotNull(test);
+		assertEquals("admin", test.getNombre());
+	}
+	
+	public void testLoginMalPassword() {
+		Usuario test = GestorSesion.login("admin", "badpassword");
+		
+		assertNull(test);
+	}
+	
+	public void testLoginNoExistente() {
+		Usuario test = GestorSesion.login("inexistente", "improbable");
+		
+		assertNull(test);
+	}
+	
 	public void testCreateUser() {
 		Usuario creador  = new Usuario("creador","pass", true);
 		Usuario nuevo    = GestorSesion.createUser(creador, "testUser", "123", false);
@@ -33,23 +52,6 @@ public class GestorSesionTest extends TestCase {
 		assertNull(usuario);
 	}
 	
-	public void testLoginExistente() {
-		Usuario test = GestorSesion.login("admin", "admin");
-		
-		assertNotNull(test);
-		assertEquals("admin", test.getNombre());
-	}
-	
-	public void testLoginMalPassword() {
-		Usuario test = GestorSesion.login("admin", "badpassword");
-		
-		assertNull(test);
-	}
-	
-	public void testLoginNoExistente() {
-		Usuario test = GestorSesion.login("inexistente", "improbable");
-		
-		assertNull(test);
-	}
+
 	
 }
