@@ -1,5 +1,8 @@
 package ar.edu.utn.frsf.licenciator.gui;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import ar.edu.utn.frsf.licenciator.gui.windows.LoginGUI;
 import ar.edu.utn.frsf.licenciator.gui.windows.MenuPrincipalGUI;
 import ar.edu.utn.frsf.licenciator.sesion.Usuario;
@@ -32,6 +35,23 @@ public class InteractionHandler {
 	
 	
 	public static void main(String[] args) {
+		try {
+            // Set cross-platform Java L&F (also called "Metal")
+	        UIManager.setLookAndFeel(
+	            UIManager.getSystemLookAndFeelClassName());
+	    } 
+	    catch (UnsupportedLookAndFeelException e) {
+	       // handle exception
+	    }
+	    catch (ClassNotFoundException e) {
+	       // handle exception
+	    }
+	    catch (InstantiationException e) {
+	       // handle exception
+	    }
+	    catch (IllegalAccessException e) {
+	       // handle exception
+	    }
 		getInstance().aLogin();
 	}
 	
