@@ -27,7 +27,10 @@ public class GestorSesionTest extends TestCase {
 	}
 	
 	public void testCreateUserThatExist() {
-		//TODO: testCreateUserThatExist()
+		Usuario creador  = new Usuario("creador","pass", true);
+		Usuario usuario = GestorSesion.createUser(creador, "admin", "admin", true);
+		
+		assertNull(usuario);
 	}
 	
 	public void testLoginExistente() {
@@ -37,7 +40,7 @@ public class GestorSesionTest extends TestCase {
 		assertEquals("admin", test.getNombre());
 	}
 	
-	public void testExistenteMalPassword() {
+	public void testLoginMalPassword() {
 		Usuario test = GestorSesion.login("admin", "badpassword");
 		
 		assertNull(test);
