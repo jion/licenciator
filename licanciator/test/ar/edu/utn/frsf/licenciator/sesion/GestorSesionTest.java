@@ -1,8 +1,8 @@
 package ar.edu.utn.frsf.licenciator.sesion;
 
 import ar.edu.utn.frsf.licenciator.dao.DaoUsuarios;
-import ar.edu.utn.frsf.licenciator.sesion.GestorSesion;
-import ar.edu.utn.frsf.licenciator.sesion.Usuario;
+import ar.edu.utn.frsf.licenciator.entidades.Usuario;
+import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
 import junit.framework.TestCase;
 
 public class GestorSesionTest extends TestCase {

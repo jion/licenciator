@@ -1,4 +1,4 @@
-package ar.edu.utn.frsf.licenciator.sesion;
+package ar.edu.utn.frsf.licenciator.entidades;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

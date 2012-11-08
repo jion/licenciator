@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import ar.edu.utn.frsf.licenciator.sesion.Usuario;
+import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 
 public class DaoUsuarios {
 	

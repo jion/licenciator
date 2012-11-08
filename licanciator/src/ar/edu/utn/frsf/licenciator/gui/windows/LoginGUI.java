@@ -13,9 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
+import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 import ar.edu.utn.frsf.licenciator.gui.InteractionHandler;
-import ar.edu.utn.frsf.licenciator.sesion.GestorSesion;
-import ar.edu.utn.frsf.licenciator.sesion.Usuario;
+import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

@@ -3,9 +3,9 @@ package ar.edu.utn.frsf.licenciator.gui;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 import ar.edu.utn.frsf.licenciator.gui.windows.LoginGUI;
 import ar.edu.utn.frsf.licenciator.gui.windows.MenuPrincipalGUI;
-import ar.edu.utn.frsf.licenciator.sesion.Usuario;
 
 public class InteractionHandler {
 
