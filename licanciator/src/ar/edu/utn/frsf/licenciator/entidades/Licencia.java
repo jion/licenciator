@@ -1,15 +1,21 @@
 package ar.edu.utn.frsf.licenciator.entidades;
 
-import java.util.*;
-import javax.persistence.Id;
+import java.util.Calendar;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Licencia {
 	
+	@ManyToOne
 	private Titular titular;
+	@ManyToOne
 	private ClaseLicencia clase;
 	@Id
+	@GeneratedValue
 	private String nroLicencia;
 	private Calendar fechaEmision;
 	private Calendar fechaVencimiento;

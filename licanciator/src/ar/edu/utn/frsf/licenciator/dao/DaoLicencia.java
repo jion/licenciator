@@ -15,7 +15,7 @@ public class DaoLicencia {
 				em.createQuery("SELECT l FROM Licencia l WHERE l.nroLicencia = :nro",
 						Licencia.class);
 		query.setParameter("nro", nro);
-
+		
 		if(query.getResultList().size() == 1)
 			licencia = query.getSingleResult();
 		em.close();

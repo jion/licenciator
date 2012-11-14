@@ -3,6 +3,8 @@ package ar.edu.utn.frsf.licenciator.entidades;
 import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
  
@@ -16,7 +18,9 @@ public class Titular {
 	private Calendar fechaNacimiento;
 	private String domicilio;
 	private String localidad;
+	@ManyToOne
 	private ClaseLicencia clase;
+	@ManyToOne
 	private TipoSanguineo tipoFactor; 
 	private boolean donante;
 	

@@ -21,6 +21,7 @@ public class EmitirLicencia {
 		ClaseLicencia clase = daoClase.read(clas);
 		nro = "3"+ Long.toString(nroDoc)+clase.getTipo();
 		emision = new GregorianCalendar();
+		/* En realidad esto lo hace calcular vigencia*/
 		emision.set(emision.YEAR + 5, emision.MONTH, emision.DAY_OF_MONTH, 0, 0, 0);
 		venc = new GregorianCalendar();
 		venc.set(emision.YEAR + 5, emision.MONTH, emision.DAY_OF_MONTH, 0, 0, 0);
@@ -36,7 +37,7 @@ public class EmitirLicencia {
 		return dao.read(tipo, nro);
 	}
 	
-	public void gruardarLicencia(Licencia licecia)
+	public void gruardarLicencia(Licencia licencia)
 	{
 		//guardar la licencia mediante el Dao;
 	}

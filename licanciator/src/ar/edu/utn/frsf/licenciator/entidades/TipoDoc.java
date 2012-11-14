@@ -1,5 +1,6 @@
 package ar.edu.utn.frsf.licenciator.entidades;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 
@@ -7,18 +8,25 @@ import javax.persistence.Entity;
 public class TipoDoc {
 	
 	@Id
+	@GeneratedValue
+	private int id;
 	private String tipo;
 	private String descripcion;
 	
 	public TipoDoc()
 	{}
 	
-	public TipoDoc (String tipo, String desc)
+	public TipoDoc (int id, String tipo, String desc)
 	{
+		this.id = id;
 		this.tipo = tipo;
 		descripcion = desc;
 	}
 	
+	protected int getId() {
+		return id;
+	}
+
 	public String getTipo()
 	{
 		return tipo;
