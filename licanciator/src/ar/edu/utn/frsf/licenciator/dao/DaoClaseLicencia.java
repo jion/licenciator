@@ -6,7 +6,7 @@ import ar.edu.utn.frsf.licenciator.entidades.*;
 
 public class DaoClaseLicencia {
 	public static ClaseLicencia read(String tipoL) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+		EntityManager em = EntityManagerManager.getEM();
 		ClaseLicencia licencia = null;
 		
 		TypedQuery<ClaseLicencia> query =
@@ -16,7 +16,6 @@ public class DaoClaseLicencia {
 
 		if(query.getResultList().size() == 1)
 			licencia = query.getSingleResult();
-		em.close();
 		
 		return licencia;
 	}

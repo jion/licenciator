@@ -2,13 +2,11 @@ package ar.edu.utn.frsf.licenciator.dao;
 import ar.edu.utn.frsf.licenciator.entidades.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-
 
 public class DaoLicencia {
 	public static Licencia read(String nro) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+		EntityManager em = EntityManagerManager.getEM();
 		Licencia licencia=null;
 		
 		TypedQuery<Licencia> query =

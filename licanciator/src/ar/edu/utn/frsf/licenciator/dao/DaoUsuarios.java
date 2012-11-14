@@ -9,7 +9,7 @@ import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 public class DaoUsuarios {
 	
 	public static Usuario read(String nombre) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+		EntityManager em = EntityManagerManager.getEM();
 		Usuario usuario=null;
 		
 		TypedQuery<Usuario> query =
@@ -19,13 +19,13 @@ public class DaoUsuarios {
 
 		if(query.getResultList().size() == 1)
 			usuario = query.getSingleResult();
-		em.close();
+		
 		
 		return usuario;
 	}
 	
 	public static Usuario create(Usuario usuario) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+		EntityManager em = EntityManagerManager.getEM();
 		EntityTransaction tx = em.getTransaction();
 		
 		tx.begin();
@@ -36,13 +36,13 @@ public class DaoUsuarios {
 			tx.rollback();
 		}
 		
-		em.close();
+		
 		
 		return read(usuario.getNombre());
 	}
 	
 	public static Usuario update(Usuario usuario) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+		EntityManager em = EntityManagerManager.getEM();
 		EntityTransaction tx = em.getTransaction();
 		
 		tx.begin();
@@ -53,13 +53,13 @@ public class DaoUsuarios {
 			tx.rollback();
 		}
 		
-		em.close();
+		
 		
 		return read(usuario.getNombre());
 	}
 
 	public static void delete(Usuario usuario) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+		EntityManager em = EntityManagerManager.getEM();
 		EntityTransaction tx = em.getTransaction();
 		
 		usuario = em.find(Usuario.class, usuario.getId());
@@ -76,6 +76,6 @@ public class DaoUsuarios {
 			tx.rollback();
 		} */
 		
-		em.close();
+		
 	}
 }

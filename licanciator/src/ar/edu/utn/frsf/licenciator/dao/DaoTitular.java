@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 
 public class DaoTitular {
 	public static Titular read(TipoDoc tipoD, long nroD) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+		EntityManager em = EntityManagerManager.getEM();
 		Titular titular=null;
 		
 		TypedQuery<Titular> query =
@@ -18,7 +18,6 @@ public class DaoTitular {
 
 		if(query.getResultList().size() == 1)
 			titular = query.getSingleResult();
-		em.close();
 		
 		return titular;
 	}

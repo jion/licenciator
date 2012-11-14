@@ -4,11 +4,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
-import ar.edu.utn.frsf.licenciator.entidades.Titular;
 
 public class DaoTipoDoc {
 	public static TipoDoc read(String tipoD) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+		EntityManager em = EntityManagerManager.getEM();
 		TipoDoc tipoDoc=null;
 		
 		TypedQuery<TipoDoc> query =
@@ -18,7 +17,6 @@ public class DaoTipoDoc {
 
 		if(query.getResultList().size() == 1)
 			tipoDoc = query.getSingleResult();
-		em.close();
 		
 		return tipoDoc;
 	}
