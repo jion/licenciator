@@ -1,17 +1,19 @@
 package ar.edu.utn.frsf.licenciator.entidades;
 
-import java.util.*;
+import java.util.Calendar;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
- 
 public class Titular {
 	
-	private TipoDoc tipoDoc;
 	@Id
+	@GeneratedValue
+	private int id;
+	private TipoDoc tipoDoc;
 	private long nroDoc;
 	private String nombre;
 	private String apellido;
@@ -22,12 +24,12 @@ public class Titular {
 	private ClaseLicencia clase;
 	@ManyToOne
 	private TipoSanguineo tipoFactor; 
-	private boolean donante;
+	private Boolean donante;
 	
 	public Titular()
 	{}
 	
-	public Titular (TipoDoc tipo, long nro, String nom, String ap, Calendar nac, String dom, String loc, ClaseLicencia clas, TipoSanguineo tipoS, boolean donante)
+	public Titular (TipoDoc tipo, long nro, String nom, String ap, Calendar nac, String dom, String loc, ClaseLicencia clas, TipoSanguineo tipoS, Boolean donante)
 	{
 		tipoDoc = tipo;
 		nroDoc = nro;
@@ -87,7 +89,7 @@ public class Titular {
 		return tipoFactor;
 	}
 	
-	public boolean getDonante()
+	public Boolean getDonante()
 	{
 		return donante;
 	}
