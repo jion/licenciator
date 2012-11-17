@@ -5,6 +5,8 @@ import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Licencia {
@@ -15,7 +17,9 @@ public class Licencia {
 	private Titular titular;
 	@ManyToOne
 	private ClaseLicencia clase;
+	@Temporal(TemporalType.DATE)
 	private Calendar fechaEmision;
+	@Temporal(TemporalType.DATE)
 	private Calendar fechaVencimiento;
 	private String observaciones;
 	

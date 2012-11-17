@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Titular {
@@ -17,6 +19,7 @@ public class Titular {
 	private long nroDoc;
 	private String nombre;
 	private String apellido;
+	@Temporal(TemporalType.DATE)
 	private Calendar fechaNacimiento;
 	private String domicilio;
 	private String localidad;
