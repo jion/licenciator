@@ -1,27 +1,31 @@
 package ar.edu.utn.frsf.licenciator.gui.windows;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import java.awt.SystemColor;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 
 public class ImprimirGUI extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField tf_clase;
 	private JTextField tf_nombres;
@@ -36,13 +40,37 @@ public class ImprimirGUI extends JDialog {
 	private JTextField tf_don;
 	private JTextField tf_grupo;
 	private JTextField tf_fechaEmision;
+	private JTextPane tf_observaciones;
+	
+	private void llenaVentana(Licencia licencia) {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		tf_clase.setText(licencia.getClaseLicencia().getTipo());
+		tf_nombres.setText(licencia.getTitular().getNombre());
+		tf_apellidos.setText(licencia.getTitular().getApellido());
+		tf_domicilio.setText(licencia.getTitular().getDomicilio());
+		tf_localidad.setText(licencia.getTitular().getLocalidad());
+		tf_fechaExp.setText(dateFormat.format(licencia.getFechaVencimiento().getTime()));
+		tf_observaciones.setText(licencia.getObservaciones());
+		tf_nro_lic.setText(licencia.getNrolicencia());
+		tf_fechaNac.setText(dateFormat.format(licencia.getTitular().getFechaNac().getTime()));
+		tf_factor.setText(String.valueOf(licencia.getTitular().getTipoSanguineo().getFactor()));
+		tf_doc.setText(licencia.getTitular().getTipoDoc().getTipo() + " " + licencia.getTitular().getNroDoc());
+		tf_don.setText(licencia.getTitular().getDonante().toString());
+		tf_grupo.setText(licencia.getTitular().getTipoSanguineo().getGrupo());
+		tf_fechaEmision.setText(dateFormat.format(licencia.getFechaEmision().getTime()));
+	}
 
 	/**
-	 * Launch the application.
+	 * Muestra la ventana de Imprimir.
+	 * 
+	 * @param licencia La licencia a ser impresa
 	 */
-	public static void main(String[] args) {
+	public static void runImprimir(Licencia licencia) {
 		try {
 			ImprimirGUI dialog = new ImprimirGUI();
+			
+			dialog.llenaVentana(licencia);
+			dialog.llenaVentana(licencia);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -50,6 +78,8 @@ public class ImprimirGUI extends JDialog {
 		}
 	}
 
+	/* Autogenerado por WindowBuilder ****************************/
+	
 	/**
 	 * Create the dialog.
 	 */
@@ -88,6 +118,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			tf_nro_lic = new JTextField();
+			tf_nro_lic.setEditable(false);
 			tf_nro_lic.setBackground(SystemColor.control);
 			GridBagConstraints gbc_tf_nro_lic = new GridBagConstraints();
 			gbc_tf_nro_lic.insets = new Insets(0, 0, 5, 5);
@@ -108,6 +139,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		
 		tf_clase = new JTextField();
+		tf_clase.setEditable(false);
 		tf_clase.setForeground(SystemColor.textText);
 		tf_clase.setBackground(SystemColor.control);
 		GridBagConstraints gbc_tf_clase = new GridBagConstraints();
@@ -129,6 +161,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			tf_nombres = new JTextField();
+			tf_nombres.setEditable(false);
 			tf_nombres.setForeground(SystemColor.textText);
 			tf_nombres.setBackground(SystemColor.control);
 			GridBagConstraints gbc_tf_nombres = new GridBagConstraints();
@@ -152,6 +185,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			tf_apellidos = new JTextField();
+			tf_apellidos.setEditable(false);
 			tf_apellidos.setForeground(SystemColor.textText);
 			tf_apellidos.setBackground(SystemColor.control);
 			GridBagConstraints gbc_tf_apellidos = new GridBagConstraints();
@@ -175,6 +209,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			tf_domicilio = new JTextField();
+			tf_domicilio.setEditable(false);
 			tf_domicilio.setForeground(SystemColor.textText);
 			tf_domicilio.setBackground(SystemColor.control);
 			GridBagConstraints gbc_tf_domicilio = new GridBagConstraints();
@@ -198,6 +233,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			tf_localidad = new JTextField();
+			tf_localidad.setEditable(false);
 			tf_localidad.setForeground(SystemColor.textText);
 			tf_localidad.setBackground(SystemColor.control);
 			GridBagConstraints gbc_tf_localidad = new GridBagConstraints();
@@ -221,6 +257,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			tf_fechaExp = new JTextField();
+			tf_fechaExp.setEditable(false);
 			tf_fechaExp.setForeground(SystemColor.textText);
 			tf_fechaExp.setBackground(SystemColor.control);
 			GridBagConstraints gbc_tf_fechaExp = new GridBagConstraints();
@@ -234,6 +271,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Observaciones:");
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 			gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
@@ -242,8 +280,9 @@ public class ImprimirGUI extends JDialog {
 			panel.add(lblNewLabel, gbc_lblNewLabel);
 		}
 		{
-			JTextPane tf_observaciones = new JTextPane();
-			tf_observaciones.setBackground(SystemColor.control);
+			tf_observaciones = new JTextPane();
+			tf_observaciones.setEditable(false);
+			tf_observaciones.setBackground(SystemColor.menu);
 			GridBagConstraints gbc_tf_observaciones = new GridBagConstraints();
 			gbc_tf_observaciones.gridwidth = 3;
 			gbc_tf_observaciones.fill = GridBagConstraints.BOTH;
@@ -273,6 +312,7 @@ public class ImprimirGUI extends JDialog {
 			}
 			{
 				tf_fechaNac = new JTextField();
+				tf_fechaNac.setEditable(false);
 				tf_fechaNac.setColumns(10);
 				tf_fechaNac.setBackground(SystemColor.menu);
 				GridBagConstraints gbc_tf_fechaNac = new GridBagConstraints();
@@ -318,6 +358,7 @@ public class ImprimirGUI extends JDialog {
 			}
 			{
 				tf_don = new JTextField();
+				tf_don.setEditable(false);
 				tf_don.setForeground(Color.BLACK);
 				tf_don.setColumns(10);
 				tf_don.setBackground(SystemColor.menu);
@@ -341,6 +382,7 @@ public class ImprimirGUI extends JDialog {
 			}
 			{
 				tf_grupo = new JTextField();
+				tf_grupo.setEditable(false);
 				tf_grupo.setForeground(Color.BLACK);
 				tf_grupo.setColumns(10);
 				tf_grupo.setBackground(SystemColor.menu);
@@ -362,6 +404,7 @@ public class ImprimirGUI extends JDialog {
 			}
 			{
 				tf_factor = new JTextField();
+				tf_factor.setEditable(false);
 				tf_factor.setForeground(Color.BLACK);
 				tf_factor.setColumns(10);
 				tf_factor.setBackground(SystemColor.menu);
@@ -384,6 +427,7 @@ public class ImprimirGUI extends JDialog {
 			}
 			{
 				tf_fechaEmision = new JTextField();
+				tf_fechaEmision.setEditable(false);
 				tf_fechaEmision.setForeground(Color.BLACK);
 				tf_fechaEmision.setColumns(10);
 				tf_fechaEmision.setBackground(SystemColor.menu);
