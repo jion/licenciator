@@ -3,20 +3,18 @@ package ar.edu.utn.frsf.licenciator.entidades;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Licencia {
 	
+	@Id
+	private String nroLicencia;
 	@ManyToOne
 	private Titular titular;
 	@ManyToOne
 	private ClaseLicencia clase;
-	@Id
-	@GeneratedValue
-	private String nroLicencia;
 	private Calendar fechaEmision;
 	private Calendar fechaVencimiento;
 	private String observaciones;
@@ -64,9 +62,17 @@ public class Licencia {
 		return observaciones;
 	}
 	
-	public boolean equals(Licencia l)
-	{
-		return (titular.equals(l.titular) && clase.equals(l.clase)	&&	nroLicencia.equals(l.nroLicencia) && fechaEmision.equals(l.fechaEmision) && fechaVencimiento.equals(l.fechaVencimiento) &&  observaciones.equals(l.observaciones));
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() == Licencia.class) {
+			Licencia l = (Licencia) obj;
+			return (titular.equals(l.titular) && clase.equals(l.clase)	&&
+					nroLicencia.equals(l.nroLicencia) &&
+					fechaEmision.equals(l.fechaEmision) &&
+					fechaVencimiento.equals(l.fechaVencimiento) && 
+					observaciones.equals(l.observaciones));
+		}
+		return super.equals(obj);
 	}
 	
 	/*public boolean equals(Licencia l)
