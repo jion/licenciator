@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -19,9 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
+import javax.swing.border.LineBorder;
 
 public class ImprimirGUI extends JDialog {
 
@@ -98,6 +101,7 @@ public class ImprimirGUI extends JDialog {
 		contentPanel.add(lblLicenciaDeConducir);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(10, 36, 414, 237);
 		contentPanel.add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
@@ -120,6 +124,7 @@ public class ImprimirGUI extends JDialog {
 			tf_nro_lic = new JTextField();
 			tf_nro_lic.setEditable(false);
 			tf_nro_lic.setBackground(SystemColor.control);
+			tf_nro_lic.setBorder(BorderFactory.createEmptyBorder());
 			GridBagConstraints gbc_tf_nro_lic = new GridBagConstraints();
 			gbc_tf_nro_lic.insets = new Insets(0, 0, 5, 5);
 			gbc_tf_nro_lic.fill = GridBagConstraints.HORIZONTAL;
@@ -142,6 +147,7 @@ public class ImprimirGUI extends JDialog {
 		tf_clase.setEditable(false);
 		tf_clase.setForeground(SystemColor.textText);
 		tf_clase.setBackground(SystemColor.control);
+		tf_clase.setBorder(BorderFactory.createEmptyBorder());
 		GridBagConstraints gbc_tf_clase = new GridBagConstraints();
 		gbc_tf_clase.insets = new Insets(0, 0, 5, 0);
 		gbc_tf_clase.fill = GridBagConstraints.HORIZONTAL;
@@ -164,6 +170,7 @@ public class ImprimirGUI extends JDialog {
 			tf_nombres.setEditable(false);
 			tf_nombres.setForeground(SystemColor.textText);
 			tf_nombres.setBackground(SystemColor.control);
+			tf_nombres.setBorder(BorderFactory.createEmptyBorder());
 			GridBagConstraints gbc_tf_nombres = new GridBagConstraints();
 			gbc_tf_nombres.gridwidth = 3;
 			gbc_tf_nombres.insets = new Insets(0, 0, 5, 0);
@@ -188,6 +195,7 @@ public class ImprimirGUI extends JDialog {
 			tf_apellidos.setEditable(false);
 			tf_apellidos.setForeground(SystemColor.textText);
 			tf_apellidos.setBackground(SystemColor.control);
+			tf_apellidos.setBorder(BorderFactory.createEmptyBorder());
 			GridBagConstraints gbc_tf_apellidos = new GridBagConstraints();
 			gbc_tf_apellidos.gridwidth = 3;
 			gbc_tf_apellidos.insets = new Insets(0, 0, 5, 0);
@@ -212,6 +220,7 @@ public class ImprimirGUI extends JDialog {
 			tf_domicilio.setEditable(false);
 			tf_domicilio.setForeground(SystemColor.textText);
 			tf_domicilio.setBackground(SystemColor.control);
+			tf_domicilio.setBorder(BorderFactory.createEmptyBorder());
 			GridBagConstraints gbc_tf_domicilio = new GridBagConstraints();
 			gbc_tf_domicilio.gridwidth = 3;
 			gbc_tf_domicilio.insets = new Insets(0, 0, 5, 0);
@@ -236,6 +245,7 @@ public class ImprimirGUI extends JDialog {
 			tf_localidad.setEditable(false);
 			tf_localidad.setForeground(SystemColor.textText);
 			tf_localidad.setBackground(SystemColor.control);
+			tf_localidad.setBorder(BorderFactory.createEmptyBorder());
 			GridBagConstraints gbc_tf_localidad = new GridBagConstraints();
 			gbc_tf_localidad.gridwidth = 3;
 			gbc_tf_localidad.insets = new Insets(0, 0, 5, 0);
@@ -246,7 +256,7 @@ public class ImprimirGUI extends JDialog {
 			tf_localidad.setColumns(10);
 		}
 		{
-			JLabel lblFechaDeExpiracin = new JLabel("Fecha de expiraci\u00F3n:");
+			JLabel lblFechaDeExpiracin = new JLabel(" Fecha de expiraci\u00F3n:");
 			lblFechaDeExpiracin.setHorizontalAlignment(SwingConstants.LEFT);
 			GridBagConstraints gbc_lblFechaDeExpiracin = new GridBagConstraints();
 			gbc_lblFechaDeExpiracin.anchor = GridBagConstraints.EAST;
@@ -260,6 +270,7 @@ public class ImprimirGUI extends JDialog {
 			tf_fechaExp.setEditable(false);
 			tf_fechaExp.setForeground(SystemColor.textText);
 			tf_fechaExp.setBackground(SystemColor.control);
+			tf_fechaExp.setBorder(BorderFactory.createEmptyBorder());
 			GridBagConstraints gbc_tf_fechaExp = new GridBagConstraints();
 			gbc_tf_fechaExp.gridwidth = 3;
 			gbc_tf_fechaExp.insets = new Insets(0, 0, 5, 0);
@@ -271,9 +282,9 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Observaciones:");
-			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+			gbc_lblNewLabel.anchor = GridBagConstraints.NORTHEAST;
 			gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
 			gbc_lblNewLabel.gridx = 0;
 			gbc_lblNewLabel.gridy = 6;
@@ -283,6 +294,7 @@ public class ImprimirGUI extends JDialog {
 			tf_observaciones = new JTextPane();
 			tf_observaciones.setEditable(false);
 			tf_observaciones.setBackground(SystemColor.menu);
+			tf_observaciones.setBorder(BorderFactory.createEmptyBorder());
 			GridBagConstraints gbc_tf_observaciones = new GridBagConstraints();
 			gbc_tf_observaciones.gridwidth = 3;
 			gbc_tf_observaciones.fill = GridBagConstraints.BOTH;
@@ -292,6 +304,7 @@ public class ImprimirGUI extends JDialog {
 		}
 		{
 			JPanel panel_1 = new JPanel();
+			panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel_1.setBounds(10, 284, 414, 237);
 			contentPanel.add(panel_1);
 			GridBagLayout gbl_panel_1 = new GridBagLayout();
@@ -301,7 +314,7 @@ public class ImprimirGUI extends JDialog {
 			gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
 			panel_1.setLayout(gbl_panel_1);
 			{
-				JLabel lblFechaDeNacimiento = new JLabel("Fecha de nacimiento:");
+				JLabel lblFechaDeNacimiento = new JLabel(" Fecha de nacimiento:");
 				lblFechaDeNacimiento.setHorizontalAlignment(SwingConstants.LEFT);
 				GridBagConstraints gbc_lblFechaDeNacimiento = new GridBagConstraints();
 				gbc_lblFechaDeNacimiento.anchor = GridBagConstraints.EAST;
@@ -315,6 +328,7 @@ public class ImprimirGUI extends JDialog {
 				tf_fechaNac.setEditable(false);
 				tf_fechaNac.setColumns(10);
 				tf_fechaNac.setBackground(SystemColor.menu);
+				tf_fechaNac.setBorder(BorderFactory.createEmptyBorder());
 				GridBagConstraints gbc_tf_fechaNac = new GridBagConstraints();
 				gbc_tf_fechaNac.gridwidth = 3;
 				gbc_tf_fechaNac.fill = GridBagConstraints.HORIZONTAL;
@@ -338,6 +352,7 @@ public class ImprimirGUI extends JDialog {
 				tf_doc.setForeground(Color.BLACK);
 				tf_doc.setColumns(10);
 				tf_doc.setBackground(SystemColor.menu);
+				tf_doc.setBorder(BorderFactory.createEmptyBorder());
 				GridBagConstraints gbc_tf_doc = new GridBagConstraints();
 				gbc_tf_doc.fill = GridBagConstraints.HORIZONTAL;
 				gbc_tf_doc.gridwidth = 3;
@@ -362,6 +377,7 @@ public class ImprimirGUI extends JDialog {
 				tf_don.setForeground(Color.BLACK);
 				tf_don.setColumns(10);
 				tf_don.setBackground(SystemColor.menu);
+				tf_don.setBorder(BorderFactory.createEmptyBorder());
 				GridBagConstraints gbc_tf_don = new GridBagConstraints();
 				gbc_tf_don.fill = GridBagConstraints.HORIZONTAL;
 				gbc_tf_don.gridwidth = 3;
@@ -386,6 +402,7 @@ public class ImprimirGUI extends JDialog {
 				tf_grupo.setForeground(Color.BLACK);
 				tf_grupo.setColumns(10);
 				tf_grupo.setBackground(SystemColor.menu);
+				tf_grupo.setBorder(BorderFactory.createEmptyBorder());
 				GridBagConstraints gbc_tf_grupo = new GridBagConstraints();
 				gbc_tf_grupo.fill = GridBagConstraints.HORIZONTAL;
 				gbc_tf_grupo.insets = new Insets(0, 0, 5, 5);
@@ -408,6 +425,7 @@ public class ImprimirGUI extends JDialog {
 				tf_factor.setForeground(Color.BLACK);
 				tf_factor.setColumns(10);
 				tf_factor.setBackground(SystemColor.menu);
+				tf_factor.setBorder(BorderFactory.createEmptyBorder());
 				GridBagConstraints gbc_tf_factor = new GridBagConstraints();
 				gbc_tf_factor.fill = GridBagConstraints.HORIZONTAL;
 				gbc_tf_factor.insets = new Insets(0, 0, 5, 0);
@@ -431,6 +449,7 @@ public class ImprimirGUI extends JDialog {
 				tf_fechaEmision.setForeground(Color.BLACK);
 				tf_fechaEmision.setColumns(10);
 				tf_fechaEmision.setBackground(SystemColor.menu);
+				tf_fechaEmision.setBorder(BorderFactory.createEmptyBorder());
 				GridBagConstraints gbc_tf_fechaEmision = new GridBagConstraints();
 				gbc_tf_fechaEmision.fill = GridBagConstraints.HORIZONTAL;
 				gbc_tf_fechaEmision.gridwidth = 3;
