@@ -15,7 +15,7 @@
 				value="jdbc:derby:C:\Users\Manuel\MyDB2;create=true" />
 			<property name="javax.persistence.jdbc.user" value="licenciator" />
 			<property name="javax.persistence.jdbc.password" value="licenciator" />
-			<!-- <property name="eclipselink.ddl-generation" value="create-tables" /> -->
+			<!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables" /> -->
 			
 			<!-- EclipseLink should create the database schema automatically -->
 			<property name="eclipselink.ddl-generation.output-mode"
