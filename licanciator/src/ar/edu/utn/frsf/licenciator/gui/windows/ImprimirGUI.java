@@ -55,7 +55,7 @@ public class ImprimirGUI extends JDialog {
 		tf_fechaNac.setText(dateFormat.format(licencia.getTitular().getFechaNac().getTime()));
 		tf_factor.setText(String.valueOf(licencia.getTitular().getTipoSanguineo().getFactor()));
 		tf_doc.setText(licencia.getTitular().getTipoDoc().getTipo() + " " + licencia.getTitular().getNroDoc());
-		tf_don.setText(licencia.getTitular().getDonante().toString());
+		tf_don.setText(licencia.getTitular().getDonante() ? "Si" : "No");
 		tf_grupo.setText(licencia.getTitular().getTipoSanguineo().getGrupo());
 		tf_fechaEmision.setText(dateFormat.format(licencia.getFechaEmision().getTime()));
 	}
@@ -448,7 +448,7 @@ public class ImprimirGUI extends JDialog {
 				JButton cancelButton = new JButton("Cerrar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
+						// TODO: Llamar al metodo del handler cuando esté creado
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
