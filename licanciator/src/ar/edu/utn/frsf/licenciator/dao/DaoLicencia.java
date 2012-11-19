@@ -1,9 +1,7 @@
 package ar.edu.utn.frsf.licenciator.dao;
 import java.util.List;
-
+import javax.persistence.*;
 import ar.edu.utn.frsf.licenciator.entidades.*;
-
-import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 public class DaoLicencia {
@@ -21,23 +19,21 @@ public class DaoLicencia {
 		
 		return licencia;
 	}
-	/*modificarla para licencia
-	 * public static Usuario create(Usuario usuario) {
-		EntityManager em = EntityFactory.getEMFactory().createEntityManager();
+	
+	// crea una licencia en la tabla licencias
+	public static void create(Licencia licencia) {
+		EntityManager em = EntityManagerManager.getEM();
 		EntityTransaction tx = em.getTransaction();
 		
 		tx.begin();
 		try {
-			em.persist(usuario);
+			em.persist(licencia);
 			tx.commit();
 		} catch(Exception e) {
 			tx.rollback();
 		}
 		
-		em.close();
-		
-		return read(usuario.getNombre());
-	}*/
+	}
 	
 	/*Trae todas las licencias asociadas a un Titular*/
 	public static List<Licencia> read(Titular titular) 
