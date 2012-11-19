@@ -13,11 +13,14 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
+
+import com.sun.xml.bind.v2.TODO;
 
 import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.*;
@@ -26,6 +29,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class EmitirGUI extends JDialog{
 	private JTextField textApellido;
@@ -165,10 +170,16 @@ public class EmitirGUI extends JDialog{
 				{
 					EmitirLicencia emitir = new EmitirLicencia();
 					licencia = emitir.emitirLicencia(titular, textClase.getText(), textObs.getText());
-					textNroLic.setText(licencia.getNrolicencia());
-					textFE.setText(licencia.getFechaEmision().toString());
-					textFV.setText(licencia.getFechaVencimiento().toString());
+					if (licencia != null)
+					{
+						textNroLic.setText(licencia.getNrolicencia());
+						textFE.setText(licencia.getFechaEmision().toString());
+						textFV.setText(licencia.getFechaVencimiento().toString());
+					} else {
+						JOptionPane.showMessageDialog(null, "La licencia requerida no se puede emitir", "Licencia invalida", JOptionPane.ERROR_MESSAGE);
+					}
 				}
+				//JOptionPane.showMessageDialog(null, "La licencia requerida no se puede emitir", "La licencia requerida no se puede emitir", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
@@ -179,13 +190,28 @@ public class EmitirGUI extends JDialog{
 		lblDatosDeLa.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		
 		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (licencia !=null)
+				{
+					EmitirLicencia emision = new EmitirLicencia();
+					emision.guardarLicencia(licencia);
+				}
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-				.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+				.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(25)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -213,7 +239,7 @@ public class EmitirGUI extends JDialog{
 											.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 												.addGroup(groupLayout.createSequentialGroup()
 													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblApellido, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+														.addComponent(lblApellido, GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
 														.addComponent(lblDomicilio)
 														.addComponent(lblFechaDeNacimiento)
 														.addComponent(lblDonante)
@@ -307,7 +333,7 @@ public class EmitirGUI extends JDialog{
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textDonante, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDonante))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textFactor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblGrupoYFactor))
@@ -318,10 +344,10 @@ public class EmitirGUI extends JDialog{
 					.addGap(12)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblClase)
-						.addComponent(textClase, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textClase, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnEmitir))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnEmitir)
 						.addComponent(lblNro_1)
 						.addComponent(textNroLic, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)

@@ -1,6 +1,9 @@
 package ar.edu.utn.frsf.licenciator.logica;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+
 import ar.edu.utn.frsf.licenciator.entidades.*;
 import ar.edu.utn.frsf.licenciator.dao.*;
 
@@ -21,12 +24,17 @@ public class EmitirLicencia {
 		ClaseLicencia clase = daoClase.read(clas);
 		nro = "3"+ Long.toString(nroDoc)+clase.getTipo();
 		emision = new GregorianCalendar();
+		emision.set(Calendar.MINUTE, 0);
+		emision.set(Calendar.SECOND, 0);
+		emision.set(Calendar.MILLISECOND, 0);
 		/* En realidad esto lo hace calcular vigencia*/
-		emision.set(emision.YEAR + 5, emision.MONTH, emision.DAY_OF_MONTH, 0, 0, 0);
 		venc = new GregorianCalendar();
 		venc.set(emision.YEAR + 5, emision.MONTH, emision.DAY_OF_MONTH, 0, 0, 0);
 		Licencia licencia = new Licencia(titular, clase, nro, emision, venc, obs);
-		return licencia;
+		if (verificarLicencia(licencia))
+			return licencia;
+		else 
+			return null;
 	}
 	
 	public Titular buscarTitular(String tip, long nro)
@@ -37,9 +45,10 @@ public class EmitirLicencia {
 		return dao.read(tipo, nro);
 	}
 	
-	public void gruardarLicencia(Licencia licencia)
+	public void guardarLicencia(Licencia licencia)
 	{
-		//guardar la licencia mediante el Dao;
+		DaoLicencia dao = new DaoLicencia();
+		dao.create(licencia);
 	}
 	
 
@@ -59,7 +68,7 @@ public class EmitirLicencia {
 			if(clase.equals("C") || clase.equals("D") || clase.equals("E"))
 			{
 				/* Obtenemos todas las licencias del loco */
-				DaoLicencia daoL = new DaoLicencia;
+				DaoLicencia daoL = new DaoLicencia();
 				List<Licencia> licencias = daoL.read(licencia.getTitular());
 				
 				/* Si tiene mas de 65, no puede obtenerla por primera vez*/
@@ -82,10 +91,12 @@ public class EmitirLicencia {
 		        {
 		          Licencia lic = (Licencia)it.next();
 		          if(lic.getClaseLicencia().getTipo().equals("B"))
+		          {  
 		        	  /* La obtuvo minimo un año antes? */
-		        	  int anyos = calcularEdad(lic.getFechaEmision().toString);
+		        	  int anyos = calcularEdad(lic.getFechaEmision().toString());
 		        	  if(anyos >= 1)
 		        		  return true;
+		          }
 		        }
 		        return false;
 			}
@@ -119,4 +130,5 @@ public class EmitirLicencia {
         } catch (ParseException e) {
             return -1;
         }
+	}
 }

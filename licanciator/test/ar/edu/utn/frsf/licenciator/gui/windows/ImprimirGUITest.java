@@ -30,7 +30,7 @@ public class ImprimirGUITest {
 		TipoSanguineo tipoS = new TipoSanguineo("O", '+');
 		
 		TipoDoc tipoDoc = new TipoDoc(0, "DNI", "documento unico de identidad");
-		ClaseLicencia clase = new ClaseLicencia("B", "Automoviles y camionetas con acoplado", 17, 40, 30, 25, 20);
+		ClaseLicencia clase = new ClaseLicencia("B", "Automoviles y camionetas con acoplado", 17, 40);
 		Titular titular = new Titular(tipoDoc, 32176011, "Maria Victoria", "Gallego", fechaNac, "Mariano Comas 3082", "Santa Fe", clase, tipoS, false);
 		
 		Licencia licencia = new Licencia(titular, clase, "332176011B", fEmision, venc, "nada");

@@ -12,10 +12,10 @@
 			<property name="javax.persistence.jdbc.driver"
 			    value="org.apache.derby.jdbc.EmbeddedDriver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:derby:C:\Users\Manuel\MyDB2;create=true" />
+				value="jdbc:derby:C:\DB\licenciator;create=true" />
 			<property name="javax.persistence.jdbc.user" value="licenciator" />
 			<property name="javax.persistence.jdbc.password" value="licenciator" />
-			<!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables" /> -->
+			<property name="eclipselink.ddl-generation" value="create-tables" />
 			
 			<!-- EclipseLink should create the database schema automatically -->
 			<property name="eclipselink.ddl-generation.output-mode"
