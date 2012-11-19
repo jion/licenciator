@@ -37,4 +37,21 @@ public class DaoLicencia {
 		
 		return read(usuario.getNombre());
 	}*/
+	
+	/*Trae todas las licencias asociadas a un Titular*/
+	public static List<Licencia> read(Titular titular) {
+		List<Licencia> licencias = new List();
+		EntityManager em = EntityManagerManager.getEM();
+		
+		TypedQuery<Licencia> query =
+				em.createQuery("SELECT l FROM Licencia l WHERE l.Titular = :titular",
+						Licencia.class);
+		query.setParameter("titular", titular);
+		
+		if(query.getResultList().size())
+			licencias = query.getResultList();
+		em.close();
+		
+		return licencias;
+	}
 }
