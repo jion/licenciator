@@ -1,58 +1,71 @@
 package ar.edu.utn.frsf.licenciator.calcularVigencia;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
-import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
 
 import junit.framework.TestCase;
 
 public class CalcularVigenciaTest extends TestCase {
-
-	private Titular titular = new Titular();
+	
 	private EmitirLicencia emitirLicencia = new EmitirLicencia();
 	
+	private Calendar fechaNacimientoCalendar = Calendar.getInstance();
+	private Calendar fechaEsperadaCalendar = Calendar.getInstance();
+	
 	public void testLicenciaMenor21() {
-		
-		Date fechaVigencia = emitirLicencia.calcularVigencia( "25/02/1992" );
-		
-		assertEquals( fechaEsperada( "25/02/2014" ), fechaVigencia );
+		fechaNacimientoCalendar = setFecha( 1992, 2, 25 );
+		fechaEsperadaCalendar = setFecha( 2014, 2, 25 );
+
+		Calendar fechaVigencia = emitirLicencia.calcularVigencia( fechaNacimientoCalendar, true );
+
+		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
 	
 	public void testLicenciaMenor46() {
-		Date fechaVigencia = emitirLicencia.calcularVigencia( "21/12/1984" );
+		fechaNacimientoCalendar = setFecha( 1984, 11, 21 );
+		fechaEsperadaCalendar = setFecha( 2017, 11, 21 );
+
+		Calendar fechaVigencia = emitirLicencia.calcularVigencia( fechaNacimientoCalendar, false );
 		
-		assertEquals( fechaEsperada( "21/12/2017" ), fechaVigencia );
+		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
 	
 	public void testLicenciaMenor60() {
-		Date fechaVigencia = emitirLicencia.calcularVigencia( "08/05/1961" );
+		fechaNacimientoCalendar = setFecha( 1961, 5, 8 );
+		fechaEsperadaCalendar = setFecha( 2016, 5, 8 );
+
+		Calendar fechaVigencia = emitirLicencia.calcularVigencia( fechaNacimientoCalendar, false );
 		
-		assertEquals( fechaEsperada( "08/05/2016" ), fechaVigencia );
+		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
 	
 	public void testLicenciaMenor70() {
-		Date fechaVigencia = emitirLicencia.calcularVigencia( "03/07/1948" );
+		fechaNacimientoCalendar = setFecha( 1948, 7, 3 );
+		fechaEsperadaCalendar = setFecha( 2015, 7, 3 );
+
+		Calendar fechaVigencia = emitirLicencia.calcularVigencia( fechaNacimientoCalendar, false );
 		
-		assertEquals( fechaEsperada( "03/07/2015" ), fechaVigencia );
+		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
 	
 	public void testLicenciaMayor70() {
-		Date fechaVigencia = emitirLicencia.calcularVigencia( "27/11/1936" );
+		fechaNacimientoCalendar = setFecha( 1936, 11, 27 );
+		fechaEsperadaCalendar = setFecha( 2013, 11, 27 );
+
+		Calendar fechaVigencia = emitirLicencia.calcularVigencia( fechaNacimientoCalendar, false );
 		
-		assertEquals( fechaEsperada( "27/11/2013" ), fechaVigencia );
+		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
 	
-	private Date fechaEsperada( String fecha ) {
-		Date fechaEsperadaDate = null;
-		
-		try {
-			fechaEsperadaDate = new SimpleDateFormat( "dd/MM/yyyy" ).parse( fecha );
-		} catch( Exception ex ) {
-			System.out.println( "Error: " + ex );
-		}
-		
-		return fechaEsperadaDate;
+	private Calendar setFecha( int anio, int mes, int dia ) {
+		 Calendar fechaCalendar = Calendar.getInstance();
+		 
+		 fechaCalendar.set( anio, mes, dia );
+		 fechaCalendar.set( Calendar.MINUTE, 0 );
+		 fechaCalendar.set( Calendar.SECOND, 0 );
+		 fechaCalendar.set( Calendar.MILLISECOND, 0 );
+	
+		 return fechaCalendar;
 	}
 }
