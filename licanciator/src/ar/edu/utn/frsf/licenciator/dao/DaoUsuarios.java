@@ -36,9 +36,22 @@ public class DaoUsuarios {
 			tx.rollback();
 		}
 		
-		
-		
 		return read(usuario.getNombre());
+	}
+	
+	public static boolean create2(Usuario usuario) {
+		EntityManager em = EntityManagerManager.getEM();
+		EntityTransaction tx = em.getTransaction();
+		
+		tx.begin();
+		try {
+			em.persist(usuario);
+			tx.commit();
+			return true;
+		} catch(Exception e) {
+			tx.rollback();
+		} 
+		return false;
 	}
 	
 	public static Usuario update(Usuario usuario) {
