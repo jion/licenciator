@@ -16,11 +16,13 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AltaUsuarioGUI extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextField txtfNombre;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 
@@ -43,6 +45,22 @@ public class AltaUsuarioGUI extends JDialog {
 				"Las contraseñas no coinciden.");
 	}
 	
+	private boolean validar() {
+		/* TODO Generar validaciones de:
+		 * 		- Contraseñas que coincidan
+		 * 		- Caracteres válidos permitidos
+		 * 		- Cantidad maxima de caracteres?
+		 */
+		if(!passwordField.equals(passwordField_1)) { return false; }
+		if(!passwordField.equals(passwordField_1)) { return false; }
+		for (char a : txtfNombre.getText().toCharArray()) {
+			if(!(Character.isLetter(a) || !Character.isDigit(a))) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 	/**
 	 * Lanza una nueva instancia de la ventana de Alta Usuario.
@@ -66,7 +84,7 @@ public class AltaUsuarioGUI extends JDialog {
 	public AltaUsuarioGUI(boolean superusuario) {
 		setResizable(false);
 		setTitle("Alta de usuario");
-		setBounds(100, 100, 437, 253);
+		setBounds(100, 100, 400, 230);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -86,14 +104,14 @@ public class AltaUsuarioGUI extends JDialog {
 			contentPanel.add(lblNombre, gbc_lblNombre);
 		}
 		{
-			textField = new JTextField();
-			GridBagConstraints gbc_textField = new GridBagConstraints();
-			gbc_textField.insets = new Insets(0, 0, 5, 0);
-			gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField.gridx = 1;
-			gbc_textField.gridy = 0;
-			contentPanel.add(textField, gbc_textField);
-			textField.setColumns(10);
+			txtfNombre = new JTextField();
+			GridBagConstraints gbc_txtfNombre = new GridBagConstraints();
+			gbc_txtfNombre.insets = new Insets(0, 0, 5, 0);
+			gbc_txtfNombre.fill = GridBagConstraints.HORIZONTAL;
+			gbc_txtfNombre.gridx = 1;
+			gbc_txtfNombre.gridy = 0;
+			contentPanel.add(txtfNombre, gbc_txtfNombre);
+			txtfNombre.setColumns(10);
 		}
 		{
 			JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
@@ -155,12 +173,24 @@ public class AltaUsuarioGUI extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if(validar()) {
+							// TODO: Llamar al gestor de alta usuario
+						}
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						//TODO: Cerrar la ventana y volver donde corresponda
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
