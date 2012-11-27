@@ -24,22 +24,7 @@ public class DaoUsuarios {
 		return usuario;
 	}
 	
-	public static Usuario create(Usuario usuario) {
-		EntityManager em = EntityManagerManager.getEM();
-		EntityTransaction tx = em.getTransaction();
-		
-		tx.begin();
-		try {
-			em.persist(usuario);
-			tx.commit();
-		} catch(Exception e) {
-			tx.rollback();
-		}
-		
-		return read(usuario.getNombre());
-	}
-	
-	public static boolean create2(Usuario usuario) {
+	public static boolean create(Usuario usuario) {
 		EntityManager em = EntityManagerManager.getEM();
 		EntityTransaction tx = em.getTransaction();
 		
