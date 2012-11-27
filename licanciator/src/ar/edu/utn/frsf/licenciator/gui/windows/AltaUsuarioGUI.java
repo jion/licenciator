@@ -2,29 +2,29 @@ package ar.edu.utn.frsf.licenciator.gui.windows;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.JCheckBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class AltaUsuarioGUI extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtfNombre;
-	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
+	private JPasswordField passwordField_2;
 
 	
 	/**
@@ -40,23 +40,65 @@ public class AltaUsuarioGUI extends JDialog {
 	 * Lanza una ventana emergente anunciando que las contraseñas ingresadas
 	 * no coinciden.
 	 */
-	public void errorContraseniasNoCoinciden() {
+	private void errorContraseniasNoCoinciden() {
 		JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
 				"Las contraseñas no coinciden.");
 	}
+	/**
+	 * Lanza una ventana emergente anunciando que las contraseñas ingresadas
+	 * no coinciden.
+	 */
+	private void errorNombreInvalido() {
+		//TODO: Acomodar detalle del mensaje
+		JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+				"Nombre de usuario inválido. El nombre solo deberá contener letras y/o numeros\ny un tamaño máximo de 25 caracteres.");
+	}
+	
+	/**
+	 * Lanza una ventana emergente anunciando que las contraseñas ingresadas
+	 * no coinciden.
+	 */
+	private void errorIngreseContraseña() {
+		//TODO: Acomodar detalle del mensaje
+		JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+				"Debe ingresar una contraseña.");
+	}
 	
 	private boolean validar() {
-		/* TODO Generar validaciones de:
-		 * 		- Contraseñas que coincidan
-		 * 		- Caracteres válidos permitidos
-		 * 		- Cantidad maxima de caracteres?
-		 */
-		if(!passwordField.equals(passwordField_1)) { return false; }
-		if(!passwordField.equals(passwordField_1)) { return false; }
-		for (char a : txtfNombre.getText().toCharArray()) {
-			if(!(Character.isLetter(a) || !Character.isDigit(a))) {
+		// ** Validaciones de nombre de usuario *******************************
+		String nombreUsuario = txtfNombre.getText();
+		
+		// Comprobación de longitud
+		if(nombreUsuario.length() < 1 || nombreUsuario.length() > 25) {
+			errorNombreInvalido();
+			
+			return false;
+		}
+		
+		// Comprobacion de caracteres válidos
+		for (char a : nombreUsuario.toCharArray()) {
+			if(!(Character.isLetter(a) || Character.isDigit(a))) {
+				errorNombreInvalido();
+				
 				return false;
 			}
+		}
+		
+		// ** Validacion de contraseña ****************************************
+		String passwd1 = new String(passwordField_1.getPassword());
+		String passwd2 = new String(passwordField_2.getPassword());
+		
+		// Comprueba que se haya ingresado una contraseña
+		if(passwd1.length() == 0 && passwd2.length() == 0) {
+			errorIngreseContraseña();
+			
+			return false;
+		}
+		
+		// Comprueba que las contraseñas coincidan
+		if( !(passwd1.equals(passwd2)) ) {
+			errorContraseniasNoCoinciden();
+			return false;
 		}
 		
 		return true;
@@ -123,13 +165,13 @@ public class AltaUsuarioGUI extends JDialog {
 			contentPanel.add(lblContrasea, gbc_lblContrasea);
 		}
 		{
-			passwordField = new JPasswordField();
+			passwordField_1 = new JPasswordField();
 			GridBagConstraints gbc_passwordField = new GridBagConstraints();
 			gbc_passwordField.insets = new Insets(0, 0, 5, 0);
 			gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
 			gbc_passwordField.gridx = 1;
 			gbc_passwordField.gridy = 1;
-			contentPanel.add(passwordField, gbc_passwordField);
+			contentPanel.add(passwordField_1, gbc_passwordField);
 		}
 		{
 			JLabel lblRepitaContrasea = new JLabel("Repita contrase\u00F1a:");
@@ -141,13 +183,13 @@ public class AltaUsuarioGUI extends JDialog {
 			contentPanel.add(lblRepitaContrasea, gbc_lblRepitaContrasea);
 		}
 		{
-			passwordField_1 = new JPasswordField();
+			passwordField_2 = new JPasswordField();
 			GridBagConstraints gbc_passwordField_1 = new GridBagConstraints();
 			gbc_passwordField_1.insets = new Insets(0, 0, 5, 0);
 			gbc_passwordField_1.fill = GridBagConstraints.HORIZONTAL;
 			gbc_passwordField_1.gridx = 1;
 			gbc_passwordField_1.gridy = 2;
-			contentPanel.add(passwordField_1, gbc_passwordField_1);
+			contentPanel.add(passwordField_2, gbc_passwordField_1);
 		}
 		{
 			JLabel lblSuperUsuario = new JLabel("Super Usuario:");
@@ -176,6 +218,8 @@ public class AltaUsuarioGUI extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if(validar()) {
+							JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+									"Se valido correctamente");
 							// TODO: Llamar al gestor de alta usuario
 						}
 					}
@@ -188,7 +232,7 @@ public class AltaUsuarioGUI extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						//TODO: Cerrar la ventana y volver donde corresponda
+						dispose();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
