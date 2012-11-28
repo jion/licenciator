@@ -110,9 +110,9 @@ public class AltaUsuarioGUI extends JDialog {
 	 * @param superusuario Si es true, nos habilita la opcion de crear un superusuario.
 	 *                     Si es false, no aparece dicha opción.
 	 */
-	public static void lanzarGUI(boolean superusuario) {
+	public static void lanzarGUI() {
 		try {
-			AltaUsuarioGUI dialog = new AltaUsuarioGUI(superusuario);
+			AltaUsuarioGUI dialog = new AltaUsuarioGUI();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -123,7 +123,7 @@ public class AltaUsuarioGUI extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public AltaUsuarioGUI(boolean superusuario) {
+	public AltaUsuarioGUI() {
 		setResizable(false);
 		setTitle("Alta de usuario");
 		setBounds(100, 100, 400, 230);
@@ -193,7 +193,6 @@ public class AltaUsuarioGUI extends JDialog {
 		}
 		{
 			JLabel lblSuperUsuario = new JLabel("Super Usuario:");
-			lblSuperUsuario.setVisible(superusuario);
 			GridBagConstraints gbc_lblSuperUsuario = new GridBagConstraints();
 			gbc_lblSuperUsuario.insets = new Insets(0, 0, 0, 5);
 			gbc_lblSuperUsuario.gridx = 0;
@@ -202,7 +201,6 @@ public class AltaUsuarioGUI extends JDialog {
 		}
 		{
 			JCheckBox cBsuperUsuario = new JCheckBox("");
-			cBsuperUsuario.setVisible(superusuario);
 			GridBagConstraints gbc_cBsuperUsuario = new GridBagConstraints();
 			gbc_cBsuperUsuario.anchor = GridBagConstraints.WEST;
 			gbc_cBsuperUsuario.gridx = 1;

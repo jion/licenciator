@@ -1,9 +1,10 @@
 package ar.edu.utn.frsf.licenciator.sesion;
 
+import junit.framework.TestCase;
 import ar.edu.utn.frsf.licenciator.dao.DaoUsuarios;
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
-import junit.framework.TestCase;
+import ar.edu.utn.frsf.licenciator.logica.UsuarioExistenteExeption;
 
 public class GestorSesionTest extends TestCase {
 	
@@ -26,17 +27,7 @@ public class GestorSesionTest extends TestCase {
 		assertNull(test);
 	}
 	
-	public void testCreateUser() {
-		Usuario creador  = new Usuario("creador","pass", true);
-		Usuario nuevo    = GestorSesion.createUser(creador, "testUser", "123", false);
-		Usuario esperado = new Usuario("testUser", "123", false);
-		
-		assertEquals(esperado, nuevo);
-		
-		DaoUsuarios.delete(nuevo);
-	}
-	
-	public void testCreateUserAdmin() {
+	public void testCreateUserAdmin() throws Exception {
 		Usuario creador  = new Usuario("creador","pass", true);
 		Usuario nuevo    = GestorSesion.createUser(creador, "testUser2", "123", true);
 		Usuario esperado = new Usuario("testUser2", "123", true);
@@ -45,11 +36,29 @@ public class GestorSesionTest extends TestCase {
 		DaoUsuarios.delete(nuevo);
 	}
 	
+	public void testCreateUser() throws Exception {
+		Usuario creador  = new Usuario("creador","pass", true);
+		Usuario esperado = new Usuario("testUser", "123", false);
+		Usuario nuevo    = GestorSesion.createUser(creador, "testUser", "123", false);
+		
+		assertEquals(esperado, nuevo);
+		
+		DaoUsuarios.delete(nuevo);
+	}
+	
 	public void testCreateUserThatExist() {
 		Usuario creador  = new Usuario("creador","pass", true);
-		Usuario usuario = GestorSesion.createUser(creador, "admin", "admin", true);
+
+		try {
+			GestorSesion.createUser(creador, "admin", "admin", true);
+		} catch (UsuarioExistenteExeption e) {
+			//e.printStackTrace();
+			assertTrue(true);
+			
+			return;
+		}
 		
-		assertNull(usuario);
+		assertFalse(true);
 	}
 	
 

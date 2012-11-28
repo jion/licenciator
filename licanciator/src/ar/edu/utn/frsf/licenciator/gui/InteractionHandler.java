@@ -3,6 +3,7 @@ package ar.edu.utn.frsf.licenciator.gui;
 import javax.swing.UIManager;
 
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
+import ar.edu.utn.frsf.licenciator.gui.windows.AltaUsuarioGUI;
 import ar.edu.utn.frsf.licenciator.gui.windows.LoginGUI;
 import ar.edu.utn.frsf.licenciator.gui.windows.MenuPrincipalGUI;
 
@@ -41,7 +42,9 @@ public class InteractionHandler {
 	       // handle exception
 	    }
 		
-		getInstance().aLogin();
+		AltaUsuarioGUI.lanzarGUI();
+		
+		//getInstance().aLogin();
 	}
 	
 	public void aMenuPrincipal() {		
