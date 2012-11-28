@@ -27,7 +27,7 @@ public class GestorSesionTest extends TestCase {
 		assertNull(test);
 	}
 	
-	public void testCreateUserAdmin() throws Exception {
+	public void testCrearUsuarioAdmin() throws Exception {
 		Usuario creador  = new Usuario("creador","pass", true);
 		Usuario nuevo    = GestorSesion.createUser(creador, "testUser2", "123", true);
 		Usuario esperado = new Usuario("testUser2", "123", true);
@@ -36,7 +36,7 @@ public class GestorSesionTest extends TestCase {
 		DaoUsuarios.delete(nuevo);
 	}
 	
-	public void testCreateUser() throws Exception {
+	public void testCrearUsuario() throws Exception {
 		Usuario creador  = new Usuario("creador","pass", true);
 		Usuario esperado = new Usuario("testUser", "123", false);
 		Usuario nuevo    = GestorSesion.createUser(creador, "testUser", "123", false);
@@ -46,7 +46,7 @@ public class GestorSesionTest extends TestCase {
 		DaoUsuarios.delete(nuevo);
 	}
 	
-	public void testCreateUserThatExist() {
+	public void testCreateUsuarioQueYaExiste() {
 		Usuario creador  = new Usuario("creador","pass", true);
 
 		try {
@@ -61,6 +61,31 @@ public class GestorSesionTest extends TestCase {
 		assertFalse(true);
 	}
 	
-
+	public void testCrearUsuarioLimiteDeCaracteres() throws Exception {
+		Usuario creador  = new Usuario("creador","pass", true);
+		
+		{ // Probamos un usuario de nombre "" (Debe fallar)
+			Usuario usuario = 
+					GestorSesion.createUser(creador, "", "123", false);
+			assertEquals(null, usuario);
+		}
+		{ // Probamos un usuario de 25 caracteres
+			Usuario esperado = new Usuario("a234567890123456789012345", "123", false);
+			Usuario usuario = 
+					GestorSesion.createUser(creador, "a234567890123456789012345", "123", false);
+			assertEquals(esperado, usuario);
+			DaoUsuarios.delete(usuario);
+		}
+		{ // Probamos un usuario de 26 caracteres
+			Usuario usuario = 
+					GestorSesion.createUser(creador, "a2345678901234567890123455", "123", false);
+			assertEquals(null, usuario);
+		}
+		{ // Probamos un usuario de mas de 26 caracteres
+			Usuario usuario = 
+					GestorSesion.createUser(creador, "nombremuymuymuymuuuuuuuuuuuuuuuuylargo", "123", false);
+			assertEquals(null, usuario);
+		}
+	}
 	
 }

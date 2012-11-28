@@ -42,9 +42,9 @@ public class InteractionHandler {
 	       // handle exception
 	    }
 		
-		AltaUsuarioGUI.lanzarGUI();
+		//AltaUsuarioGUI.lanzarGUI();
 		
-		//getInstance().aLogin();
+		getInstance().aLogin();
 	}
 	
 	public void aMenuPrincipal() {		
@@ -63,6 +63,10 @@ public class InteractionHandler {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
 }

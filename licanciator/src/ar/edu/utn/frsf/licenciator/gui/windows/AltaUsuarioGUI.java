@@ -18,6 +18,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import ar.edu.utn.frsf.licenciator.gui.InteractionHandler;
+import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
+import ar.edu.utn.frsf.licenciator.logica.UsuarioExistenteExeption;
+
 public class AltaUsuarioGUI extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +29,7 @@ public class AltaUsuarioGUI extends JDialog {
 	private JTextField txtfNombre;
 	private JPasswordField passwordField_1;
 	private JPasswordField passwordField_2;
+	private JCheckBox cBsuperUsuario;
 
 	
 	/**
@@ -200,7 +205,7 @@ public class AltaUsuarioGUI extends JDialog {
 			contentPanel.add(lblSuperUsuario, gbc_lblSuperUsuario);
 		}
 		{
-			JCheckBox cBsuperUsuario = new JCheckBox("");
+			cBsuperUsuario = new JCheckBox("");
 			GridBagConstraints gbc_cBsuperUsuario = new GridBagConstraints();
 			gbc_cBsuperUsuario.anchor = GridBagConstraints.WEST;
 			gbc_cBsuperUsuario.gridx = 1;
@@ -216,9 +221,18 @@ public class AltaUsuarioGUI extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if(validar()) {
-							JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-									"Se valido correctamente");
-							// TODO: Llamar al gestor de alta usuario
+							String nombre = txtfNombre.getText();
+							String password = new String(passwordField_1.getPassword());
+							Boolean isSuperUser = cBsuperUsuario.isSelected();
+						
+							try {
+								GestorSesion.createUser(InteractionHandler.getInstance().getUsuario(), nombre, password, isSuperUser);
+								JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+										"El usuario ha sido creado con exito.");
+								dispose();
+							} catch (UsuarioExistenteExeption e) {
+								errorNombreDeUsuarioExiste();
+							}
 						}
 					}
 				});

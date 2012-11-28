@@ -76,6 +76,11 @@ public class MenuPrincipalGUI {
 		panel.setLayout(gbl_panel);
 		
 		JButton button = new JButton("Dar alta de titular");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AltaUsuarioGUI.lanzarGUI();
+			}
+		});
 		GridBagConstraints gbc_button = new GridBagConstraints();
 		gbc_button.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button.insets = new Insets(0, 0, 5, 0);
