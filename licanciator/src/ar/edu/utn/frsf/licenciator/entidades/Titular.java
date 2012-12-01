@@ -1,13 +1,11 @@
 package ar.edu.utn.frsf.licenciator.entidades;
 
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -17,27 +15,32 @@ public class Titular {
 	@Id
 	@GeneratedValue
 	private int id;
+	
 	private TipoDoc tipoDoc;
+	
 	private long nroDoc;
+	
 	private String nombre;
 	private String apellido;
+	
 	@Temporal(TemporalType.DATE)
 	private Calendar fechaNacimiento;
+	
 	private String domicilio;
 	private String localidad;
+	
 	@ManyToOne
 	private ClaseLicencia clase;
+	
 	@ManyToOne
-	private TipoSanguineo tipoFactor; 
+	private TipoSanguineo tipoFactor;
+	
 	private Boolean donante;
-	@OneToMany
-	List<Licencia> licencias;
 	
-	public Titular()
-	{}
+	public Titular() {
+	}
 	
-	public Titular (TipoDoc tipo, long nro, String nom, String ap, Calendar nac, String dom, String loc, ClaseLicencia clas, TipoSanguineo tipoS, Boolean donante)
-	{
+	public Titular( TipoDoc tipo, long nro, String nom, String ap, Calendar nac, String dom, String loc, ClaseLicencia clas, TipoSanguineo tipoS, Boolean donante ) {
 		tipoDoc = tipo;
 		nroDoc = nro;
 		nombre = nom;
@@ -48,61 +51,53 @@ public class Titular {
 		clase = clas;
 		tipoFactor = tipoS;
 		this.donante = donante;
-		
 	}
 	
-	public long getNroDoc()
-	{
+	public int getId() {
+		return id;
+	}
+	
+	public long getNroDoc() {
 		return nroDoc;
 	}
 	
-	public TipoDoc getTipoDoc()
-	{
+	public TipoDoc getTipoDoc() {
 		return tipoDoc;
 	}
 	
-	public String getNombre()
-	{
+	public String getNombre() {
 		return nombre;
 	}
 	
-	public String getApellido()
-	{
+	public String getApellido() {
 		return apellido;
 	}
 	
-	public Calendar getFechaNac()
-	{
+	public Calendar getFechaNac() {
 		return fechaNacimiento;
 	}
 	
-	public String getDomicilio()
-	{
+	public String getDomicilio() {
 		return domicilio;
 	}
 	
-	public String getLocalidad()
-	{
+	public String getLocalidad() {
 		return localidad;
 	}
 	
-	public ClaseLicencia getClaseLicencia()
-	{
+	public ClaseLicencia getClaseLicencia() {
 		return clase;
 	}
 	
-	public TipoSanguineo getTipoSanguineo()
-	{
+	public TipoSanguineo getTipoSanguineo() {
 		return tipoFactor;
 	}
 	
-	public Boolean getDonante()
-	{
+	public Boolean getDonante() {
 		return donante;
 	}
 	
-	public boolean equals(Titular tit)
-	{
-		return (tipoDoc.equals(tit.tipoDoc) && (nroDoc==tit.nroDoc) && nombre.equalsIgnoreCase(tit.nombre) && apellido.equalsIgnoreCase(tit.apellido) && fechaNacimiento.equals(tit.fechaNacimiento) && domicilio.equalsIgnoreCase(tit.domicilio) && localidad.equalsIgnoreCase(tit.localidad) && clase.equals(tit.clase) && tipoFactor.equals(tit.tipoFactor) && (donante==tit.donante));
+	public boolean equals( Titular tit ) {
+		return ( tipoDoc.equals( tit.tipoDoc ) && ( nroDoc == tit.nroDoc ) && nombre.equalsIgnoreCase( tit.nombre ) && apellido.equalsIgnoreCase( tit.apellido ) && fechaNacimiento.equals( tit.fechaNacimiento ) && domicilio.equalsIgnoreCase( tit.domicilio ) && localidad.equalsIgnoreCase( tit.localidad ) && clase.equals( tit.clase ) && tipoFactor.equals( tit.tipoFactor ) && ( donante == tit.donante ) );
 	}
 }
