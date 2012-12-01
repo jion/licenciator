@@ -26,7 +26,6 @@ public class GestorSesion {
 	
 	public static Usuario createUser(Usuario creador,
 			String nombre, String password, boolean isSuperUser) throws UsuarioExistenteExeption {
-		//TODO: Manejar la excepcion cuando el usuario ya existe
 		if(creador.isSuperuser() && validarNombre(nombre)) {
 			
 			/* Se comprueba que el usuario no exista, en tal caso lanza

@@ -18,10 +18,17 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 import ar.edu.utn.frsf.licenciator.gui.InteractionHandler;
 import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
 import ar.edu.utn.frsf.licenciator.logica.UsuarioExistenteExeption;
 
+/**
+ * Interfaz de Alta de usuario.
+ * 
+ * @author Manuel Schnidrig / Leonardo Puglisi
+ *
+ */
 public class AltaUsuarioGUI extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -30,52 +37,26 @@ public class AltaUsuarioGUI extends JDialog {
 	private JPasswordField passwordField_1;
 	private JPasswordField passwordField_2;
 	private JCheckBox cBsuperUsuario;
-
 	
 	/**
-	 * Lanza una ventana emergente anunciando que el nombre de usuario
-	 * que se ha solicitado se dé de alta, en realidad ya existe en la
-	 * base de datos.
+	 * Verifica que los campos de la interfaz de alta usuario se hayan completado
+	 * correctamente.
+	 * En caso de que algun campo no este completado de la manera correcta, muestra
+	 * un mensaje de error advirtiendo acerca de la situación.
+	 * 
+	 * @return true si cumple todos los requisitos para dar de alta un usuario
+	 * 			false si no los cumple
 	 */
-	public void errorNombreDeUsuarioExiste() {
-		JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-				"El nombre de usuario ya existe.");
-	}
-	/**
-	 * Lanza una ventana emergente anunciando que las contraseñas ingresadas
-	 * no coinciden.
-	 */
-	private void errorContraseniasNoCoinciden() {
-		JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-				"Las contraseñas no coinciden.");
-	}
-	/**
-	 * Lanza una ventana emergente anunciando que las contraseñas ingresadas
-	 * no coinciden.
-	 */
-	private void errorNombreInvalido() {
-		//TODO: Acomodar detalle del mensaje
-		JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-				"Nombre de usuario inválido. El nombre solo deberá contener letras y/o numeros\ny un tamaño máximo de 25 caracteres.");
-	}
-	
-	/**
-	 * Lanza una ventana emergente anunciando que las contraseñas ingresadas
-	 * no coinciden.
-	 */
-	private void errorIngreseContraseña() {
-		//TODO: Acomodar detalle del mensaje
-		JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-				"Debe ingresar una contraseña.");
-	}
-	
 	private boolean validar() {
 		// ** Validaciones de nombre de usuario *******************************
 		String nombreUsuario = txtfNombre.getText();
 		
 		// Comprobación de longitud
 		if(nombreUsuario.length() < 1 || nombreUsuario.length() > 25) {
-			errorNombreInvalido();
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+					"Nombre de usuario inválido. El nombre solo deberá contener letras" +
+					"y/o numeros\ny un tamaño máximo de 25 caracteres.",
+					"Licenciator", JOptionPane.ERROR_MESSAGE);
 			
 			return false;
 		}
@@ -83,7 +64,10 @@ public class AltaUsuarioGUI extends JDialog {
 		// Comprobacion de caracteres válidos
 		for (char a : nombreUsuario.toCharArray()) {
 			if(!(Character.isLetter(a) || Character.isDigit(a))) {
-				errorNombreInvalido();
+				JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+						"Nombre de usuario inválido. El nombre solo deberá contener" +
+						" letras y/o numeros\ny un tamaño máximo de 25 caracteres.",
+						"Licenciator", JOptionPane.ERROR_MESSAGE);
 				
 				return false;
 			}
@@ -95,17 +79,22 @@ public class AltaUsuarioGUI extends JDialog {
 		
 		// Comprueba que se haya ingresado una contraseña
 		if(passwd1.length() == 0 && passwd2.length() == 0) {
-			errorIngreseContraseña();
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+					"Debe ingresar una contraseña",
+					"Licenciator", JOptionPane.ERROR_MESSAGE);
 			
 			return false;
 		}
 		
 		// Comprueba que las contraseñas coincidan
 		if( !(passwd1.equals(passwd2)) ) {
-			errorContraseniasNoCoinciden();
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+					"Las contraseñas no coinciden.",
+					"Licenciator", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		
+		// Si todas las validaciones estan bien, retorna true.
 		return true;
 	}
 
@@ -227,12 +216,19 @@ public class AltaUsuarioGUI extends JDialog {
 						
 							try {
 								//TODO: Si retorna NULL, nos dice que se ha creado con exito de todas maneras!
-								GestorSesion.createUser(InteractionHandler.getInstance().getUsuario(), nombre, password, isSuperUser);
+								Usuario usuario = GestorSesion.createUser(InteractionHandler.getInstance().getUsuario(), nombre, password, isSuperUser);
+								if(usuario != null) {
 								JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
 										"El usuario ha sido creado con exito.");
 								dispose();
+								} else {
+									JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+											"No ha podido crearse el usuario (Error del sistema)");
+								}
 							} catch (UsuarioExistenteExeption e) {
-								errorNombreDeUsuarioExiste();
+								JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+										"El nombre de usuario ya existe.",
+										"Licenciator", JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					}
