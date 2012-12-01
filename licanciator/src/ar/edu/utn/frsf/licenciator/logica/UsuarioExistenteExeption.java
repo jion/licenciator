@@ -11,5 +11,4 @@ public class UsuarioExistenteExeption extends Exception  {
 	public UsuarioExistenteExeption() {
 		super();
 	}
-	
 }

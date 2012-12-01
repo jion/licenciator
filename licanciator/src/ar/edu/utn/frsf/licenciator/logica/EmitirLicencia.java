@@ -17,11 +17,13 @@ import ar.edu.utn.frsf.licenciator.entidades.Titular;
 public class EmitirLicencia {
 	
 	/* Constante */
-	final Calendar FECHA_ACTUAL = Calendar.getInstance();
+	final static Calendar FECHA_ACTUAL = Calendar.getInstance();
 	
-	public EmitirLicencia() {}
+	private EmitirLicencia() {
+		super();
+	}
 	
-	public Licencia emitirLicencia( Titular titular, String clas, String obs ) {
+	public static Licencia emitirLicencia( Titular titular, String clas, String obs ) {
 		
 		Calendar emision; 
 		Calendar venc;
@@ -30,9 +32,7 @@ public class EmitirLicencia {
 		
 		long nroDoc = titular.getNroDoc();
 		
-		DaoClaseLicencia daoClase = new DaoClaseLicencia();
-		
-		ClaseLicencia clase = daoClase.read( clas );
+		ClaseLicencia clase = DaoClaseLicencia.read( clas );
 		
 		nro = "3" + Long.toString( nroDoc ) + clase.getTipo();
 		
@@ -43,11 +43,9 @@ public class EmitirLicencia {
 		
 		/* Se llama al metodo calcularVigencia */
 		
-		DaoLicencia  daoLicencia = new DaoLicencia();
 		
-		venc = calcularVigencia( titular.getFechaNac(), daoLicencia.read( titular ).isEmpty() );
+		venc = calcularVigencia( titular.getFechaNac(), DaoLicencia.read( titular ).isEmpty() );
 		//venc = calcularVigencia( titular.getFechaNac(), true );
-		daoLicencia = null;
 		
 		Licencia licencia = new Licencia( titular, clase, nro, emision, venc, obs );
 		
@@ -57,35 +55,28 @@ public class EmitirLicencia {
 			return null;
 	}
 	
-	public Titular buscarTitular( String tip, long nro ) {
-		DaoTitular dao = new DaoTitular();
-		DaoTipoDoc daoDoc = new DaoTipoDoc();
-		
-		TipoDoc tipo = daoDoc.read( tip );
-		
-		return dao.read( tipo, nro );
+	public static Titular buscarTitular( String tip, long nro ) {		
+		TipoDoc tipo = DaoTipoDoc.read( tip );
+		return DaoTitular.read( tipo, nro );
 	}
 	
-	public void guardarLicencia( Licencia licencia ) {
-		DaoLicencia dao = new DaoLicencia();
-		dao.create( licencia );
+	public static void guardarLicencia( Licencia licencia ) {
+		DaoLicencia.create( licencia );
 	}
 	
 	/* Verificar licencia segun clase y edad */
-	public Boolean verificarLicencia( Licencia licencia ) {
+	public static Boolean verificarLicencia( Licencia licencia ) {
 		/* Si no cumple con la edad minima para esa clase, retorno false */
 		int edad = calcularEdad( licencia.getTitular().getFechaNac() );
-		
 		if( edad < licencia.getClaseLicencia().getEdadMinima() ) {
 			return false;
 		} else {
 			String clase = licencia.getClaseLicencia().getTipo();
 			
 			if( clase.equals( "C" ) || clase.equals( "D" ) || clase.equals( "E" ) ) {
-				/* Obtenemos todas las licencias del loco */
-				DaoLicencia daoL = new DaoLicencia();
+				/* Obtenemos todas las licencias de la persona */
 				
-				List<Licencia> licencias = daoL.read( licencia.getTitular() );
+				List<Licencia> licencias = DaoLicencia.read( licencia.getTitular() );
 				
 				/* Si tiene mas de 65, no puede obtenerla por primera vez */
 				if( edad >= 65 ) {
@@ -126,7 +117,7 @@ public class EmitirLicencia {
 		}
 	}
 	
-	public Calendar calcularVigencia( Calendar fechaNacimientoCalendar, boolean primeraVez  ) {		
+	public static Calendar calcularVigencia( Calendar fechaNacimientoCalendar, boolean primeraVez  ) {		
 		int edad = calcularEdad( fechaNacimientoCalendar );
 		int anio = FECHA_ACTUAL.get( Calendar.YEAR );
 
@@ -187,7 +178,7 @@ public class EmitirLicencia {
 	}
 	
 	/* Calcula la edad en años de alguien que nacio en la fecha */
-	private int calcularEdad( Calendar fechaNacimientoCalendar ) {	
+	private static int calcularEdad( Calendar fechaNacimientoCalendar ) {	
 		/* Se restan la fecha actual y la fecha de nacimiento */
 		int anio = FECHA_ACTUAL.get( Calendar.YEAR ) - fechaNacimientoCalendar.get( Calendar.YEAR );
 		int mes = FECHA_ACTUAL.get( Calendar.MONTH ) - fechaNacimientoCalendar.get( Calendar.MONTH );
