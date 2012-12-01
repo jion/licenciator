@@ -22,6 +22,7 @@ public class EmitirLicencia {
 	public EmitirLicencia() {}
 	
 	public Licencia emitirLicencia( Titular titular, String clas, String obs ) {
+		
 		Calendar emision; 
 		Calendar venc;
 
@@ -45,7 +46,7 @@ public class EmitirLicencia {
 		DaoLicencia  daoLicencia = new DaoLicencia();
 		
 		venc = calcularVigencia( titular.getFechaNac(), daoLicencia.read( titular ).isEmpty() );
-		
+		//venc = calcularVigencia( titular.getFechaNac(), true );
 		daoLicencia = null;
 		
 		Licencia licencia = new Licencia( titular, clase, nro, emision, venc, obs );
