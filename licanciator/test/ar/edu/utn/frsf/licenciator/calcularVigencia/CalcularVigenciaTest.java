@@ -1,5 +1,7 @@
 package ar.edu.utn.frsf.licenciator.calcularVigencia;
 
+import java.util.Calendar;
+
 import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
 import junit.framework.TestCase;
 
