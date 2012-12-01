@@ -16,29 +16,34 @@ public class Titular {
 	@Id
 	@GeneratedValue
 	private int id;
+	
 	private TipoDoc tipoDoc;
+	
 	private long nroDoc;
+	
 	private String nombre;
 	private String apellido;
+	
 	@Temporal(TemporalType.DATE)
 	private Calendar fechaNacimiento;
+	
 	private String domicilio;
 	private String localidad;
+	
 	@ManyToOne
 	private ClaseLicencia clase;
+	
 	@ManyToOne
 	private List<Licencia> Licencias;
 
-	public List<Licencia> getLicencias() {
-		return Licencias;
-	}
-
-	@ManyToOne
 	private TipoSanguineo tipoFactor;
-	
 	private Boolean donante;
 	
 	public Titular() {
+	}
+	
+	public List<Licencia> getLicencias() {
+		return Licencias;
 	}
 	
 	public Titular( TipoDoc tipo, long nro, String nom, String ap, Calendar nac, String dom, String loc, ClaseLicencia clas, TipoSanguineo tipoS, Boolean donante ) {
