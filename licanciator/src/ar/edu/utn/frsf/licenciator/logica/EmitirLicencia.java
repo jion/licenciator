@@ -34,21 +34,24 @@ public class EmitirLicencia {
 		
 		ClaseLicencia clase = DaoClaseLicencia.read( clas );
 		
+		/* Se genera el número de licencia */
 		nro = "3" + Long.toString( nroDoc ) + clase.getTipo();
 		
+		/* Fecha de emision: es la fecha actual */
 		emision = new GregorianCalendar();
 		emision.set( Calendar.MINUTE, 0 );
 		emision.set( Calendar.SECOND, 0 );
 		emision.set( Calendar.MILLISECOND, 0 );
 		
-		/* Se llama al metodo calcularVigencia */
-		
-		
+		/* Se calcula la fecha de vigencia */
 		venc = calcularVigencia( titular.getFechaNac(), DaoLicencia.read( titular ).isEmpty() );
-		//venc = calcularVigencia( titular.getFechaNac(), true );
 		
+		/* Se crea la licencia a partir de los datos calculados */
 		Licencia licencia = new Licencia( titular, clase, nro, emision, venc, obs );
 		
+		/* Se verifica la licencia, si todo está ok se retorna la misma,
+		 * si no, retornamos null.
+		 */
 		if( verificarLicencia(licencia) )
 			return licencia;
 		else 

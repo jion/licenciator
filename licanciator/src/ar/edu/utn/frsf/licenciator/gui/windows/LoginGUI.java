@@ -88,6 +88,12 @@ public class LoginGUI extends JDialog {
 				JButton okButton = new JButton("Ingresar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						
+						if(textField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+									"Debe ingresar un nombre de usuario y una contraseña");
+							return;
+						}
 						Usuario usuario = GestorSesion.login(textField.getText(), passwordField.getText());
 
 						if(usuario == null) {
