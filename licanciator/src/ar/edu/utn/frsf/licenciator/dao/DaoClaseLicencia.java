@@ -5,6 +5,12 @@ import javax.persistence.TypedQuery;
 import ar.edu.utn.frsf.licenciator.entidades.*;
 
 public class DaoClaseLicencia {
+	
+	private DaoClaseLicencia() {
+		super();
+	}
+
+	
 	public static ClaseLicencia read(String tipoL) {
 		EntityManager em = EntityManagerManager.getEM();
 		ClaseLicencia licencia = null;

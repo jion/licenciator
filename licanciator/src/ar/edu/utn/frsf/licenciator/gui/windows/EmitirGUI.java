@@ -60,8 +60,7 @@ public class EmitirGUI extends JDialog{
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (textNroDoc.getText()!=null){
-					EmitirLicencia emitir = new EmitirLicencia();
-					titular = emitir.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
+					titular = EmitirLicencia.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
 					if (titular != null){
 						textApellido.setText(titular.getApellido());
 						textNombre.setText(titular.getNombre());
@@ -168,8 +167,7 @@ public class EmitirGUI extends JDialog{
 				/*TODO*/
 				if(textClase.getText() != null)
 				{
-					EmitirLicencia emitir = new EmitirLicencia();
-					licencia = emitir.emitirLicencia(titular, textClase.getText(), textObs.getText());
+					licencia = EmitirLicencia.emitirLicencia(titular, textClase.getText(), textObs.getText());
 					if (licencia != null)
 					{
 						textNroLic.setText(licencia.getNrolicencia());
@@ -201,8 +199,7 @@ public class EmitirGUI extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				if (licencia !=null)
 				{
-					EmitirLicencia emision = new EmitirLicencia();
-					emision.guardarLicencia(licencia);
+					EmitirLicencia.guardarLicencia(licencia);
 				}
 			}
 		});

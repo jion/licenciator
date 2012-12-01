@@ -6,6 +6,11 @@ import javax.persistence.TypedQuery;
 
 
 public class DaoTitular {
+	
+	private DaoTitular() {
+		super();
+	}
+	
 	public static Titular read(TipoDoc tipoD, long nroD) {
 		EntityManager em = EntityManagerManager.getEM();
 		Titular titular=null;

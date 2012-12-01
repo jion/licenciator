@@ -6,6 +6,11 @@ import javax.persistence.TypedQuery;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 
 public class DaoTipoDoc {
+	
+	private DaoTipoDoc() {
+		super();
+	}
+	
 	public static TipoDoc read(String tipoD) {
 		EntityManager em = EntityManagerManager.getEM();
 		TipoDoc tipoDoc=null;

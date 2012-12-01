@@ -8,6 +8,10 @@ import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 
 public class DaoUsuarios {
 	
+	private DaoUsuarios() {
+		super();
+	}
+
 	public static Usuario read(String nombre) {
 		EntityManager em = EntityManagerManager.getEM();
 		Usuario usuario=null;
