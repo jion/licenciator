@@ -58,6 +58,7 @@ public class EmitirGUI extends JDialog{
 		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
+			/* Busqueda del titular */
 			public void actionPerformed(ActionEvent arg0) {
 				if (textNroDoc.getText()!=null){
 					titular = EmitirLicencia.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
@@ -75,7 +76,7 @@ public class EmitirGUI extends JDialog{
 						textFactor.setText(titular.getTipoSanguineo().getGrupo() + titular.getTipoSanguineo().getFactor());
 					}
 				}
-				}
+			}
 			
 		});
 		

@@ -79,11 +79,11 @@ public class EmitirLicencia {
 			if( clase.equals( "C" ) || clase.equals( "D" ) || clase.equals( "E" ) ) {
 				/* Obtenemos todas las licencias de la persona */
 				
-				List<Licencia> licencias = DaoLicencia.read( licencia.getTitular() );
+				List<Licencia> licencias = licencia.getTitular().getLicencias();
 				
 				/* Si tiene mas de 65, no puede obtenerla por primera vez */
 				if( edad >= 65 ) {
-			        Iterator it = licencias.iterator();
+			        Iterator<Licencia> it = licencias.iterator();
 			        
 			        Boolean puede = false;
 			        
@@ -99,7 +99,7 @@ public class EmitirLicencia {
 				}
 				
 				/* Y recorremos para ver si previamente tenia una B */
-		        Iterator it = licencias.iterator();
+		        Iterator<Licencia> it = licencias.iterator();
 		        
 		        while( it.hasNext() ) {
 		          Licencia lic = ( Licencia )it.next();
