@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import javax.swing.JMenuBar;
 
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
+
+import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JLabel;
@@ -36,6 +38,16 @@ public class MenuPrincipal {
 	public MenuPrincipal(Usuario usuario2) {
 		usuario = usuario2;
 		initialize();
+	}
+	
+	public static void lanzarGUI(Usuario usuario2) {
+		try {
+			MenuPrincipal dialog = new MenuPrincipal(usuario2);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -84,7 +96,7 @@ public class MenuPrincipal {
 		JMenuItem mntmEmitir = new JMenuItem("Emitir");
 		mntmEmitir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/* TODO lanzar ventana EmitirGUI */
+				EmitirGUI.LanzarGUI();
 			}
 		});
 		mnLicencia.add(mntmEmitir);

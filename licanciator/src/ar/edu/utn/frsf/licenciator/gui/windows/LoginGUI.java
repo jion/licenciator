@@ -100,8 +100,7 @@ public class LoginGUI extends JDialog {
 							JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
 									"Los datos ingresados no son válidos");
 						} else {
-							InteractionHandler.getInstance().setUsuario(usuario);
-							InteractionHandler.getInstance().aMenuPrincipal();
+							MenuPrincipal.lanzarGUI(usuario);
 							dispose();
 						}
 					}
