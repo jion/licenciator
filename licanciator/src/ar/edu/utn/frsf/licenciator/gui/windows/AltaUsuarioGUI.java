@@ -226,6 +226,7 @@ public class AltaUsuarioGUI extends JDialog {
 							Boolean isSuperUser = cBsuperUsuario.isSelected();
 						
 							try {
+								//TODO: Si retorna NULL, nos dice que se ha creado con exito de todas maneras!
 								GestorSesion.createUser(InteractionHandler.getInstance().getUsuario(), nombre, password, isSuperUser);
 								JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
 										"El usuario ha sido creado con exito.");
