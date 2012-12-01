@@ -47,7 +47,7 @@ public class LoginGUI extends JDialog {
 	 * Create the dialog.
 	 */
 	public LoginGUI() {
-		setTitle("Licenciator v1.0 - Login");
+		setTitle("Licenciator - Login");
 		setResizable(false);
 		setBounds(100, 100, 319, 171);
 		getContentPane().setLayout(new BorderLayout());

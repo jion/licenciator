@@ -89,6 +89,11 @@ public class MenuPrincipalGUI {
 		panel.add(button, gbc_button);
 		
 		JButton button_1 = new JButton("Emitir Licencia");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EmitirGUI.LanzarGUI();
+			}
+		});
 		GridBagConstraints gbc_button_1 = new GridBagConstraints();
 		gbc_button_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button_1.insets = new Insets(0, 0, 5, 0);
