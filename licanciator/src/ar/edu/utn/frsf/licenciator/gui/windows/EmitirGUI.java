@@ -75,10 +75,13 @@ public class EmitirGUI extends JDialog{
 						}
 						textFactor.setText(titular.getTipoSanguineo().getGrupo() + titular.getTipoSanguineo().getFactor());
 					}
+					else{
+						JOptionPane.showMessageDialog(null, "El titular ingresado no existe.\nRevise los datos ingresados o vea la opción Dar de alta -> Alta Titular del menú principal", "Error", JOptionPane.ERROR_MESSAGE);	
+					}
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "El número que ha ingresado es incorrecto", "Número de documento no válido", JOptionPane.ERROR_MESSAGE);	
+					JOptionPane.showMessageDialog(null, "El número de documento que ha ingresado no es válido", "Error", JOptionPane.ERROR_MESSAGE);	
 				}
 			}
 			
@@ -186,12 +189,12 @@ public class EmitirGUI extends JDialog{
 						textObs.setEnabled(false);
 						
 					} else {
-						JOptionPane.showMessageDialog(null, "La licencia requerida no se puede emitir", "Licencia no válida", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La licencia requerida no se puede emitir", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "La clase que ha ingresado no corresponde a una clase de licencia", "Clase de licencia no válida", JOptionPane.ERROR_MESSAGE);	
+					JOptionPane.showMessageDialog(null, "La clase que ha ingresado no corresponde a una clase de licencia válida", "Error", JOptionPane.ERROR_MESSAGE);	
 				}
 			}
 		});
