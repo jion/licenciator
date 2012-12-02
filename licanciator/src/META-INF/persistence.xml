@@ -7,6 +7,7 @@
 		<class>ar.edu.utn.frsf.licenciator.entidades.Licencia</class>
 		<class>ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia</class>
 		<class>ar.edu.utn.frsf.licenciator.entidades.Titular</class>
+		<class>ar.edu.utn.frsf.licenciator.entidades.Contribuyente</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
