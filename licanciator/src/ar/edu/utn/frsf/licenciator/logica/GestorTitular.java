@@ -14,14 +14,12 @@ public class GestorTitular {
 		super();
 	}
 	
-	public static Titular createTitular( TipoDoc tipoDocumento, long numeroDocumento, String nombreTitular, String apellidoTitular, Calendar fechaNacimiento, String direccion, ClaseLicencia claseLicencia, TipoSanguineo grupoSanguineo, boolean donante ) throws TitularExistenteExeption {
-		Titular titular = new Titular();
-		
-		titular = DaoTitular.read( tipoDocumento, numeroDocumento );
-		
-		if( titular != null ) {
+	public static Titular createTitular( TipoDoc tipoDocumento, long numeroDocumento, String nombreTitular, String apellidoTitular, Calendar fechaNacimiento, String direccion, String localidad, ClaseLicencia claseLicencia, TipoSanguineo grupoSanguineo, boolean donante ) throws TitularExistenteExeption {		
+		if( DaoTitular.read( tipoDocumento, numeroDocumento ) != null ) {
 			throw( new TitularExistenteExeption() );
 		}
+		
+		Titular titular = new Titular( tipoDocumento, numeroDocumento, nombreTitular, apellidoTitular, fechaNacimiento, direccion, localidad, claseLicencia, grupoSanguineo, donante );
 		
 		DaoTitular.create(titular );
 		

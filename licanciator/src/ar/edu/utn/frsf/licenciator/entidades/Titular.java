@@ -1,15 +1,11 @@
 package ar.edu.utn.frsf.licenciator.entidades;
 
 import java.util.Calendar;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -20,7 +16,6 @@ public class Titular {
 	@GeneratedValue
 	private int id;
 	
-	@OneToOne
 	private TipoDoc tipoDoc;
 	
 	private long nroDoc;
@@ -33,21 +28,16 @@ public class Titular {
 	
 	private String domicilio;
 	private String localidad;
-	@OneToOne
+	
+	@ManyToOne
 	private ClaseLicencia clase;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="titular", fetch = FetchType.LAZY)
-	private List<Licencia> licencias;
-
-	@OneToOne
+	@ManyToOne
 	private TipoSanguineo tipoFactor;
+	
 	private Boolean donante;
 	
 	public Titular() {
-	}
-	
-	public List<Licencia> getLicencias() {
-		return licencias;
 	}
 	
 	public Titular( TipoDoc tipo, long nro, String nom, String ap, Calendar nac, String dom, String loc, ClaseLicencia clas, TipoSanguineo tipoS, Boolean donante ) {

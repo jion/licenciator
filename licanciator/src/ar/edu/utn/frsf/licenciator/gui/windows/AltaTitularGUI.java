@@ -12,9 +12,7 @@ import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,151 +23,50 @@ import javax.swing.border.TitledBorder;
 import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.TipoSanguineo;
+import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.GestorTitular;
 import ar.edu.utn.frsf.licenciator.logica.TitularExistenteExeption;
 
 public class AltaTitularGUI extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+
 	//Layout
 	private BorderLayout layout = new BorderLayout();
 	
-	private JTextField numeroDocumentoTField;
-	private JTextField nombresField;
-	private JTextField apellidoField;
-	private JTextField direccionTField;
-	
-	private JComboBox diaCBox;
-	private JComboBox mesCBox;
-	private JComboBox anioCBox;
 	private JComboBox tipoDocumentoCBox;
-	private JComboBox claseLicenciaCBox;
-	private JComboBox grupoSanguineoCBox;
-	private JComboBox factorRHCBox;
+
+	private JTextField numeroDocumentoTField;
+
+	private JLabel nombresDataLabel;
+	private JLabel apellidoDataLabel;
+	private JLabel diaDataLabel;
+	private JLabel mesDataLabel;
+	private JLabel anioDataLabel;
+	private JLabel direccionDataLabel;
+	private JLabel localidadDataLabel;
+	private JLabel claseLicenciaDataLabel;
+	private JLabel grupoSanguineoDataLabel;
+	private JLabel factorDataLabel;
+	private JLabel donanteCBox;
 	
-	private JCheckBox donanteCBox;
+	private JPanel datosTitularPanel = new JPanel();
 	
 	public AltaTitularGUI() {
 		inicializar();
 	}
 	
-	public static void lanzarGUI() {
-		try {
-			AltaTitularGUI dialog = new AltaTitularGUI();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private void inicializar() {
-		
 		//Se setea el titulo
 		this.setTitle( "Alta Titular" );
 		
 		//Se setea el tamaño
-		this.setPreferredSize( new Dimension( 420, 460 ) );
+		this.setPreferredSize( new Dimension( 500, 500 ) );
 		
 		//Se setea como layout el BorderLayout creado
-		this.getContentPane().setLayout(layout);
+		this.getContentPane().setLayout( layout );
 		
-		JPanel datosClientePanel = new JPanel();
-		
-		TitledBorder datosClienteRotulo;
-		datosClienteRotulo = BorderFactory.createTitledBorder( " Datos Titular " );
-		datosClienteRotulo.setBorder(BorderFactory.createLineBorder( new Color( 100, 150, 100 ) ) );
-		datosClienteRotulo.setTitleColor( new Color( 0, 0, 128 ) );
-		datosClientePanel.setBorder( datosClienteRotulo );
-		
-		datosClientePanel.setLayout( new GridBagLayout() );
-		GridBagConstraints a = new GridBagConstraints();
-		a.fill = GridBagConstraints.HORIZONTAL;
-		
-		JLabel tipoDocumentoLabel = new JLabel( "Tipo de documento:" );
-		JLabel numeroDocumentoLabel = new JLabel( "Nro:" );
-		JLabel nombresLabel = new JLabel( "Nombres:" );
-		JLabel apellidoLabel = new JLabel( "Apellido:" );
-		JLabel FechaNacimientoLabel = new JLabel( "Fecha de nacimiento: " );
-		JLabel direccionLabel = new JLabel( "Direccion: " );
-		JLabel claseLicenciaLabel = new JLabel( "Clase de licencia solicitada: " );
-		JLabel grupoSanguineoLabel = new JLabel( "Grupo sanguineo: " );
-		JLabel factorRHLabel = new JLabel( "Factor RH: " );
-		JLabel donanteLabel = new JLabel( "Donante de organos: " );
-		
-		numeroDocumentoTField = new JTextField();
-		numeroDocumentoTField.setPreferredSize( new Dimension( 80, 25 ) );
-		nombresField = new JTextField();
-		nombresField.setPreferredSize( new Dimension( 200, 25 ) );
-		apellidoField = new JTextField();
-		apellidoField.setPreferredSize( new Dimension( 200, 25 ) );
-		direccionTField = new JTextField();
-		direccionTField.setPreferredSize( new Dimension( 200, 25 ) );
-		
-		tipoDocumentoCBox = new JComboBox();
-		tipoDocumentoCBox.addItem( "D.N.I." );
-		tipoDocumentoCBox.addItem( "Lib. enrol." );
-		tipoDocumentoCBox.setPreferredSize( new Dimension( 70, 25 ) );
-		
-		diaCBox = new JComboBox();
-		for( int i=1; i<=31; i++ ) {
-			diaCBox.addItem( i );
-		}
-		diaCBox.setPreferredSize( new Dimension( 60, 25 ) );
-		
-		mesCBox = new JComboBox();
-		for( int i=1; i<=12; i++ ) {
-			mesCBox.addItem( i );
-		}
-		mesCBox.setPreferredSize( new Dimension( 60, 25 ) );
-		
-		anioCBox = new JComboBox();
-		for( int i=1920; i<=1995; i++ ) {
-			anioCBox.addItem( i );
-		}
-		anioCBox.setPreferredSize( new Dimension( 80, 25 ) );
-		
-		claseLicenciaCBox = new JComboBox();
-		claseLicenciaCBox.addItem( "A" );
-		claseLicenciaCBox.addItem( "B" );
-		claseLicenciaCBox.addItem( "C" );
-		claseLicenciaCBox.addItem( "D" );
-		claseLicenciaCBox.setPreferredSize( new Dimension( 80, 25 ) );
-		
-		grupoSanguineoCBox = new JComboBox();
-		grupoSanguineoCBox.addItem( "Grupo A" );
-		grupoSanguineoCBox.addItem( "Grupo B" );
-		grupoSanguineoCBox.addItem( "Grupo AB" );
-		grupoSanguineoCBox.addItem( "Grupo 0" );
-		grupoSanguineoCBox.setPreferredSize( new Dimension( 115, 25 ) );
-		
-		factorRHCBox = new JComboBox();
-		factorRHCBox.addItem( "+" );
-		factorRHCBox.addItem( "-" );
-		factorRHCBox.setPreferredSize( new Dimension( 60, 25 ) );
-		
-		donanteCBox = new JCheckBox();
-		donanteCBox.setPreferredSize( new Dimension( 60, 25 ) );
-		
-		JButton cargarButton = new JButton( "Carga" );
-		cargarButton.setPreferredSize( new Dimension( 110, 25 ) );
-		cargarButton.addActionListener( new ActionListener()
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				CargarButtonAction( e );
-			}
-		});
-		
-		JButton cancelarButton = new JButton( "Cancelar" );
-		cancelarButton.setPreferredSize( new Dimension( 110, 25 ) );
-		cancelarButton.addActionListener( new ActionListener()
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				System.exit( 0 );
-			}
-		});
-		
+		//Genero los espacios
 		JLabel jLabelEspacio0 = new JLabel( " " );
 		JLabel jLabelEspacio1 = new JLabel( " " );
 		JLabel jLabelEspacio2 = new JLabel( " " );
@@ -181,194 +78,357 @@ public class AltaTitularGUI extends JFrame {
 		JLabel jLabelEspacio8 = new JLabel( " " );
 		JLabel jLabelEspacio9 = new JLabel( " " );
 		JLabel jLabelEspacio10 = new JLabel( " " );
+		JLabel jLabelEspacio11 = new JLabel( " " );
+		JLabel jLabelEspacio12 = new JLabel( " " );
+		JLabel jLabelEspacio13 = new JLabel( " " );
 		
-		a.gridy = 0;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio0, a );
+		//Creacion del panel "Buscar titular"
+		JPanel buscarTitularPanel = new JPanel();
 		
-		a.gridy = 1;
-		a.gridx = 0;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( tipoDocumentoLabel, a );
-		a.gridy = 1;
-		a.gridx = 1;
-		a.insets = new Insets(0, 10, 0, 0);
-		datosClientePanel.add( tipoDocumentoCBox, a );
-		a.gridy = 1;
-		a.gridx = 3;
-		a.insets = new Insets( 0, 30, 0, 0 );
-		datosClientePanel.add( numeroDocumentoLabel, a );
-		a.gridy = 1;
-		a.gridx = 4;
-		a.insets = new Insets( 0, 10, 0, 0 );
-		datosClientePanel.add( numeroDocumentoTField, a );
+		TitledBorder buscarTitularRotulo;
+		buscarTitularRotulo = BorderFactory.createTitledBorder( " Buscar Titular " );
+		buscarTitularRotulo.setBorder(BorderFactory.createLineBorder( new Color( 100, 150, 100 ) ) );
+		buscarTitularRotulo.setTitleColor( new Color( 0, 0, 128 ) );
+		buscarTitularPanel.setBorder( buscarTitularRotulo );
 		
-		a.gridy = 2;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio1, a );
+		JLabel tipoDocumentoLabel = new JLabel( "Tipo de documento:" );
+		JLabel numeroDocumentoLabel = new JLabel( "Nro:" );
 		
-		a.gridy = 3;
-		a.gridx = 0;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( nombresLabel, a );
-		a.gridy = 3;
-		a.gridx = 1;
-		a.gridwidth = 4;
-		a.insets = new Insets( 0, -48, 0, 0 );
-		datosClientePanel.add( nombresField, a );
+		tipoDocumentoCBox = new JComboBox();
+		tipoDocumentoCBox.addItem( "D.N.I." );
+		tipoDocumentoCBox.addItem( "Lib. enrol." );
+		tipoDocumentoCBox.setPreferredSize( new Dimension( 100, 25 ) );
 		
-		a.gridy = 4;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio2, a );
+		numeroDocumentoTField = new JTextField();
+		numeroDocumentoTField.setPreferredSize( new Dimension( 80, 25 ) );
 		
-		a.gridy = 5;
-		a.gridx = 0;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( apellidoLabel, a );
-		a.gridy = 5;
-		a.gridx = 1;
-		a.gridwidth = 4;
-		a.insets = new Insets( 0, -55, 0, 0 );
-		datosClientePanel.add( apellidoField, a );
+		JButton buscarButton = new JButton( "Buscar" );
+		buscarButton.setPreferredSize( new Dimension( 110, 25 ) );
+		buscarButton.addActionListener( new ActionListener()
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				BuscarButtonAction( e );
+			}
+		});
 		
-		a.gridy = 6;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio3, a );
+		JButton cancelarBusquedaButton = new JButton( "Cancelar" );
+		cancelarBusquedaButton.setPreferredSize( new Dimension( 110, 25 ) );
+		cancelarBusquedaButton.addActionListener( new ActionListener()
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				System.exit( 0 );
+			}
+		});
 		
-		a.gridy = 7;
-		a.gridx = 0;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( FechaNacimientoLabel, a );
+		buscarTitularPanel.setLayout( new GridBagLayout() );
+		GridBagConstraints btp = new GridBagConstraints();
+		btp.fill = GridBagConstraints.HORIZONTAL;
+		
+		btp.gridy = 0;
+		btp.gridx = 0;
+		buscarTitularPanel.add( jLabelEspacio0, btp );
+		
+		btp.gridy = 1;
+		btp.gridx = 0;
+		btp.insets = new Insets( 0, 0, 0, 0 );
+		buscarTitularPanel.add( tipoDocumentoLabel, btp );
+		btp.gridy = 1;
+		btp.gridx = 1;
+		btp.insets = new Insets(0, 10, 0, 0);
+		buscarTitularPanel.add( tipoDocumentoCBox, btp );
+		btp.gridy = 1;
+		btp.gridx = 3;
+		btp.insets = new Insets( 0, 30, 0, 0 );
+		buscarTitularPanel.add( numeroDocumentoLabel, btp );
+		btp.gridy = 1;
+		btp.gridx = 4;
+		btp.insets = new Insets( 0, 10, 0, 0 );
+		buscarTitularPanel.add( numeroDocumentoTField, btp );
+		
+		btp.gridy = 2;
+		btp.gridx = 0;
+		buscarTitularPanel.add( jLabelEspacio1, btp );
+		
+		btp.gridy = 3;
+		btp.gridx = 0;
+		buscarTitularPanel.add( jLabelEspacio2, btp );
+		
+		JPanel buttonPanelBuscar = new JPanel();
+		buttonPanelBuscar.setLayout( new GridBagLayout() );
+		GridBagConstraints bpb = new GridBagConstraints();
+		bpb.fill = GridBagConstraints.CENTER;
+		
+		bpb.gridy = 0;
+		bpb.gridx = 0;
+		bpb.insets = new Insets( 0, 0, 0, 0 );
+		buttonPanelBuscar.add( buscarButton, bpb );
+		bpb.gridy = 0;
+		bpb.gridx = 1;
+		bpb.insets = new Insets( 0, 15, 0, 0 );
+		buttonPanelBuscar.add( cancelarBusquedaButton, bpb );
+		
+		btp.gridy = 4;
+		btp.gridx = 0;
+		btp.gridwidth = 5;
+		buscarTitularPanel.add( buttonPanelBuscar, btp );
+		
+		btp.gridy = 5;
+		btp.gridx = 0;
+		buscarTitularPanel.add( jLabelEspacio3, btp );
+		
+		//Cracion del panel "Datos titular"
+		datosTitularPanel = new JPanel();
+		
+		TitledBorder datosClienteRotulo;
+		datosClienteRotulo = BorderFactory.createTitledBorder( " Datos Titular " );
+		datosClienteRotulo.setBorder(BorderFactory.createLineBorder( new Color( 100, 150, 100 ) ) );
+		datosClienteRotulo.setTitleColor( new Color( 0, 0, 128 ) );
+		datosTitularPanel.setBorder( datosClienteRotulo );
+		
+		datosTitularPanel.setLayout( new GridBagLayout() );
+		GridBagConstraints dtp = new GridBagConstraints();
+		dtp.fill = GridBagConstraints.HORIZONTAL;
+		
+		JLabel nombresLabel = new JLabel( "Nombres:" );
+		nombresDataLabel = new JLabel( "<Nombres>" );
+		
+		JLabel apellidoLabel = new JLabel( "Apellido:" );
+		apellidoDataLabel = new JLabel( "<Apellidos>" );
+		
+		JLabel FechaNacimientoLabel = new JLabel( "Fecha de nacimiento: " );
+		diaDataLabel = new JLabel( "<Dia>" );
+		mesDataLabel = new JLabel( "<Mes>" );
+		anioDataLabel = new JLabel( "<Año>" );
+		
+		JLabel direccionLabel = new JLabel( "Direccion: " );
+		direccionDataLabel = new JLabel( "<Direccion>" );
+		
+		JLabel localidadLabel = new JLabel( "Localidad: " );
+		localidadDataLabel = new JLabel( "<Localidad>" );
+		
+		JLabel claseLicenciaLabel = new JLabel( "Clase de licencia solicitada: " );
+		claseLicenciaDataLabel = new JLabel( "<Clase>" );
+		
+		JLabel grupoSanguineoLabel = new JLabel( "Grupo sanguineo: " );
+		grupoSanguineoDataLabel = new JLabel( "<Grupo Sanguineo>" );
+		
+		JLabel factorRHLabel = new JLabel( "Factor RH: " );
+		factorDataLabel = new JLabel( "<FactorRH>" );
+		
+		JLabel donanteLabel = new JLabel( "Donante de organos: " );
+		donanteCBox = new JLabel( "<Donante>" );
+
+		JButton cargarButton = new JButton( "Carga" );
+		cargarButton.setPreferredSize( new Dimension( 110, 25 ) );
+		cargarButton.addActionListener( new ActionListener()
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				CargarButtonAction( e );
+			}
+		});
+		
+		JButton cancelarAltaButton = new JButton( "Cancelar" );
+		cancelarAltaButton.setPreferredSize( new Dimension( 110, 25 ) );
+		cancelarAltaButton.addActionListener( new ActionListener()
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				System.exit( 0 );
+			}
+		});
+		
+		btp.gridy = 0;
+		btp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio4, dtp );
+		
+		dtp.gridy = 1;
+		dtp.gridx = 0;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( nombresLabel, dtp );
+		dtp.gridy = 1;
+		dtp.gridx = 1;
+		dtp.gridwidth = 4;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( nombresDataLabel, dtp );
+		
+		dtp.gridy = 2;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio5, dtp );
+		
+		dtp.gridy = 3;
+		dtp.gridx = 0;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( apellidoLabel, dtp );
+		dtp.gridy = 3;
+		dtp.gridx = 1;
+		dtp.gridwidth = 4;
+		dtp.insets = new Insets( 0, -7, 0, 0 );
+		datosTitularPanel.add( apellidoDataLabel, dtp );
+		
+		dtp.gridy = 4;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio6, dtp );
+		
+		dtp.gridy = 5;
+		dtp.gridx = 0;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( FechaNacimientoLabel, dtp );
 		
 		JPanel fechaNacimientoPanel = new JPanel();
 		fechaNacimientoPanel.setLayout( new GridBagLayout() );
-		GridBagConstraints b = new GridBagConstraints();
-		b.fill = GridBagConstraints.HORIZONTAL;
+		GridBagConstraints fnp = new GridBagConstraints();
+		fnp.fill = GridBagConstraints.HORIZONTAL;
 		
-		b.gridy = 0;
-		b.gridx = 0;
-		b.insets = new Insets(0, 0, 0, 0);
-		fechaNacimientoPanel.add( diaCBox, b );
-		b.gridy = 0;
-		b.gridx = 1;
-		b.insets = new Insets( 0, 20, 0, 0 );
-		fechaNacimientoPanel.add( mesCBox, b );
-		b.gridy = 0;
-		b.gridx = 2;
-		b.insets = new Insets( 0, 20, 0, 0 );
-		fechaNacimientoPanel.add( anioCBox, b );
+		fnp.gridy = 0;
+		fnp.gridx = 0;
+		fnp.insets = new Insets(0, 0, 0, 0);
+		fechaNacimientoPanel.add( diaDataLabel, fnp );
+		fnp.gridy = 0;
+		fnp.gridx = 1;
+		fnp.insets = new Insets( 0, 10, 0, 0 );
+		fechaNacimientoPanel.add( mesDataLabel, fnp );
+		fnp.gridy = 0;
+		fnp.gridx = 2;
+		fnp.insets = new Insets( 0, 10, 0, 0 );
+		fechaNacimientoPanel.add( anioDataLabel, fnp );
 		
-		a.gridy = 7;
-		a.gridx = 1;
-		a.insets = new Insets( 0, 15, 0, 0 );
-		datosClientePanel.add( fechaNacimientoPanel, a );
+		dtp.gridy = 5;
+		dtp.gridx = 1;
+		dtp.insets = new Insets( 0, -75, 0, 0 );
+		datosTitularPanel.add( fechaNacimientoPanel, dtp );
 		
-		a.gridy = 8;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio4, a );
+		dtp.gridy = 6;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio7, dtp );
 		
-		a.gridy = 9;
-		a.gridx = 0;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( direccionLabel, a );
-		a.gridy = 9;
-		a.gridx = 1;
-		a.insets = new Insets( 0, -47, 0, 0 );
-		datosClientePanel.add( direccionTField, a );
+		JPanel direccionLocalidadPanel = new JPanel();
+		direccionLocalidadPanel.setLayout( new GridBagLayout() );
+		GridBagConstraints dlp = new GridBagConstraints();
+		dlp.fill = GridBagConstraints.HORIZONTAL;
 		
-		a.gridy = 10;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio5, a );
+		dlp.gridy = 0;
+		dlp.gridx = 0;
+		dlp.insets = new Insets( 0, 0, 0, 0 );
+		direccionLocalidadPanel.add( direccionLabel, dlp );
+		dlp.gridy = 0;
+		dlp.gridx = 1;
+		dlp.insets = new Insets( 0, 5, 0, 0 );
+		direccionLocalidadPanel.add( direccionDataLabel, dlp );
+		dlp.gridy = 0;
+		dlp.gridx = 2;
+		dlp.insets = new Insets( 0, 130, 0, 0 );
+		direccionLocalidadPanel.add( localidadLabel, dlp );
+		dlp.gridy = 0;
+		dlp.gridx = 3;
+		dlp.insets = new Insets( 0, 5, 0, 0 );
+		direccionLocalidadPanel.add( localidadDataLabel, dlp );
 		
-		a.gridy = 11;
-		a.gridx = 0;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( claseLicenciaLabel, a );
-		a.gridy = 11;
-		a.gridx = 1;
-		a.gridwidth = 4;
-		a.insets = new Insets( 0, 53, 0, 0 );
-		datosClientePanel.add( claseLicenciaCBox, a );
+		dtp.gridy = 7;
+		dtp.gridx = 0;
+		dtp.gridwidth = 5;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( direccionLocalidadPanel, dtp );
 		
-		a.gridy = 12;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio6, a );
+		dtp.gridy = 8;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio8, dtp );
+		
+		dtp.gridy = 9;
+		dtp.gridx = 0;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( claseLicenciaLabel, dtp );
+		dtp.gridy = 9;
+		dtp.gridx = 1;
+		dtp.gridwidth = 4;
+		dtp.insets = new Insets( 0, 100, 0, 0 );
+		datosTitularPanel.add( claseLicenciaDataLabel, dtp );
+		
+		dtp.gridy = 10;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio9, dtp );
 		
 		JPanel grupoSanguineoPanel = new JPanel();
 		grupoSanguineoPanel.setLayout( new GridBagLayout() );
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
+		GridBagConstraints gsp = new GridBagConstraints();
+		gsp.fill = GridBagConstraints.HORIZONTAL;
 		
-		c.gridy = 0;
-		c.gridx = 0;
-		c.insets = new Insets( 0, 0, 0, 0 );
-		grupoSanguineoPanel.add( grupoSanguineoLabel, c );
-		c.gridy = 0;
-		c.gridx = 1;
-		c.insets = new Insets( 0, 5, 0, 0 );
-		grupoSanguineoPanel.add( grupoSanguineoCBox, c );
-		c.gridy = 0;
-		c.gridx = 2;
-		c.insets = new Insets( 0, 20, 0, 0 );
-		grupoSanguineoPanel.add( factorRHLabel, c );
-		c.gridy = 0;
-		c.gridx = 3;
-		c.insets = new Insets( 0, 5, 0, 0 );
-		grupoSanguineoPanel.add( factorRHCBox, c );
+		gsp.gridy = 0;
+		gsp.gridx = 0;
+		gsp.insets = new Insets( 0, 0, 0, 0 );
+		grupoSanguineoPanel.add( grupoSanguineoLabel, gsp );
+		gsp.gridy = 0;
+		gsp.gridx = 1;
+		gsp.insets = new Insets( 0, 5, 0, 0 );
+		grupoSanguineoPanel.add( grupoSanguineoDataLabel, gsp );
+		gsp.gridy = 0;
+		gsp.gridx = 2;
+		gsp.insets = new Insets( 0, 20, 0, 0 );
+		grupoSanguineoPanel.add( factorRHLabel, gsp );
+		gsp.gridy = 0;
+		gsp.gridx = 3;
+		gsp.insets = new Insets( 0, 5, 0, 0 );
+		grupoSanguineoPanel.add( factorDataLabel, gsp );
 		
-		a.gridy = 13;
-		a.gridx = 0;
-		a.gridwidth = 5;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( grupoSanguineoPanel, a );
+		dtp.gridy = 11;
+		dtp.gridx = 0;
+		dtp.gridwidth = 5;
+		dtp.insets = new Insets( 0, -27, 0, 0 );
+		datosTitularPanel.add( grupoSanguineoPanel, dtp );
 		
-		a.gridy = 14;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio7, a );
+		dtp.gridy = 12;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio10, dtp );
 		
-		a.gridy = 15;
-		a.gridx = 0;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( donanteLabel, a );
-		a.gridy = 15;
-		a.gridx = 1;
-		a.gridwidth = 1;
-		a.insets = new Insets( 0, 15, 0, 0 );
-		datosClientePanel.add( donanteCBox, a );
+		dtp.gridy = 13;
+		dtp.gridx = 0;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( donanteLabel, dtp );
+		dtp.gridy = 13;
+		dtp.gridx = 1;
+		dtp.gridwidth = 1;
+		dtp.insets = new Insets( 0, 60, 0, 0 );
+		datosTitularPanel.add( donanteCBox, dtp );
 		
-		a.gridy = 16;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio8, a );
-		a.gridy = 17;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio9, a );
+		dtp.gridy = 14;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio11, dtp );
 		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout( new GridBagLayout() );
-		GridBagConstraints d = new GridBagConstraints();
-		d.fill = GridBagConstraints.CENTER;
+		dtp.gridy = 15;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio12, dtp );
 		
-		d.gridy = 0;
-		d.gridx = 0;
-		d.insets = new Insets( 0, 0, 0, 0 );
-		buttonPanel.add( cargarButton, d );
-		d.gridy = 0;
-		d.gridx = 1;
-		d.insets = new Insets( 0, 15, 0, 0 );
-		buttonPanel.add( cancelarButton, d );
+		JPanel buttonPanelAlta = new JPanel();
+		buttonPanelAlta.setLayout( new GridBagLayout() );
+		GridBagConstraints bpa = new GridBagConstraints();
+		bpa.fill = GridBagConstraints.CENTER;
 		
-		a.gridy = 18;
-		a.gridx = 0;
-		a.gridwidth = 5;
-		a.insets = new Insets( 0, 0, 0, 0 );
-		datosClientePanel.add( buttonPanel, a );
+		bpa.gridy = 0;
+		bpa.gridx = 0;
+		bpa.insets = new Insets( 0, 0, 0, 0 );
+		buttonPanelAlta.add( cargarButton, bpa );
+		bpa.gridy = 0;
+		bpa.gridx = 1;
+		bpa.insets = new Insets( 0, 15, 0, 0 );
+		buttonPanelAlta.add( cancelarAltaButton, bpa );
 		
-		a.gridy = 19;
-		a.gridx = 0;
-		datosClientePanel.add( jLabelEspacio10, a );
+		dtp.gridy = 16;
+		dtp.gridx = 0;
+		dtp.gridwidth = 5;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( buttonPanelAlta, dtp );
 		
-		//Se agrega el jPanel al JFrame
-		this.getContentPane().add( datosClientePanel, BorderLayout.NORTH);
+		dtp.gridy = 17;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio13, dtp );
+		
+		datosTitularPanel.setVisible( false );
+		
+		//Se agregan los JPanels al JFrame
+		this.getContentPane().add( buscarTitularPanel, BorderLayout.NORTH);
+		this.getContentPane().add( datosTitularPanel, BorderLayout.SOUTH);
 	}
 	
 	public static void main( String[] args ) {   
@@ -381,41 +441,67 @@ public class AltaTitularGUI extends JFrame {
 		ejemplo.setVisible( true );
 	}
 	
-	private void CargarButtonAction( ActionEvent e ) {
+	private void BuscarButtonAction( ActionEvent e ) {
 		if( validarDatos() ) {			
-			TipoDoc tipoDocumento = new TipoDoc( 0, tipoDocumentoCBox.getSelectedItem().toString(), "" );
-			String numeroDocumento = numeroDocumentoTField.getText();
+			datosTitularPanel.setVisible( true );
 			
-			String nombresTitular = nombresField.getText();
-			String apellidoTitular = nombresField.getText();
+			Titular titular = new Titular();
 			
-			int anio = Integer.parseInt( anioCBox.getSelectedItem().toString() );
-			int mes = Integer.parseInt( mesCBox.getSelectedItem().toString() );
-			int dia = Integer.parseInt( diaCBox.getSelectedItem().toString() );
+			//titular = DaoTitularBDcontribuyentes.read( tipoDocumento, numeroDocumento );
 			
-			Calendar fechaNacimiento = Calendar.getInstance();
-			fechaNacimiento.set( anio, mes, dia );
-			fechaNacimiento.set( Calendar.MINUTE, 0 );
-			fechaNacimiento.set( Calendar.SECOND, 0 );
-			fechaNacimiento.set( Calendar.MILLISECOND, 0 );
+			nombresDataLabel.setText( titular.getNombre() );
+			apellidoDataLabel.setText( titular.getApellido() );
 			
-			String direccion = direccionTField.getText();	
+			diaDataLabel.setText( String.valueOf( titular.getFechaNac().get( Calendar.DATE ) ) );
+			mesDataLabel.setText( String.valueOf( titular.getFechaNac().get( Calendar.MONTH ) ) );
+			anioDataLabel.setText( String.valueOf( titular.getFechaNac().get( Calendar.YEAR ) ) );
 			
-			ClaseLicencia claseLicencia = new ClaseLicencia( claseLicenciaCBox.getSelectedItem().toString(), "", calcularEdad( fechaNacimiento ), 100 );
-			
-			TipoSanguineo grupoSanguineo = new TipoSanguineo( grupoSanguineoCBox.getSelectedItem().toString(), (Character) factorRHCBox.getSelectedItem() );
-			
-			boolean donante = donanteCBox.isSelected();
-			
-			try {
-				GestorTitular.createTitular( tipoDocumento, Long.parseLong( numeroDocumento ), nombresTitular, apellidoTitular, fechaNacimiento, direccion, claseLicencia, grupoSanguineo, donante );
+			direccionDataLabel.setText( titular.getDomicilio() );
+			localidadDataLabel.setText( titular.getLocalidad() );
+			claseLicenciaDataLabel.setText( titular.getClaseLicencia().getTipo() );
+			grupoSanguineoDataLabel.setText( titular.getTipoSanguineo().getGrupo() );
+			factorDataLabel.setText( String.valueOf( titular.getTipoSanguineo().getFactor() ) );
+			donanteCBox.setText( titular.getDonante() ? "Si" : "No" );
+		}
+	}
+	
+	private void CargarButtonAction( ActionEvent e ) {		
+		TipoDoc tipoDocumento = new TipoDoc( 0, tipoDocumentoCBox.getSelectedItem().toString(), "" );
+		String numeroDocumento = numeroDocumentoTField.getText();
+		
+		String nombres = nombresDataLabel.getText();
+		String apellido = apellidoDataLabel.getText();
+		
+		int dia = Integer.parseInt( diaDataLabel.getText() );
+		int mes = Integer.parseInt( mesDataLabel.getText() );
+		int anio = Integer.parseInt( anioDataLabel.getText() );
+		
+		Calendar fechaNacimiento = Calendar.getInstance();
+		fechaNacimiento.set( anio, mes, dia );
+		fechaNacimiento.set( Calendar.MINUTE, 0 );
+		fechaNacimiento.set( Calendar.SECOND, 0 );
+		fechaNacimiento.set( Calendar.MILLISECOND, 0 );
+		
+		String direccion = direccionDataLabel.getText();
+		String localidad = localidadDataLabel.getText();
+		
+		ClaseLicencia claseLicencia = new ClaseLicencia( claseLicenciaDataLabel.getText(), "", calcularEdad( fechaNacimiento ), 100);
+		
+		TipoSanguineo tipoSanguineo = new TipoSanguineo( grupoSanguineoDataLabel.getText(), factorDataLabel.getText().charAt( 0 ) );
+		
+		boolean donante = false;
+		
+		if( donanteCBox.getText().equals( "Si" ) )
+			donante = true;
 				
-				JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El titular se ha creado con exito", "Error", JOptionPane.ERROR_MESSAGE );
-				
-				dispose();
-			} catch( TitularExistenteExeption ex ) {
-				JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El titular ya existe", "Error", JOptionPane.ERROR_MESSAGE );
-			}
+		try {
+			GestorTitular.createTitular( tipoDocumento, Long.parseLong( numeroDocumento ), nombres, apellido, fechaNacimiento, direccion, localidad, claseLicencia, tipoSanguineo, donante );
+			
+			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El titular se ha creado con exito", "Error", JOptionPane.ERROR_MESSAGE );
+			
+			dispose();
+		} catch( TitularExistenteExeption ex ) {
+			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El titular ya existe", "Error", JOptionPane.ERROR_MESSAGE );
 		}
 	}
 	
@@ -451,92 +537,6 @@ public class AltaTitularGUI extends JFrame {
 			}
 		} else {
 			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Introduzca un numero de D.N.I.", "Error", JOptionPane.ERROR_MESSAGE );
-			
-			return false;
-		}
-
-		String nombresTitular = nombresField.getText();
-		
-		if( nombresTitular != null && !nombresTitular.isEmpty() ) {
-			if( nombresTitular.length() < 1 || nombresTitular.length() > 30 ) {
-				JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Los nombres solo puede contener un tamaño máximo de 50 caracteres", "Error", JOptionPane.ERROR_MESSAGE );
-				
-				return false;
-			}
-			
-			for( char a : nombresTitular.toCharArray() ) {
-				if( !Character.isLetter( a ) && !Character.isWhitespace( a ) ) {
-					JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Los nombres solo puede contener letras", "Error", JOptionPane.ERROR_MESSAGE );
-					
-					return false;
-				}
-			}
-		} else {
-			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Introduzca los nombres del titular", "Error", JOptionPane.ERROR_MESSAGE );
-			
-			return false;
-		}
-
-		String apellidoTitular = nombresField.getText();
-		
-		if( apellidoTitular != null && !apellidoTitular.isEmpty() ) {
-			if( apellidoTitular.length() < 1 || apellidoTitular.length() > 30 ) {
-				JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El apellido solo puede contener un tamaño máximo de 50 caracteres", "Error", JOptionPane.ERROR_MESSAGE );
-				
-				return false;
-			}
-			
-			for( char a : apellidoTitular.toCharArray() ) {
-				if( !Character.isLetter( a ) && !Character.isWhitespace( a ) ) {
-					JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El apellido solo puede contener letras", "Error", JOptionPane.ERROR_MESSAGE );
-					
-					return false;
-				}
-			}
-		} else {
-			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Introduzca un apellido para titular", "Error", JOptionPane.ERROR_MESSAGE );
-			
-			return false;
-		}
-		
-		int anio = Integer.parseInt( anioCBox.getSelectedItem().toString() );
-		int mes = Integer.parseInt( mesCBox.getSelectedItem().toString() );
-		int dia = Integer.parseInt( diaCBox.getSelectedItem().toString() );
-	    
-	    if( mes == 4 || mes == 6 || mes == 9 || mes == 11 ) {  
-	        if( dia > 30 ) {  
-	        	JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Fecha invalida", "Error", JOptionPane.ERROR_MESSAGE );
-	        	
-	            return false;
-	        }
-	    }
-	    
-        if( mes == 2 ) {
-    		if( ( ( anio % 4 ) == 0 ) && ( ( anio % 100 )!= 0 ) ) {
-    			if(  dia > 29  ) {
-    				JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Fecha invalida", "Error", JOptionPane.ERROR_MESSAGE );
-    				
-    				return false;
-    			}
-    		} else {
-    			if(  dia > 28  ) {
-    				JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Fecha invalida", "Error", JOptionPane.ERROR_MESSAGE );
-    				
-    				return false;
-    			}
-    		}
-	    }
-	      
-        String direccion = direccionTField.getText();
-        
-		if( direccion != null && !direccion.isEmpty() ) {
-			if( direccion.length() < 1 || direccion.length() > 50 ) {
-				JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "La direccion solo puede contener un tamaño máximo de 50 caracteres", "Error", JOptionPane.ERROR_MESSAGE );
-				
-				return false;
-			}
-		} else {
-			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "Introduzca una direccion", "Error", JOptionPane.ERROR_MESSAGE );
 			
 			return false;
 		}
