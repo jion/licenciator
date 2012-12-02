@@ -33,5 +33,5 @@ public class TestEmitirLogica extends TestCase {
 		Licencia licencia = new Licencia(titular, clase, "332176011B", fEmision, venc, "nada");
 		Licencia lic = EmitirLicencia.emitirLicencia(titular, "B", "nada");
 		assertEquals(true, titular.equals(lic.getTitular()));
-}
+	}
 }
