@@ -25,11 +25,8 @@ import javax.swing.border.TitledBorder;
 import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.TipoSanguineo;
-import ar.edu.utn.frsf.licenciator.gui.InteractionHandler;
-import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
 import ar.edu.utn.frsf.licenciator.logica.GestorTitular;
 import ar.edu.utn.frsf.licenciator.logica.TitularExistenteExeption;
-import ar.edu.utn.frsf.licenciator.logica.UsuarioExistenteExeption;
 
 public class AltaTitularGUI extends JFrame {
 

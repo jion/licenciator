@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
-import ar.edu.utn.frsf.licenciator.gui.InteractionHandler;
 import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
 import ar.edu.utn.frsf.licenciator.logica.UsuarioExistenteExeption;
 
@@ -209,7 +208,7 @@ public class AltaUsuarioGUI extends JDialog {
 						
 							try {
 								//TODO: Si retorna NULL, nos dice que se ha creado con exito de todas maneras!
-								Usuario usuario = GestorSesion.createUser(InteractionHandler.getInstance().getUsuario(), nombre, password, isSuperUser);
+								Usuario usuario = GestorSesion.createUser(MenuPrincipal.getInstancia().getUsuario(), nombre, password, isSuperUser);
 								if(usuario != null) {
 								JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
 										"El usuario ha sido creado con exito.");
