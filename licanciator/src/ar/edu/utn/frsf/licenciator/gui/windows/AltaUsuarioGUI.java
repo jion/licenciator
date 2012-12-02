@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -50,27 +52,18 @@ public class AltaUsuarioGUI extends JDialog {
 	private boolean validar() {
 		// ** Validaciones de nombre de usuario *******************************
 		String nombreUsuario = txtfNombre.getText();
-		
-		// Comprobación de longitud
-		if(nombreUsuario.length() < 1 || nombreUsuario.length() > 25) {
+
+		// Comprobación de longitud y de caracteres válidos
+		// compilamos el patron
+		Pattern pat = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]{0,24}$");
+		Matcher mat = pat.matcher(nombreUsuario);
+		if(mat.find()) {
 			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-					"Nombre de usuario inválido. El nombre solo deberá contener letras" +
-					"y/o numeros\ny un tamaño máximo de 25 caracteres.",
+					"Nombre de usuario inválido. El nombre solo deberá contener" +
+					" letras y/o numeros\ny un tamaño máximo de 25 caracteres.",
 					"Licenciator", JOptionPane.ERROR_MESSAGE);
 			
 			return false;
-		}
-		
-		// Comprobacion de caracteres válidos
-		for (char a : nombreUsuario.toCharArray()) {
-			if(!(Character.isLetter(a) || Character.isDigit(a))) {
-				JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-						"Nombre de usuario inválido. El nombre solo deberá contener" +
-						" letras y/o numeros\ny un tamaño máximo de 25 caracteres.",
-						"Licenciator", JOptionPane.ERROR_MESSAGE);
-				
-				return false;
-			}
 		}
 		
 		// ** Validacion de contraseña ****************************************
