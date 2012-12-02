@@ -76,7 +76,7 @@ public class MenuPrincipal {
 		JMenuItem mntmAltaTitular = new JMenuItem("Alta Titular");
 		mntmAltaTitular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//AltaTitularGUI.lanzarGUI();
+				AltaTitularGUI.lanzarGUI();
 			}
 		});
 		mnDarDeAlta.add(mntmAltaTitular);
@@ -102,7 +102,7 @@ public class MenuPrincipal {
 		JMenuItem mntmEmitir = new JMenuItem("Emitir");
 		mntmEmitir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EmitirGUI.LanzarGUI();
+				EmitirGUI.lanzarGUI();
 			}
 		});
 		mnLicencia.add(mntmEmitir);
