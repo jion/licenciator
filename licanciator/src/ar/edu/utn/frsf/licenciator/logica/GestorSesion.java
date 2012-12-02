@@ -1,5 +1,8 @@
 package ar.edu.utn.frsf.licenciator.logica;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import ar.edu.utn.frsf.licenciator.dao.DaoUsuarios;
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 
@@ -49,19 +52,14 @@ public class GestorSesion {
 
 	private static boolean validarNombre(String nombreUsuario) {
 		// ** Validaciones de nombre de usuario *******************************
-		// Comprobación de longitud
-		if(nombreUsuario.length() < 1 || nombreUsuario.length() > 25) {
-			return false;
+		// Comprobación de longitud y caracteres válidos
+		Pattern pat = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]{0,24}$");
+		Matcher mat = pat.matcher(nombreUsuario);
+		if(mat.find()) {
+			return true;
 		}
 		
-		// Comprobacion de caracteres válidos
-		for (char a : nombreUsuario.toCharArray()) {
-			if(!(Character.isLetter(a) || Character.isDigit(a))) {
-				return false;
-			}
-		}
-		
-		return true;
+		return false;
 	}
 	
 }
