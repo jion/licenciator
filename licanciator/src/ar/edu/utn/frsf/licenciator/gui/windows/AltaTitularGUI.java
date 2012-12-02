@@ -431,7 +431,7 @@ public class AltaTitularGUI extends JFrame {
 		this.getContentPane().add( datosTitularPanel, BorderLayout.SOUTH);
 	}
 	
-	public static void main( String[] args ) {   
+	public static void lanzarGUI() {   
 		AltaTitularGUI ejemplo = new AltaTitularGUI();
 		
 		ejemplo.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
