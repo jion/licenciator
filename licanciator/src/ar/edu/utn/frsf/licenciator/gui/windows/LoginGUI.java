@@ -2,23 +2,21 @@ package ar.edu.utn.frsf.licenciator.gui.windows;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
-import ar.edu.utn.frsf.licenciator.gui.InteractionHandler;
 import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class LoginGUI extends JDialog {
 
@@ -114,7 +112,7 @@ public class LoginGUI extends JDialog {
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
-						InteractionHandler.getInstance().exit();
+						MenuPrincipal.salir();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

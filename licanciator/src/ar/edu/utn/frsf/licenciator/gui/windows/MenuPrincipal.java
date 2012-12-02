@@ -1,38 +1,38 @@
 package ar.edu.utn.frsf.licenciator.gui.windows;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JToolBar;
 import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
-
-import ar.edu.utn.frsf.licenciator.entidades.Usuario;
-
-import javax.swing.JDialog;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 import java.awt.Color;
 import java.awt.Toolkit;
-import javax.swing.ImageIcon;
-import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import javax.swing.Action;
 import java.awt.event.ActionListener;
-import javax.swing.JInternalFrame;
+
 import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 
 public class MenuPrincipal {
 
 	private JFrame frmLicenciator;
-
+	private static MenuPrincipal instancia;
 	/**
 	 * Launch the application.
+	 * 
 	 */
 	private static Usuario usuario;
+	
+
+	protected static MenuPrincipal getInstancia() {
+		return instancia;
+	}
+
+	protected Usuario getUsuario() {
+		return usuario;
+	}
 
 	/**
 	 * Create the application.
@@ -44,8 +44,8 @@ public class MenuPrincipal {
 	
 	public static void lanzarGUI(Usuario usuario2) {
 		try {
-			MenuPrincipal dialog = new MenuPrincipal(usuario2);
-			dialog.frmLicenciator.setVisible(true);
+			instancia = new MenuPrincipal(usuario2);
+			instancia.frmLicenciator.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,5 +122,9 @@ public class MenuPrincipal {
 		JLabel lblUsuario = new JLabel("");
 		lblUsuario.setText("Usuario: " + usuario.getNombre());
 		frmLicenciator.getContentPane().add(lblUsuario, BorderLayout.NORTH);
+	}
+
+	public static void salir() {
+		instancia.frmLicenciator.dispose();
 	}
 }
