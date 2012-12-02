@@ -17,7 +17,7 @@ public class DaoUsuarios {
 		Usuario usuario=null;
 		
 		TypedQuery<Usuario> query =
-				em.createQuery("SELECT u FROM Usuario u WHERE u.nombre = :username",
+				em.createQuery("SELECT u FROM Usuario u WHERE UPPER(u.nombre) = UPPER(:username)",
 						Usuario.class);
 		query.setParameter("username", nombre);
 
