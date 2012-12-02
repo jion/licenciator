@@ -60,7 +60,7 @@ public class EmitirGUI extends JDialog{
 		btnBuscar.addActionListener(new ActionListener() {
 			/* Busqueda del titular */
 			public void actionPerformed(ActionEvent arg0) {
-				if (textNroDoc.getText()!=null){
+				if (EmitirLicencia.dniValido(textNroDoc.getText())){
 					titular = EmitirLicencia.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
 					if (titular != null){
 						textApellido.setText(titular.getApellido());
@@ -75,6 +75,10 @@ public class EmitirGUI extends JDialog{
 						}
 						textFactor.setText(titular.getTipoSanguineo().getGrupo() + titular.getTipoSanguineo().getFactor());
 					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "El número que ha ingresado es incorrecto", "Número de documento no válido", JOptionPane.ERROR_MESSAGE);	
 				}
 			}
 			
@@ -161,10 +165,12 @@ public class EmitirGUI extends JDialog{
 		textNroDoc.setColumns(10);
 		
 		JButton btnEmitir = new JButton("Emitir");
+		
+		/* Cuando se pulsa el boton Emitir */
 		btnEmitir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/*TODO*/
-				if(textClase.getText() != null)
+				String clase = textClase.getText();
+				if(EmitirLicencia.claseValida(clase))
 				{
 					licencia = EmitirLicencia.emitirLicencia(titular, textClase.getText(), textObs.getText());
 					if (licencia != null)
@@ -172,11 +178,21 @@ public class EmitirGUI extends JDialog{
 						textNroLic.setText(licencia.getNrolicencia());
 						textFE.setText(licencia.getFechaEmision().toString());
 						textFV.setText(licencia.getFechaVencimiento().toString());
+						
+						/*Deshabilitamos los campos editables*/
+						textTipoDoc.setEnabled(false);
+						textNroDoc.setEnabled(false);
+						textClase.setEnabled(false);
+						textObs.setEnabled(false);
+						
 					} else {
-						JOptionPane.showMessageDialog(null, "La licencia requerida no se puede emitir", "Licencia invalida", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La licencia requerida no se puede emitir", "Licencia no válida", JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				//JOptionPane.showMessageDialog(null, "La licencia requerida no se puede emitir", "La licencia requerida no se puede emitir", JOptionPane.ERROR_MESSAGE);
+				else
+				{
+					JOptionPane.showMessageDialog(null, "La clase que ha ingresado no corresponde a una clase de licencia", "Clase de licencia no válida", JOptionPane.ERROR_MESSAGE);	
+				}
 			}
 		});
 		

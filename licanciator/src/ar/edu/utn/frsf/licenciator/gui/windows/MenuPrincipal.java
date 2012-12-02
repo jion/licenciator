@@ -22,6 +22,8 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
+import javax.swing.JInternalFrame;
+import javax.swing.JDesktopPane;
 
 public class MenuPrincipal {
 
@@ -59,6 +61,11 @@ public class MenuPrincipal {
 		frmLicenciator.setBounds(100, 100, 450, 300);
 		frmLicenciator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		
+		JDesktopPane desktopPane = new JDesktopPane();
+		desktopPane.setBackground(Color.WHITE);
+		frmLicenciator.getContentPane().add(desktopPane, BorderLayout.CENTER);
+		
 		JMenuBar menuBar = new JMenuBar();
 		
 		frmLicenciator.setJMenuBar(menuBar);
@@ -69,7 +76,7 @@ public class MenuPrincipal {
 		JMenuItem mntmAltaTitular = new JMenuItem("Alta Titular");
 		mntmAltaTitular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AltaTitularGUI.lanzarGUI();
+				//AltaTitularGUI.lanzarGUI();
 			}
 		});
 		mnDarDeAlta.add(mntmAltaTitular);
