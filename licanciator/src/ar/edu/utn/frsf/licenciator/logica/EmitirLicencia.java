@@ -15,44 +15,44 @@ import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 
 public class EmitirLicencia {
-	
+
 	/* Constante */
 	final static Calendar FECHA_ACTUAL = Calendar.getInstance();
-	
+
 	private EmitirLicencia() {
 		super();
 	}
-	
+
 	public static Licencia emitirLicencia( Titular titular, String clas, String obs ) {
-		
+
 		/* Validaciones de interfaz */
 		if(!claseValida(clas))
 			return null;
-		
+
 		Calendar emision; 
 		Calendar venc;
 
 		String nro;
-		
+
 		long nroDoc = titular.getNroDoc();
-		
+
 		ClaseLicencia clase = DaoClaseLicencia.read( clas );
-		
+
 		/* Se genera el número de licencia */
 		nro = "3" + Long.toString( nroDoc ) + clase.getTipo();
-		
+
 		/* Fecha de emision: es la fecha actual */
 		emision = new GregorianCalendar();
 		emision.set( Calendar.MINUTE, 0 );
 		emision.set( Calendar.SECOND, 0 );
 		emision.set( Calendar.MILLISECOND, 0 );
-		
+
 		/* Se calcula la fecha de vigencia */
 		venc = calcularVigencia( titular.getFechaNac(), titular.getLicencias().isEmpty() );
-		
+
 		/* Se crea la licencia a partir de los datos calculados */
 		Licencia licencia = new Licencia( titular, clase, nro, emision, venc, obs );
-		
+
 		/* Se verifica la licencia, si todo está ok se retorna la misma,
 		 * si no, retornamos null.
 		 */
@@ -61,80 +61,102 @@ public class EmitirLicencia {
 		else 
 			return null;
 	}
-	
+
 	public static Titular buscarTitular( String tip, long nro ) {		
 		TipoDoc tipo = DaoTipoDoc.read( tip );
 		return DaoTitular.read( tipo, nro );
 	}
-	
+
 	public static void guardarLicencia( Licencia licencia ) {
 		DaoLicencia.create( licencia );
 	}
-	
+
 	/* Verificar licencia segun clase y edad */
 	public static Boolean verificarLicencia( Licencia licencia ) {
+
 		/* Si no cumple con la edad minima para esa clase, retorno false */
-		int edad = calcularEdad( licencia.getTitular().getFechaNac() );
-		if( edad < licencia.getClaseLicencia().getEdadMinima() ) {
+		int edad = calcularEdad( licencia.getTitular().getFechaNac() );		
+		if( edad < licencia.getClaseLicencia().getEdadMinima() ) 
+		{
 			return false;
-		} else {
-			String clase = licencia.getClaseLicencia().getTipo();
-			
-			if( clase.equals( "C" ) || clase.equals( "D" ) || clase.equals( "E" ) ) {
-				/* Obtenemos todas las licencias de la persona */
-				
-				List<Licencia> licencias = licencia.getTitular().getLicencias();
-				
-				/* Si tiene mas de 65, no puede obtenerla por primera vez */
-				if( edad >= 65 ) {
-			        Iterator<Licencia> it = licencias.iterator();
-			        
-			        Boolean puede = false;
-			        
-			        while( it.hasNext() && !puede ) {
-			          Licencia lic = (Licencia)it.next();
-			          
-			          if( lic.getClaseLicencia().getTipo().equals(clase) )
-			        	  puede = true;
-			        }
-			        
-			        if( !puede )
-			        	return false;
-				}
-				
-				/* Y recorremos para ver si previamente tenia una B */
-		        Iterator<Licencia> it = licencias.iterator();
-		        
-		        while( it.hasNext() ) {
-		          Licencia lic = ( Licencia )it.next();
-		          
-		          if( lic.getClaseLicencia().getTipo().equals( "B" ) ) {  
-		        	  /* La obtuvo minimo un año antes? */
-		        	  int anyos = calcularEdad( lic.getFechaEmision() );
-		        	  
-		        	  if( anyos >= 1 )
-		        		  return true;
-		          }
-		        }
-		        
-		        return false;
-			}
-			
-			return true;
 		}
+
+		/* Verificamos que no tenga una licencia de la misma clase que este vigente */
+		List<Licencia> licencias = licencia.getTitular().getLicencias();
+		Iterator<Licencia> it = licencias.iterator();
+		String clase = licencia.getClaseLicencia().getTipo();
+
+		Calendar fechaActual = Calendar.getInstance();
+
+		while(it.hasNext())
+		{
+			String claseExistente = ((Licencia)it.next()).getClaseLicencia().getTipo(); 
+			Calendar fechaVencimiento = ((Licencia)it.next()).getFechaVencimiento();
+			if(claseExistente.equals(clase) && fechaVencimiento.after(fechaActual))
+			{
+				return false;
+			}
+		}
+
+		/* Verificaciones para conductores profesionales */
+		if( clase.equals( "C" ) || clase.equals( "D" ) || clase.equals( "E" ) ) {
+
+			/* Si tiene mas de 65, no puede obtenerla por primera vez */
+			if( edad >= 65 ) {
+				it = licencias.iterator();
+
+				Boolean puede = false;
+				/* Se recorre el conjunto de licencias del titular buscando una
+				 * licencia profesional ya existente
+				 */
+				while( it.hasNext() && !puede ) {
+					Licencia lic = (Licencia)it.next();
+					String claseExistente = lic.getClaseLicencia().getTipo();
+					if( claseExistente.equals( "C" ) || 
+						claseExistente.equals( "D" ) ||
+						claseExistente.equals( "E" ) )
+					{
+						puede = true;
+					}
+				}
+
+				if( !puede )
+					return false;
+			} 
+
+			/* Y recorremos para ver si previamente tenia una B */
+			it = licencias.iterator();
+
+			while( it.hasNext() ) {
+				Licencia lic = ( Licencia )it.next();
+
+				if( lic.getClaseLicencia().getTipo().equals( "B" ) ) 
+				{  
+					/* La obtuvo minimo un año antes? */
+					int anyos = calcularEdad( lic.getFechaEmision() );
+
+					if( anyos >= 1 )
+						return true;
+				}
+			}
+
+			return false;
+		}
+
+		return true;
 	}
-	
+
 	public static Calendar calcularVigencia( Calendar fechaNacimientoCalendar, boolean primeraVez  ) {		
 		int edad = calcularEdad( fechaNacimientoCalendar );
 		int anio = FECHA_ACTUAL.get( Calendar.YEAR );
 
 		/* Variable para calcular el ajuste por los 6 meses antes o despues del cumpleaños */
 		int ajuste = 0;
-		
+
 		Calendar fechaCumpleanosCalendar = Calendar.getInstance();
-	
+
 		fechaCumpleanosCalendar.set( anio, ( fechaNacimientoCalendar.get( Calendar.MONTH ) - 1 ), fechaNacimientoCalendar.get( Calendar.DATE ) );
-		
+
 		/* Pregunto si ya paso o no la fecha de cumpleaños */
 		if( FECHA_ACTUAL.get( Calendar.MONTH ) > fechaNacimientoCalendar.get( Calendar.MONTH ) ) {
 			/* Si ya paso, pregunto si fue hace 6 meses */
@@ -157,7 +179,7 @@ public class EmitirLicencia {
 				ajuste = 1;
 			}
 		}
-		
+
 		if( edad < 21 ) {
 			if( primeraVez ) {		
 				anio += 1;
@@ -173,17 +195,17 @@ public class EmitirLicencia {
 		} else {
 			anio += 1;
 		}
-		
+
 		Calendar fechaVigenciaCalendar = Calendar.getInstance();
-		
+
 		fechaVigenciaCalendar.set( ( anio + ajuste ), fechaNacimientoCalendar.get( Calendar.MONTH ), fechaNacimientoCalendar.get( Calendar.DATE ) );
 		fechaVigenciaCalendar.set( Calendar.MINUTE, 0 );
 		fechaVigenciaCalendar.set( Calendar.SECOND, 0 );
 		fechaVigenciaCalendar.set( Calendar.MILLISECOND, 0 );
-		
+
 		return fechaVigenciaCalendar;
 	}
-	
+
 	/* Metodos de validacion */
 	/* Verifica si una String determinado es o no es una clase */
 	public static Boolean claseValida( String clase ) {
@@ -199,18 +221,18 @@ public class EmitirLicencia {
 				return false;
 		return true;
 	}
-	
+
 	/* Calcula la edad en años de alguien que nacio en la fecha */
 	private static int calcularEdad( Calendar fechaNacimientoCalendar ) {	
 		/* Se restan la fecha actual y la fecha de nacimiento */
 		int anio = FECHA_ACTUAL.get( Calendar.YEAR ) - fechaNacimientoCalendar.get( Calendar.YEAR );
 		int mes = FECHA_ACTUAL.get( Calendar.MONTH ) - fechaNacimientoCalendar.get( Calendar.MONTH );
 		int dia = FECHA_ACTUAL.get( Calendar.DATE ) - fechaNacimientoCalendar.get( Calendar.DATE );
-		
+
 		/* Se ajusta el año dependiendo el mes y el dia */
 		if( mes < 0 || ( mes == 0 && dia < 0 ) )
 			anio--;
-		
+
 		return anio;
 	}
 }
