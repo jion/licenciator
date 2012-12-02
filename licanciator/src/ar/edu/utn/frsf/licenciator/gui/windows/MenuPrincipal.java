@@ -1,27 +1,17 @@
 package ar.edu.utn.frsf.licenciator.gui.windows;
 
-import java.awt.EventQueue;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JToolBar;
-import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
-
-import javax.swing.JDialog;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
-import javax.swing.AbstractAction;
-import java.awt.event.ActionEvent;
-import javax.swing.Action;
-import java.awt.event.ActionListener;
 
 public class MenuPrincipal {
 
