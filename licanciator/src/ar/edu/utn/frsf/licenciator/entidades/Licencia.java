@@ -81,9 +81,10 @@ public class Licencia {
 		}
 		return super.equals(obj);
 	}
-	
-	/*public boolean equals(Licencia l)
-	{
-		return (this.observaciones.equals(l.observaciones));}*/
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
 } 
 

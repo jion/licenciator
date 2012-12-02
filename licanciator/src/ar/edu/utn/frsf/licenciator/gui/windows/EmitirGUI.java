@@ -1,26 +1,31 @@
 package ar.edu.utn.frsf.licenciator.gui.windows;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Dimension;
 
 public class EmitirGUI extends JDialog {
 	
@@ -32,16 +37,20 @@ public class EmitirGUI extends JDialog {
 	private JTextField textNombre;
 	private JTextField textDomicilio;
 	private JTextField textLocalidad;
-	private JTextField textNac;
+	private JFormattedTextField textNac;
 	private JTextField textDonante;
 	private JTextField textFactor;
 	private JTextField textClase;
 	private JTextField textNroLic;
-	private JTextField textFE;
-	private JTextField textFV;
+	private JFormattedTextField textFE;
+	private JFormattedTextField textFV;
 	private JTextField textNroDoc;
 	private JTextPane textObs;
-
+	private JComboBox<String> textTipoDoc;
+	private JButton btnCrearLic;
+	private JButton btnEmitirLic;
+	private JButton btnBuscar;
+	
 	/**
 	 * Lanza una nueva instancia de la ventana de Alta Usuario.
 	 * 
@@ -62,6 +71,7 @@ public class EmitirGUI extends JDialog {
 	 * Create the panel.
 	 */
 	public EmitirGUI() {
+		
 		setMinimumSize(new Dimension(430, 550));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Emitir Licencia");
@@ -94,13 +104,19 @@ public class EmitirGUI extends JDialog {
 		gbc_label_14.gridy = 0;
 		panel_2.add(label_14, gbc_label_14);
 		
-		final JComboBox textTipoDoc = new JComboBox();
+		textTipoDoc = new JComboBox<String>();
+		// Completo el comboBox con los tipos de documento
+		for(String a: EmitirLicencia.obtenerTiposDocumento()) {
+			textTipoDoc.addItem(a);
+		}
 		GridBagConstraints gbc_textTipoDoc = new GridBagConstraints();
 		gbc_textTipoDoc.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textTipoDoc.insets = new Insets(0, 0, 5, 5);
 		gbc_textTipoDoc.gridx = 1;
 		gbc_textTipoDoc.gridy = 0;
 		panel_2.add(textTipoDoc, gbc_textTipoDoc);
+		
+		
 		
 		JLabel label_15 = new JLabel("Nro Documento:");
 		GridBagConstraints gbc_label_15 = new GridBagConstraints();
@@ -119,31 +135,23 @@ public class EmitirGUI extends JDialog {
 		gbc_textNroDoc.gridy = 1;
 		panel_2.add(textNroDoc, gbc_textNroDoc);
 		
-		JButton button = new JButton("Buscar");
-		button.addActionListener(new ActionListener() {
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (EmitirLicencia.dniValido(textNroDoc.getText())){
 					titular = EmitirLicencia.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
 					if (titular != null){
-						textApellido.setText(titular.getApellido());
-						textNombre.setText(titular.getNombre());
-						textDomicilio.setText(titular.getDomicilio());
-						textLocalidad.setText(titular.getLocalidad());
-						textNac.setText(titular.getFechaNac().toString());
-						if (titular.getDonante()){
-							textDonante.setText("Si");
-						} else {
-							textDonante.setText("No");
-						}
-						textFactor.setText(titular.getTipoSanguineo().getGrupo() + titular.getTipoSanguineo().getFactor());
+						setTitular();
 					}
 					else{
-						JOptionPane.showMessageDialog(null, "El titular ingresado no existe.\nRevise los datos ingresados o vea la opción Dar de alta -> Alta Titular del menú principal", "Error", JOptionPane.ERROR_MESSAGE);	
+						JOptionPane.showMessageDialog(null, "El titular ingresado no existe.\nRevise los datos ingresados o vea la opción Dar de alta -> Alta Titular del menú principal", "Error", JOptionPane.ERROR_MESSAGE);
+						clearTitular();
 					}
 				}
 				else
-				{
-					JOptionPane.showMessageDialog(null, "El número de documento que ha ingresado no es válido", "Error", JOptionPane.ERROR_MESSAGE);	
+				{ // Si no existe el titular, borro todos los campos.
+					JOptionPane.showMessageDialog(null, "El número de documento que ha ingresado no es válido", "Error", JOptionPane.ERROR_MESSAGE);
+					clearTitular();
 				}
 			}
 		});
@@ -151,7 +159,7 @@ public class EmitirGUI extends JDialog {
 		gbc_button.insets = new Insets(0, 0, 0, 5);
 		gbc_button.gridx = 2;
 		gbc_button.gridy = 1;
-		panel_2.add(button, gbc_button);
+		panel_2.add(btnBuscar, gbc_button);
 		
 		JSeparator separator_1 = new JSeparator();
 		GridBagConstraints gbc_separator_1 = new GridBagConstraints();
@@ -193,6 +201,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_1, gbc_label_1);
 		
 		textApellido = new JTextField();
+		textApellido.setEnabled(false);
 		textApellido.setColumns(10);
 		GridBagConstraints gbc_textApellido = new GridBagConstraints();
 		gbc_textApellido.fill = GridBagConstraints.HORIZONTAL;
@@ -210,6 +219,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_2, gbc_label_2);
 		
 		textNombre = new JTextField();
+		textNombre.setEnabled(false);
 		textNombre.setColumns(10);
 		GridBagConstraints gbc_textNombre = new GridBagConstraints();
 		gbc_textNombre.fill = GridBagConstraints.HORIZONTAL;
@@ -227,6 +237,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_3, gbc_label_3);
 		
 		textDomicilio = new JTextField();
+		textDomicilio.setEnabled(false);
 		textDomicilio.setColumns(10);
 		GridBagConstraints gbc_textDomicilio = new GridBagConstraints();
 		gbc_textDomicilio.fill = GridBagConstraints.HORIZONTAL;
@@ -244,6 +255,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_4, gbc_label_4);
 		
 		textLocalidad = new JTextField();
+		textLocalidad.setEnabled(false);
 		textLocalidad.setColumns(10);
 		GridBagConstraints gbc_textLocalidad = new GridBagConstraints();
 		gbc_textLocalidad.fill = GridBagConstraints.HORIZONTAL;
@@ -260,7 +272,8 @@ public class EmitirGUI extends JDialog {
 		gbc_label_5.gridy = 4;
 		panel.add(label_5, gbc_label_5);
 		
-		textNac = new JTextField();
+		textNac = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));   
+		textNac.setEnabled(false);
 		textNac.setColumns(10);
 		GridBagConstraints gbc_textNac = new GridBagConstraints();
 		gbc_textNac.fill = GridBagConstraints.HORIZONTAL;
@@ -278,6 +291,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_6, gbc_label_6);
 		
 		textDonante = new JTextField();
+		textDonante.setEnabled(false);
 		textDonante.setColumns(10);
 		GridBagConstraints gbc_textDonante = new GridBagConstraints();
 		gbc_textDonante.fill = GridBagConstraints.HORIZONTAL;
@@ -295,6 +309,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_7, gbc_label_7);
 		
 		textFactor = new JTextField();
+		textFactor.setEnabled(false);
 		textFactor.setColumns(10);
 		GridBagConstraints gbc_textFactor = new GridBagConstraints();
 		gbc_textFactor.fill = GridBagConstraints.HORIZONTAL;
@@ -342,6 +357,7 @@ public class EmitirGUI extends JDialog {
 		panel_1.add(label_9, gbc_label_9);
 		
 		textClase = new JTextField();
+		textClase.setEnabled(false);
 		textClase.setColumns(10);
 		GridBagConstraints gbc_textClase = new GridBagConstraints();
 		gbc_textClase.fill = GridBagConstraints.HORIZONTAL;
@@ -350,10 +366,11 @@ public class EmitirGUI extends JDialog {
 		gbc_textClase.gridy = 0;
 		panel_1.add(textClase, gbc_textClase);
 		
-		JButton btnEmitir = new JButton(">");
+		btnCrearLic = new JButton(">");
+		btnCrearLic.setEnabled(false);
 		
 		/* Cuando se pulsa el boton > */
-		btnEmitir.addActionListener(new ActionListener() {
+		btnCrearLic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String clase = textClase.getText();
 				if(EmitirLicencia.claseValida(clase))
@@ -361,16 +378,7 @@ public class EmitirGUI extends JDialog {
 					licencia = EmitirLicencia.emitirLicencia(titular, textClase.getText(), textObs.getText());
 					if (licencia != null)
 					{
-						textNroLic.setText(licencia.getNrolicencia());
-						textFE.setText(licencia.getFechaEmision().toString());
-						textFV.setText(licencia.getFechaVencimiento().toString());
-
-						/*Deshabilitamos los campos editables*/
-						textTipoDoc.setEnabled(false);
-						textNroDoc.setEnabled(false);
-						textClase.setEnabled(false);
-						textObs.setEnabled(false);
-
+						setLicencia();
 					} else {
 						JOptionPane.showMessageDialog(null, "No es posible emitir la licencia solicitada para este titular.", "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -385,7 +393,7 @@ public class EmitirGUI extends JDialog {
 		gbc_btnEmitir.insets = new Insets(0, 0, 5, 0);
 		gbc_btnEmitir.gridx = 2;
 		gbc_btnEmitir.gridy = 0;
-		panel_1.add(btnEmitir, gbc_btnEmitir);
+		panel_1.add(btnCrearLic, gbc_btnEmitir);
 		
 		JLabel label_10 = new JLabel("N\u00FAmero:");
 		GridBagConstraints gbc_label_10 = new GridBagConstraints();
@@ -396,6 +404,7 @@ public class EmitirGUI extends JDialog {
 		panel_1.add(label_10, gbc_label_10);
 		
 		textNroLic = new JTextField();
+		textNroLic.setEnabled(false);
 		textNroLic.setColumns(10);
 		GridBagConstraints gbc_textNroLic = new GridBagConstraints();
 		gbc_textNroLic.fill = GridBagConstraints.HORIZONTAL;
@@ -412,7 +421,8 @@ public class EmitirGUI extends JDialog {
 		gbc_label_11.gridy = 2;
 		panel_1.add(label_11, gbc_label_11);
 		
-		textFE = new JTextField();
+		textFE = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy")); 
+		textFE.setEnabled(false);
 		textFE.setColumns(10);
 		GridBagConstraints gbc_textFE = new GridBagConstraints();
 		gbc_textFE.fill = GridBagConstraints.HORIZONTAL;
@@ -429,7 +439,8 @@ public class EmitirGUI extends JDialog {
 		gbc_label_12.gridy = 3;
 		panel_1.add(label_12, gbc_label_12);
 		
-		textFV = new JTextField();
+		textFV =  new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy")); 
+		textFV.setEnabled(false);
 		textFV.setColumns(10);
 		GridBagConstraints gbc_textFV = new GridBagConstraints();
 		gbc_textFV.fill = GridBagConstraints.HORIZONTAL;
@@ -447,6 +458,8 @@ public class EmitirGUI extends JDialog {
 		panel_1.add(label_13, gbc_label_13);
 		
 		textObs = new JTextPane();
+		textObs.setEnabled(false);
+		textObs.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		GridBagConstraints gbc_textObs = new GridBagConstraints();
 		gbc_textObs.insets = new Insets(0, 0, 0, 5);
 		gbc_textObs.fill = GridBagConstraints.BOTH;
@@ -471,25 +484,90 @@ public class EmitirGUI extends JDialog {
 		getContentPane().add(panel_4, gbc_panel_4);
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 		
-		JButton btnAceptar = new JButton("Emitir");
-		btnAceptar.addActionListener(new ActionListener() {
+		btnEmitirLic = new JButton("Emitir");
+		btnEmitirLic.setEnabled(false);
+		btnEmitirLic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (licencia !=null)
 				{
+					licencia.setObservaciones(textObs.getText());
 					EmitirLicencia.guardarLicencia(licencia);
+					//TODO: Como sabe si la persistio bien?
+					dispose();
 				}
 			}
 		});
-		panel_4.add(btnAceptar);
+		panel_4.add(btnEmitirLic);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO: Dispose.
+				dispose();
 			}
 		});
 		panel_4.add(btnCancelar);
 
 	}
 
+	private void setTitular() {
+		textApellido.setText(titular.getApellido());
+		textNombre.setText(titular.getNombre());
+		textDomicilio.setText(titular.getDomicilio());
+		textLocalidad.setText(titular.getLocalidad());
+		textNac.setValue(titular.getFechaNac().getTime());
+		if (titular.getDonante()){
+			textDonante.setText("Si");
+		} else {
+			textDonante.setText("No");
+		}
+		textFactor.setText(titular.getTipoSanguineo().getGrupo() + titular.getTipoSanguineo().getFactor());
+		
+		// Habilito los campos correspondientes de la seccion "Datos de la licencia"
+		textClase.setEnabled(true);
+		textObs.setEnabled(true);
+		btnCrearLic.setEnabled(true);
+	}
+	
+	private void clearTitular() {
+		textApellido.setText("");
+		textNombre.setText("");
+		textDomicilio.setText("");
+		textLocalidad.setText("");
+		textNac.setText("");
+		textDonante.setText("");
+		textFactor.setText("");
+		textClase.setText("");
+		textObs.setText("");
+		
+		// Deshabilito los campos correspondientes de la seccion "Datos de la licencia"
+		textClase.setEnabled(false);
+		textObs.setEnabled(false);
+		btnCrearLic.setEnabled(false);
+	}
+	
+	private void setLicencia() {
+		textNroLic.setText(licencia.getNrolicencia());
+		textFE.setValue(licencia.getFechaEmision().getTime());
+		textFV.setValue(licencia.getFechaVencimiento().getTime());
+
+		/*Deshabilitamos los campos editables*/
+		textTipoDoc.setEnabled(false);
+		textNroDoc.setEnabled(false);
+		textClase.setEnabled(false);
+		
+		/* Deshabilito el boton de buscar titular */
+		btnBuscar.setEnabled(false);
+		
+		/* Deshabilito el boton de crear licencia ( > )*/
+		btnCrearLic.setEnabled(false);
+		
+		/* Habilitamos el boton de Emitir Licencia */
+		btnEmitirLic.setEnabled(true);
+	}
+	
+	private void ClearLicencia() {
+		
+	}
+	
+	
 }

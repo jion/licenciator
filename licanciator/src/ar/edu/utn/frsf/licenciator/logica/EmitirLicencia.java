@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import ar.edu.utn.frsf.licenciator.dao.DaoClaseLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoLicencia;
@@ -90,8 +91,9 @@ public class EmitirLicencia {
 
 		while(it.hasNext())
 		{
-			String claseExistente = ((Licencia)it.next()).getClaseLicencia().getTipo(); 
-			Calendar fechaVencimiento = ((Licencia)it.next()).getFechaVencimiento();
+			Licencia licenciaExistente = (Licencia) it.next();
+			String claseExistente = licenciaExistente.getClaseLicencia().getTipo(); 
+			Calendar fechaVencimiento = licenciaExistente.getFechaVencimiento();
 			if(claseExistente.equals(clase) && fechaVencimiento.after(fechaActual))
 			{
 				return false;
@@ -222,6 +224,21 @@ public class EmitirLicencia {
 		return true;
 	}
 
+	/* Devuelve una lista de string de todos los tipos de documentos existentes
+	 * en la BD.
+	 */
+	public static List<String> obtenerTiposDocumento() {
+		List<TipoDoc> lista = DaoTipoDoc.readAll();
+		
+		List<String> tipos = new Vector<String>();
+		
+		for(TipoDoc a: lista) {
+			tipos.add(a.getTipo());
+		}
+		
+		return tipos;
+	}
+	
 	/* Calcula la edad en años de alguien que nacio en la fecha */
 	private static int calcularEdad( Calendar fechaNacimientoCalendar ) {	
 		/* Se restan la fecha actual y la fecha de nacimiento */
