@@ -25,6 +25,10 @@ public class EmitirLicencia {
 	
 	public static Licencia emitirLicencia( Titular titular, String clas, String obs ) {
 		
+		/* Validaciones de interfaz */
+		if(!claseValida(clas))
+			return null;
+		
 		Calendar emision; 
 		Calendar venc;
 
@@ -178,6 +182,22 @@ public class EmitirLicencia {
 		fechaVigenciaCalendar.set( Calendar.MILLISECOND, 0 );
 		
 		return fechaVigenciaCalendar;
+	}
+	
+	/* Metodos de validacion */
+	/* Verifica si una String determinado es o no es una clase */
+	public static Boolean claseValida( String clase ) {
+		if(clase.isEmpty()) return false;
+		return (DaoClaseLicencia.read( clase ) != null );
+	}
+	/* Verifica que un dni tenga 7 u 8 caracteres y que sus componentes solo sean numeros*/
+	public static Boolean dniValido( String dni ) {
+		if(!(dni.length() == 7 || dni.length() == 8))
+			return false;
+		for(char a : dni.toCharArray())
+			if ('0' > a || a > '9')
+				return false;
+		return true;
 	}
 	
 	/* Calcula la edad en años de alguien que nacio en la fecha */

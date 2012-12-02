@@ -1,17 +1,29 @@
 package ar.edu.utn.frsf.licenciator.gui.windows;
 
-import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
+import javax.swing.JToolBar;
+import java.awt.BorderLayout;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
+
+import javax.swing.JDialog;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
+import java.awt.event.ActionListener;
+import javax.swing.JInternalFrame;
+import javax.swing.JDesktopPane;
 
 public class MenuPrincipal {
 
@@ -49,6 +61,11 @@ public class MenuPrincipal {
 		frmLicenciator.setBounds(100, 100, 450, 300);
 		frmLicenciator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		
+		JDesktopPane desktopPane = new JDesktopPane();
+		desktopPane.setBackground(Color.WHITE);
+		frmLicenciator.getContentPane().add(desktopPane, BorderLayout.CENTER);
+		
 		JMenuBar menuBar = new JMenuBar();
 		
 		frmLicenciator.setJMenuBar(menuBar);
@@ -59,7 +76,7 @@ public class MenuPrincipal {
 		JMenuItem mntmAltaTitular = new JMenuItem("Alta Titular");
 		mntmAltaTitular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AltaTitularGUI.lanzarGUI();
+				//AltaTitularGUI.lanzarGUI();
 			}
 		});
 		mnDarDeAlta.add(mntmAltaTitular);
