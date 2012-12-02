@@ -2,11 +2,11 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="licenciator" transaction-type="RESOURCE_LOCAL">
 		<class>ar.edu.utn.frsf.licenciator.entidades.Usuario</class>
-		<class>ar.edu.utn.frsf.licenciator.entidades.Titular</class>
 		<class>ar.edu.utn.frsf.licenciator.entidades.TipoSanguineo</class>
 		<class>ar.edu.utn.frsf.licenciator.entidades.TipoDoc</class>
 		<class>ar.edu.utn.frsf.licenciator.entidades.Licencia</class>
 		<class>ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia</class>
+		<class>ar.edu.utn.frsf.licenciator.entidades.Titular</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver"

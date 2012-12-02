@@ -43,8 +43,7 @@ public class MenuPrincipal {
 	public static void lanzarGUI(Usuario usuario2) {
 		try {
 			MenuPrincipal dialog = new MenuPrincipal(usuario2);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+			dialog.frmLicenciator.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -44,7 +44,7 @@ public class EmitirLicencia {
 		emision.set( Calendar.MILLISECOND, 0 );
 		
 		/* Se calcula la fecha de vigencia */
-		venc = calcularVigencia( titular.getFechaNac(), DaoLicencia.read( titular ).isEmpty() );
+		venc = calcularVigencia( titular.getFechaNac(), titular.getLicencias().isEmpty() );
 		
 		/* Se crea la licencia a partir de los datos calculados */
 		Licencia licencia = new Licencia( titular, clase, nro, emision, venc, obs );

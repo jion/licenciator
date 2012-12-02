@@ -3,6 +3,7 @@ package ar.edu.utn.frsf.licenciator.entidades;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -12,6 +13,8 @@ import javax.persistence.TemporalType;
 public class Licencia {
 	
 	@Id
+	@GeneratedValue
+	int id;
 	private String nroLicencia;
 	@ManyToOne
 	private Titular titular;
