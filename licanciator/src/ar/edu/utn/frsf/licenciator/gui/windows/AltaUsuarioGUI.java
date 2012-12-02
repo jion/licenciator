@@ -56,7 +56,7 @@ public class AltaUsuarioGUI extends JDialog {
 		// compilamos el patron
 		Pattern pat = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]{0,24}$");
 		Matcher mat = pat.matcher(nombreUsuario);
-		if(mat.find()) {
+		if(!mat.find()) {
 			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
 					"Nombre de usuario inválido. El nombre solo deberá contener" +
 					" letras y/o numeros\ny un tamaño máximo de 25 caracteres.",
