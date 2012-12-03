@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class ClaseLicencia {
-	
+
 	@Id
 	private String tipo;
 	private String descripcion;
@@ -47,6 +47,11 @@ public class ClaseLicencia {
 		return costo;
 	}
 	
+	@Override
+	public String toString() {
+		return tipo;
+	}
+
 	public boolean equals(ClaseLicencia clas)
 	{
 		return (tipo.equals(clas.tipo) && descripcion.equalsIgnoreCase(clas.descripcion) && edadMinima==clas.edadMinima && costo==clas.costo);

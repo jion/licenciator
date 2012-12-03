@@ -24,11 +24,8 @@ public class EmitirLicencia {
 		super();
 	}
 
-	public static Licencia emitirLicencia( Titular titular, String clas, String obs ) {
+	public static Licencia emitirLicencia( Titular titular, ClaseLicencia clase, String obs ) {
 
-		/* Validaciones de interfaz */
-		if(!claseValida(clas))
-			return null;
 
 		Calendar emision; 
 		Calendar venc;
@@ -36,8 +33,6 @@ public class EmitirLicencia {
 		String nro;
 
 		long nroDoc = titular.getNroDoc();
-
-		ClaseLicencia clase = DaoClaseLicencia.read( clas );
 
 		/* Se genera el número de licencia */
 		nro = "3" + Long.toString( nroDoc ) + clase.getTipo();
@@ -72,7 +67,7 @@ public class EmitirLicencia {
 		DaoLicencia.create( licencia );
 	}
 
-	/* Verificar licencia segun clase y edad */
+	/** Verifica un objeto licencia antes de persistirlo en la base de datos segun clase y edad */
 	public static Boolean verificarLicencia( Licencia licencia ) {
 
 		/* Si no cumple con la edad minima para esa clase, retorno false */
@@ -208,22 +203,6 @@ public class EmitirLicencia {
 		return fechaVigenciaCalendar;
 	}
 
-	/* Metodos de validacion */
-	/* Verifica si una String determinado es o no es una clase */
-	public static Boolean claseValida( String clase ) {
-		if(clase.isEmpty()) return false;
-		return (DaoClaseLicencia.read( clase ) != null );
-	}
-	/* Verifica que un dni tenga 7 u 8 caracteres y que sus componentes solo sean numeros*/
-	public static Boolean dniValido( String dni ) {
-		if(!(dni.length() == 7 || dni.length() == 8))
-			return false;
-		for(char a : dni.toCharArray())
-			if ('0' > a || a > '9')
-				return false;
-		return true;
-	}
-
 	/* Devuelve una lista de string de todos los tipos de documentos existentes
 	 * en la BD.
 	 */
@@ -251,5 +230,9 @@ public class EmitirLicencia {
 			anio--;
 
 		return anio;
+	}
+
+	public static List<ClaseLicencia> obtenerTiposDeLicencia() {
+		return DaoClaseLicencia.readAll();
 	}
 }

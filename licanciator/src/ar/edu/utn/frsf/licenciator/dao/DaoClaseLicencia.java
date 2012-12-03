@@ -1,5 +1,7 @@
 package ar.edu.utn.frsf.licenciator.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import ar.edu.utn.frsf.licenciator.entidades.*;
@@ -24,5 +26,15 @@ public class DaoClaseLicencia {
 			licencia = query.getSingleResult();
 		
 		return licencia;
+	}
+	
+	public static List<ClaseLicencia> readAll() {
+		EntityManager em = EntityManagerManager.getEM();
+		
+		TypedQuery<ClaseLicencia> query =
+				em.createQuery("SELECT l FROM ClaseLicencia l",
+						ClaseLicencia.class);
+		
+		return query.getResultList();
 	}
 }

@@ -23,6 +23,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
@@ -40,7 +41,7 @@ public class EmitirGUI extends JDialog {
 	private JFormattedTextField textNac;
 	private JTextField textDonante;
 	private JTextField textFactor;
-	private JTextField textClase;
+	private JComboBox<ClaseLicencia> textClase;
 	private JTextField textNroLic;
 	private JFormattedTextField textFE;
 	private JFormattedTextField textFV;
@@ -138,7 +139,7 @@ public class EmitirGUI extends JDialog {
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (EmitirLicencia.dniValido(textNroDoc.getText())){
+				if (validar_numero(textNroDoc.getText())) {
 					titular = EmitirLicencia.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
 					if (titular != null){
 						setTitular();
@@ -153,6 +154,14 @@ public class EmitirGUI extends JDialog {
 					JOptionPane.showMessageDialog(null, "El número de documento que ha ingresado no es válido", "Error", JOptionPane.ERROR_MESSAGE);
 					clearTitular();
 				}
+			}
+
+			private boolean validar_numero(String text) {
+				for(char a: text.toCharArray()) {
+					if(a < '0' || a > '9')
+						return false;
+				}
+				return true;
 			}
 		});
 		GridBagConstraints gbc_button = new GridBagConstraints();
@@ -356,9 +365,12 @@ public class EmitirGUI extends JDialog {
 		gbc_label_9.gridy = 0;
 		panel_1.add(label_9, gbc_label_9);
 		
-		textClase = new JTextField();
+		textClase = new JComboBox<ClaseLicencia>();
+		// Completo el comboBox con las distintas clase de licencia
+		for(ClaseLicencia a: EmitirLicencia.obtenerTiposDeLicencia()) {
+			textClase.addItem(a);
+		}
 		textClase.setEnabled(false);
-		textClase.setColumns(10);
 		GridBagConstraints gbc_textClase = new GridBagConstraints();
 		gbc_textClase.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textClase.insets = new Insets(0, 0, 5, 5);
@@ -372,21 +384,15 @@ public class EmitirGUI extends JDialog {
 		/* Cuando se pulsa el boton > */
 		btnCrearLic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String clase = textClase.getText();
-				if(EmitirLicencia.claseValida(clase))
-				{
-					licencia = EmitirLicencia.emitirLicencia(titular, textClase.getText(), textObs.getText());
+
+					licencia = EmitirLicencia.emitirLicencia(titular, (ClaseLicencia)textClase.getSelectedItem(), textObs.getText());
 					if (licencia != null)
 					{
 						setLicencia();
 					} else {
 						JOptionPane.showMessageDialog(null, "No es posible emitir la licencia solicitada para este titular.", "Error", JOptionPane.ERROR_MESSAGE);
 					}
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null, "La clase que ha ingresado no corresponde a una clase de licencia válida", "Error", JOptionPane.ERROR_MESSAGE);	
-				}
+
 			}
 		});
 		GridBagConstraints gbc_btnEmitir = new GridBagConstraints();
@@ -536,7 +542,7 @@ public class EmitirGUI extends JDialog {
 		textNac.setText("");
 		textDonante.setText("");
 		textFactor.setText("");
-		textClase.setText("");
+		textClase.setSelectedIndex(0);
 		textObs.setText("");
 		
 		// Deshabilito los campos correspondientes de la seccion "Datos de la licencia"
@@ -563,10 +569,6 @@ public class EmitirGUI extends JDialog {
 		
 		/* Habilitamos el boton de Emitir Licencia */
 		btnEmitirLic.setEnabled(true);
-	}
-	
-	private void ClearLicencia() {
-		
 	}
 	
 	
