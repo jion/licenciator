@@ -68,14 +68,19 @@ public class EmitirLicencia {
 	/** Verifica un objeto licencia antes de persistirlo en la base de datos segun clase y edad */
 	public static Boolean verificarLicencia( Licencia licencia ) {
 
-		/* Si no cumple con la edad minima para esa clase, retorno false */
+		/* ******************************************************************
+		 * 1- Si no cumple con la edad minima para esa clase, retorno false
+		 * ******************************************************************/
 		int edad = calcularEdad( licencia.getTitular().getFechaNac() );		
 		if( edad < licencia.getClaseLicencia().getEdadMinima() ) 
 		{
 			return false;
 		}
-
-		/* Verificamos que no tenga una licencia de la misma clase que este vigente */
+		
+		/* ******************************************************************
+		 * 2- Verificamos que no tenga una licencia de la misma clase que este
+		 *    vigente
+		 * ******************************************************************/
 		List<Licencia> licencias = licencia.getTitular().getLicencias();
 		Iterator<Licencia> it = licencias.iterator();
 		String clase = licencia.getClaseLicencia().getTipo();
@@ -92,8 +97,10 @@ public class EmitirLicencia {
 				return false;
 			}
 		}
-
-		/* Verificaciones para conductores profesionales */
+		
+		/* ******************************************************************
+		 * 3- Verificaciones para conductores profesionales
+		 * ******************************************************************/
 		if( clase.equals( "C" ) || clase.equals( "D" ) || clase.equals( "E" ) ) {
 
 			/* Si tiene mas de 65, no puede obtenerla por primera vez */
@@ -117,25 +124,26 @@ public class EmitirLicencia {
 
 				if( !puede )
 					return false;
-			} 
-
-			/* Y recorremos para ver si previamente tenia una B */
-			it = licencias.iterator();
-
-			while( it.hasNext() ) {
-				Licencia lic = ( Licencia )it.next();
-
-				if( lic.getClaseLicencia().getTipo().equals( "B" ) ) 
-				{  
-					/* La obtuvo minimo un año antes? */
-					int anyos = calcularEdad( lic.getFechaEmision() );
-
-					if( anyos >= 1 )
-						return true;
+			} else {
+	
+				/* Y recorremos para ver si previamente tenia una B */
+				it = licencias.iterator();
+	
+				while( it.hasNext() ) {
+					Licencia lic = ( Licencia )it.next();
+	
+					if( lic.getClaseLicencia().getTipo().equals( "B" ) ) 
+					{  
+						/* La obtuvo minimo un año antes? */
+						int anyos = calcularEdad( lic.getFechaEmision() );
+	
+						if( anyos >= 1 )
+							return true;
+					}
 				}
+	
+				return false;
 			}
-
-			return false;
 		}
 
 		return true;

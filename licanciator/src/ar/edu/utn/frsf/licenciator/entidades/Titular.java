@@ -1,5 +1,6 @@
 package ar.edu.utn.frsf.licenciator.entidades;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,7 @@ public class Titular {
 	private ClaseLicencia clase;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="titular", fetch = FetchType.LAZY)
-	private List<Licencia> licencias;
+	public List<Licencia> licencias;
 
 	@OneToOne
 	private TipoSanguineo tipoFactor;

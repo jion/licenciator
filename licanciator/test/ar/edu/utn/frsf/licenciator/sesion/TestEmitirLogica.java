@@ -15,6 +15,8 @@ import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
 
 public class TestEmitirLogica extends TestCase {
 
+	Calendar hoy;
+	
 	private ClaseLicencia claseA;
 	private ClaseLicencia claseB;
 	private ClaseLicencia claseC;
@@ -26,6 +28,10 @@ public class TestEmitirLogica extends TestCase {
 	private List<ClaseLicencia> todasLasLicencias;
 	private List<ClaseLicencia> licenciasNoPro;
 	private List<ClaseLicencia> licenciasPro;
+	
+	Licencia licenciaB_ayer;
+	Licencia licenciaB_1anio;
+	Licencia licenciaB_mas1anio;
 	
 	final int MENOR_17		= 0;
 	final int IGUAL_17		= 1;
@@ -75,15 +81,15 @@ public class TestEmitirLogica extends TestCase {
 		todasLasLicencias.addAll(licenciasNoPro);
 		todasLasLicencias.addAll(licenciasPro);
 		
-		Calendar hoy = new GregorianCalendar();
+		hoy = Calendar.getInstance();
 		titular = new Titular[7];
-		titular[0] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 5);
-		titular[1] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 17);
-		titular[2] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 19);
-		titular[3] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 21);
-		titular[4] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 50);
-		titular[5] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 65);
-		titular[6] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 80);
+		titular[MENOR_17] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 5);
+		titular[IGUAL_17] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 17);
+		titular[ENTRE_17_21] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 19);
+		titular[IGUAL_21] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 21);
+		titular[ENTRE_21_65] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 50);
+		titular[IGUAL_65] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 65);
+		titular[MAYOR_65] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 80);
 		
 		txtTitular = new String[7];
 		txtTitular[0] = "Menor a 17";
@@ -93,24 +99,27 @@ public class TestEmitirLogica extends TestCase {
 		txtTitular[4] = "Entre 21 y 65";
 		txtTitular[5] = "Igual a 65";
 		txtTitular[6] = "Mayor a 65";
-		
 	}
 
 	/* **********************************************************************
 	 * Tests ****************************************************************
 	 * **********************************************************************/
-	public void testLicenciasNoProfesionales() {
-		///////////////////////////////////////////////////////////////////////		
-		// Menor que 17 ///////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////
+	/**
+	 * El objetivo de esta prueba es verificar los requisitos para solicitar
+	 * una licencia no profesional.
+	 * 
+	 * Requisito: El titular debe ser mayor de 17 años
+	 */
+	public void testEmitirLicenciasNoProfesionales() {
+		
 		for(int i=0;i<7;i++) {
 			for(ClaseLicencia cl : licenciasNoPro) {
 				
 				Licencia licRecibida = EmitirLicencia.emitirLicencia(titular[i], cl, "Observaciones");
 				
-				if(i == MENOR_17) {
+				if(i == MENOR_17) { // Una persona menor de 17 años intenta obtener una licencia
 					assertNull("Crear licencia " +  cl.getTipo() + " para un titular " + txtTitular[i],licRecibida);
-				} else {
+				} else { // Cualquier persona mayor de 17 años debería poder obtener una licencia NO PROFESIONAL por primera vez
 					Licencia licenciaEsperada =
 							new Licencia (titular[i], cl,
 							"335268541" + cl.getTipo(),
@@ -118,8 +127,8 @@ public class TestEmitirLogica extends TestCase {
 							EmitirLicencia.calcularVigencia( titular[i].getFechaNac(), true ),
 							"Observaciones");
 					
-					assertNotNull("Crear licencia " +  cl.getTipo() + " para un titular " + txtTitular[i],licRecibida);
-					assertTrue("La licencia obtenida "+  cl.getTipo() + " para un titular " + txtTitular[i] + " es igual a la esperada", licenciaEsperada.equals(licRecibida));
+					assertNotNull("Probando: Crear licencia " +  cl.getTipo() + " para un titular " + txtTitular[i],licRecibida);
+					assertTrue("Probando: La licencia obtenida "+  cl.getTipo() + " para un titular " + txtTitular[i] + " es igual a la esperada", licenciaEsperada.equals(licRecibida));
 				}
 				
 			}
@@ -127,9 +136,124 @@ public class TestEmitirLogica extends TestCase {
 
 	}
 	
+	/**
+	 * El objetivo de esta prueba es verificar los requisitos para solicitar
+	 * una licencia profesional.
+	 * 
+	 * Requisitos:
+	 * 		- El titular debe ser mayor de 21 años
+	 * 		- Clase tipo B otorgada al menos 1 año antes
+	 * 		- Persona mayor de 65 años debe tener al menos una licencia B
+	 * 		  registrada un año antes
+	 */
+	public void testEmitirLicenciasProfesionales() {
+		Calendar unDiaAntes = new GregorianCalendar();
+		Calendar unAnioAntes = new GregorianCalendar();
+		Calendar MasDeunAnioAntes = new GregorianCalendar();
+		
+		unDiaAntes.add(Calendar.DAY_OF_YEAR, -1);
+		unAnioAntes.add(Calendar.YEAR, -1);
+		MasDeunAnioAntes.add(Calendar.YEAR, -2);
+		
+		{ // Comprobacion para menores de 21
+			Licencia licRecibida;
+			
+			// Con una B de ayer
+			crearLicencia(titular[IGUAL_17], claseB, unDiaAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
+			assertNull(licRecibida);
+			
+			// Con una B de año antes
+			crearLicencia(titular[IGUAL_17], claseB, unAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
+			assertNull(licRecibida);
+			
+			// Con una B de mas de un año
+			crearLicencia(titular[IGUAL_17], claseB, MasDeunAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
+			assertNull(licRecibida);
+		}
+		{ // Comprobacion para titulares de edad = 21
+			Licencia licRecibida;
+			
+			// Con una B de ayer
+			crearLicencia(titular[IGUAL_21], claseB, unDiaAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
+			assertNull(licRecibida);
+			
+			// Con una B de año antes
+			crearLicencia(titular[IGUAL_21], claseB, unAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
+			assertNotNull(licRecibida);
+			
+			// Con una B de mas de un año
+			crearLicencia(titular[IGUAL_21], claseB, MasDeunAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
+			assertNotNull(licRecibida);
+		}
+		{ // Comprobacion para titulares de edad entre 21 y 65 (no inclusive)
+			Licencia licRecibida;
+			
+			// Con una B de ayer
+			crearLicencia(titular[ENTRE_21_65], claseB, unDiaAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
+			assertNull(licRecibida);
+			
+			// Con una B de año antes
+			crearLicencia(titular[ENTRE_21_65], claseB, unAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
+			assertNotNull(licRecibida);
+			
+			// Con una B de mas de un año
+			crearLicencia(titular[ENTRE_21_65], claseB, MasDeunAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
+			assertNotNull(licRecibida);
+		}
+		{ // Comprobacion para titulares de 65 años
+			Licencia licRecibida;
+			
+			// Con una B de ayer
+			crearLicencia(titular[IGUAL_65], claseB, unAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_65], claseC, "Observaciones");
+			assertNull(licRecibida);
+			
+			// Con una C de año antes
+			crearLicencia(titular[IGUAL_65], claseC, unAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_65], claseC, "Observaciones");
+			assertNotNull(licRecibida);
+		}
+		{ // Comprobacion para titulares de mas de 65 años
+			Licencia licRecibida;
+			
+			// Con una B de ayer
+			crearLicencia(titular[MAYOR_65], claseB, unAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[MAYOR_65], claseC, "Observaciones");
+			assertNull(licRecibida);
+			
+			// Con una B de año antes
+			crearLicencia(titular[MAYOR_65], claseC, unAnioAntes);
+			licRecibida = EmitirLicencia.emitirLicencia(titular[MAYOR_65], claseC, "Observaciones");
+			assertNotNull(licRecibida);
+		}
+	}
+	
 	/* **********************************************************************
 	 * Metodos auxiliares ***************************************************
 	 * **********************************************************************/
+	
+	private void crearLicencia(Titular titular, ClaseLicencia cl, Calendar fechaEmision) {
+		Licencia lic =
+				new Licencia (titular, cl,
+				"335268541" + cl.getTipo(),
+				fechaEmision,
+				hoy,
+				"Observaciones");
+		ArrayList<Licencia> lista = new ArrayList<Licencia>();
+		lista.add(lic);
+		
+		titular.licencias = lista;
+	}
+			
 	private final Titular crearTitular(int dia, int mes, int anio) {
 		Calendar fechaNac = new GregorianCalendar(anio, mes-1, dia);
 		Titular titular =
