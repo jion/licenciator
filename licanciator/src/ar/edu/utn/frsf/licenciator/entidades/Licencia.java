@@ -75,10 +75,20 @@ public class Licencia {
 			Licencia l = (Licencia) obj;
 			return (titular.equals(l.titular) && clase.equals(l.clase)	&&
 					nroLicencia.equals(l.nroLicencia) &&
-					fechaEmision.equals(l.fechaEmision) &&
-					fechaVencimiento.equals(l.fechaVencimiento));
+					fechaEmision.get(Calendar.YEAR) == fechaEmision.get(Calendar.YEAR) &&
+					fechaEmision.get(Calendar.DAY_OF_YEAR) == fechaEmision.get(Calendar.DAY_OF_YEAR) &&
+					fechaVencimiento.get(Calendar.YEAR) == fechaVencimiento.get(Calendar.YEAR) &&
+					fechaVencimiento.get(Calendar.DAY_OF_YEAR) == fechaVencimiento.get(Calendar.DAY_OF_YEAR));
 		}
 		return super.equals(obj);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "{ " + titular + ", " + clase + ", " + nroLicencia + ", " + fechaEmision + ", " + fechaVencimiento + "}" ;
 	}
 
 	public void setObservaciones(String observaciones) {

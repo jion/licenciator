@@ -119,7 +119,7 @@ public class TestEmitirLogica extends TestCase {
 							"Observaciones");
 					
 					assertNotNull("Crear licencia " +  cl.getTipo() + " para un titular " + txtTitular[i],licRecibida);
-					assertTrue("La licencia obtenida es igual a la esperada", licenciaEsperada.equals(licRecibida));
+					assertTrue("La licencia obtenida "+  cl.getTipo() + " para un titular " + txtTitular[i] + " es igual a la esperada", licenciaEsperada.equals(licRecibida));
 				}
 				
 			}
@@ -138,7 +138,7 @@ public class TestEmitirLogica extends TestCase {
 						fechaNac,
 						"Av. Siempreviva 123",
 						"Sunchales",
-						new ClaseLicencia("B", "", 17, 5),
+						claseB,
 						new TipoSanguineo ("B", '+'),
 						true );
 		return titular;

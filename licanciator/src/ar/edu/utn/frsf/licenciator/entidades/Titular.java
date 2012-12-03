@@ -116,11 +116,13 @@ public class Titular {
 	public boolean equals(Object obj) {
 		if(obj.getClass() == Titular.class) {
 			Titular tit = (Titular) obj;
+			
 			return ( tipoDoc.equals( tit.tipoDoc ) &&
 					nroDoc == tit.nroDoc &&
 					nombre.equalsIgnoreCase( tit.nombre ) &&
 					apellido.equalsIgnoreCase( tit.apellido ) &&
-					fechaNacimiento.equals( tit.fechaNacimiento ) &&
+					fechaNacimiento.get(Calendar.YEAR) == fechaNacimiento.get(Calendar.YEAR) &&
+					fechaNacimiento.get(Calendar.DAY_OF_YEAR) == fechaNacimiento.get(Calendar.DAY_OF_YEAR) &&
 					domicilio.equalsIgnoreCase( tit.domicilio ) &&
 					localidad.equalsIgnoreCase( tit.localidad ) &&
 					clase.equals( tit.clase ) &&
@@ -131,4 +133,11 @@ public class Titular {
 		return super.equals(obj);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "{ " + tipoDoc + ", " + nroDoc + ", " + apellido + ", " + fechaNacimiento.get(Calendar.YEAR) + ", " + fechaNacimiento.get(Calendar.DAY_OF_YEAR) + ", " + domicilio + ", " + localidad + ", " + clase + ", " + tipoFactor + donante +  "}";
+	}
 }

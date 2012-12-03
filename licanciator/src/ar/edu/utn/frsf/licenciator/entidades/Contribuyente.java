@@ -85,12 +85,20 @@ public class Contribuyente {
 			return ( tipoDoc.equals( c.tipoDoc ) && ( nroDoc == c.nroDoc ) &&
 					nombre.equalsIgnoreCase( c.nombre ) &&
 					apellido.equalsIgnoreCase( c.apellido ) &&
-					fechaNacimiento.equals( c.fechaNacimiento ) &&
+					fechaNacimiento.get(Calendar.YEAR) == fechaNacimiento.get(Calendar.YEAR) &&
+					fechaNacimiento.get(Calendar.DAY_OF_YEAR) == fechaNacimiento.get(Calendar.DAY_OF_YEAR) &&
 					domicilio.equalsIgnoreCase( c.domicilio ) &&
 					localidad.equalsIgnoreCase( c.localidad ) );
 		}
 		
 		return super.equals(obj);
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "{ " + tipoDoc + ", " + nombre + ", " + apellido + ", " + fechaNacimiento + ", " + domicilio + localidad + "}";
+	}
 }

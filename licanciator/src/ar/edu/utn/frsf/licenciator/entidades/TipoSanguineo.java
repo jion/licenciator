@@ -43,4 +43,12 @@ public class TipoSanguineo {
 		
 		return super.equals(obj);
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "{ " + grupo + ", " + factor + "}";
+	}
 }
