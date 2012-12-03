@@ -76,8 +76,7 @@ public class Licencia {
 			return (titular.equals(l.titular) && clase.equals(l.clase)	&&
 					nroLicencia.equals(l.nroLicencia) &&
 					fechaEmision.equals(l.fechaEmision) &&
-					fechaVencimiento.equals(l.fechaVencimiento) && 
-					observaciones.equals(l.observaciones));
+					fechaVencimiento.equals(l.fechaVencimiento));
 		}
 		return super.equals(obj);
 	}

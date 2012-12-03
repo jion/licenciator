@@ -11,8 +11,8 @@ public class ClaseLicencia {
 	private String descripcion;
 	private int edadMinima;
 	
-	/* Al no estar implementado el "Calcular costo vigencia, se toma el mismo
-	 * costo para toda la clase.
+	/* Nota: Al no estar implementado el "Calcular costo vigencia,
+	 * se toma el mismo costo para toda la clase.
 	 */
 	private int costo;
 	
@@ -47,13 +47,23 @@ public class ClaseLicencia {
 		return costo;
 	}
 	
+	/** Utilizado para que en los CheckBoxes aparezca el nombre
+	 * de la licencia
+	 */
 	@Override
 	public String toString() {
 		return tipo;
 	}
 
-	public boolean equals(ClaseLicencia clas)
-	{
-		return (tipo.equals(clas.tipo) && descripcion.equalsIgnoreCase(clas.descripcion) && edadMinima==clas.edadMinima && costo==clas.costo);
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() == ClaseLicencia.class) {
+			ClaseLicencia lic = (ClaseLicencia) obj;
+			return (tipo.equals(lic.tipo) &&
+					descripcion.equalsIgnoreCase(lic.descripcion) &&
+					edadMinima==lic.edadMinima &&
+					costo==lic.costo);
+		}
+		return super.equals(obj);
 	}
 }

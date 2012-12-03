@@ -43,7 +43,7 @@ public class Titular {
 	@OneToOne
 	private TipoSanguineo tipoFactor;
 	private Boolean donante;
-
+	
 	public Titular() {
 	}
 
@@ -109,7 +109,26 @@ public class Titular {
 		return licencias;
 	}
 
-	public boolean equals( Titular tit ) {
-		return ( tipoDoc.equals( tit.tipoDoc ) && ( nroDoc == tit.nroDoc ) && nombre.equalsIgnoreCase( tit.nombre ) && apellido.equalsIgnoreCase( tit.apellido ) && fechaNacimiento.equals( tit.fechaNacimiento ) && domicilio.equalsIgnoreCase( tit.domicilio ) && localidad.equalsIgnoreCase( tit.localidad ) && clase.equals( tit.clase ) && tipoFactor.equals( tit.tipoFactor ) && ( donante == tit.donante ) );
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() == Titular.class) {
+			Titular tit = (Titular) obj;
+			return ( tipoDoc.equals( tit.tipoDoc ) &&
+					nroDoc == tit.nroDoc &&
+					nombre.equalsIgnoreCase( tit.nombre ) &&
+					apellido.equalsIgnoreCase( tit.apellido ) &&
+					fechaNacimiento.equals( tit.fechaNacimiento ) &&
+					domicilio.equalsIgnoreCase( tit.domicilio ) &&
+					localidad.equalsIgnoreCase( tit.localidad ) &&
+					clase.equals( tit.clase ) &&
+					tipoFactor.equals( tit.tipoFactor ) &&
+					donante.equals(tit.donante) );
+		}
+		
+		return super.equals(obj);
 	}
+	
 }

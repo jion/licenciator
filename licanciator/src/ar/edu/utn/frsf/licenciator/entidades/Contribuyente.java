@@ -1,14 +1,10 @@
 package ar.edu.utn.frsf.licenciator.entidades;
 
 import java.util.Calendar;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -79,12 +75,22 @@ public class Contribuyente {
 		return localidad;
 	}
 
-	public boolean equals( Contribuyente tit ) {
-		return ( tipoDoc.equals( tit.tipoDoc ) && ( nroDoc == tit.nroDoc ) &&
-				nombre.equalsIgnoreCase( tit.nombre ) &&
-				apellido.equalsIgnoreCase( tit.apellido ) &&
-				fechaNacimiento.equals( tit.fechaNacimiento ) &&
-				domicilio.equalsIgnoreCase( tit.domicilio ) &&
-				localidad.equalsIgnoreCase( tit.localidad ) );
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() == Contribuyente.class) {
+			Contribuyente c = (Contribuyente) obj;
+			return ( tipoDoc.equals( c.tipoDoc ) && ( nroDoc == c.nroDoc ) &&
+					nombre.equalsIgnoreCase( c.nombre ) &&
+					apellido.equalsIgnoreCase( c.apellido ) &&
+					fechaNacimiento.equals( c.fechaNacimiento ) &&
+					domicilio.equalsIgnoreCase( c.domicilio ) &&
+					localidad.equalsIgnoreCase( c.localidad ) );
+		}
+		
+		return super.equals(obj);
 	}
+
 }

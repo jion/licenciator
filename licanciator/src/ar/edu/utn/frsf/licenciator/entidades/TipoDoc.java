@@ -37,9 +37,16 @@ public class TipoDoc {
 		return descripcion;
 	}
 	
-	public boolean equals(TipoDoc doc)
-	{
-		return (tipo.equals(doc.tipo) && descripcion.equalsIgnoreCase(doc.descripcion));
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() == TipoDoc.class) {
+			TipoDoc doc = (TipoDoc) obj;
+			return (tipo.equalsIgnoreCase(doc.tipo));
+		}
+		return super.equals(obj);
 	}
 }
 

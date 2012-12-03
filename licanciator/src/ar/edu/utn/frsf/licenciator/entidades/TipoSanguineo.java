@@ -30,8 +30,17 @@ public class TipoSanguineo {
 		return factor;
 	}
 	
-	public boolean equals(TipoSanguineo tip)
-	{
-		return (grupo.equals(tip.grupo) && factor==tip.factor);
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() == TipoSanguineo.class) {
+			TipoSanguineo ts = (TipoSanguineo) obj;
+			return ( grupo.equalsIgnoreCase(ts.grupo) &&
+					factor==ts.factor );
+		}
+		
+		return super.equals(obj);
 	}
 }
