@@ -25,8 +25,6 @@ public class EmitirLicencia {
 	}
 
 	public static Licencia emitirLicencia( Titular titular, ClaseLicencia clase, String obs ) {
-
-
 		Calendar emision; 
 		Calendar venc;
 

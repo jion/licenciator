@@ -1,6 +1,7 @@
 package ar.edu.utn.frsf.licenciator.entidades;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -57,6 +58,7 @@ public class Titular {
 		clase = clas;
 		tipoFactor = tipoS;
 		this.donante = donante;
+		licencias = Collections.emptyList();
 	}
 
 	public int getId() {
