@@ -28,7 +28,7 @@ import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
-import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
+import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
 
 public class EmitirGUI extends JDialog {
 	
@@ -118,7 +118,7 @@ public class EmitirGUI extends JDialog {
 		
 		textTipoDoc = new JComboBox<TipoDoc>();
 		// Completo el comboBox con los tipos de documento
-		for(TipoDoc a: EmitirLicencia.obtenerTiposDocumento()) {
+		for(TipoDoc a: GestorLicencias.obtenerTiposDocumento()) {
 			textTipoDoc.addItem(a);
 		}
 		GridBagConstraints gbc_textTipoDoc = new GridBagConstraints();
@@ -151,7 +151,7 @@ public class EmitirGUI extends JDialog {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (validar_numero(textNroDoc.getText())) {
-					titular = EmitirLicencia.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
+					titular = GestorLicencias.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
 					if (titular != null){
 						setTitular();
 					}
@@ -378,7 +378,7 @@ public class EmitirGUI extends JDialog {
 		
 		textClase = new JComboBox<ClaseLicencia>();
 		// Completo el comboBox con las distintas clase de licencia
-		for(ClaseLicencia a: EmitirLicencia.obtenerTiposDeLicencia()) {
+		for(ClaseLicencia a: GestorLicencias.obtenerTiposDeLicencia()) {
 			textClase.addItem(a);
 		}
 		textClase.setEnabled(false);
@@ -396,7 +396,7 @@ public class EmitirGUI extends JDialog {
 		btnCrearLic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-					licencia = EmitirLicencia.emitirLicencia(titular, (ClaseLicencia)textClase.getSelectedItem(), textObs.getText());
+					licencia = GestorLicencias.emitirLicencia(titular, (ClaseLicencia)textClase.getSelectedItem(), textObs.getText());
 					if (licencia != null)
 					{
 						setLicencia();
@@ -508,7 +508,7 @@ public class EmitirGUI extends JDialog {
 				if (licencia !=null)
 				{
 					licencia.setObservaciones(textObs.getText());
-					EmitirLicencia.guardarLicencia(MenuPrincipal.getInstancia().getUsuario(), licencia);
+					GestorLicencias.guardarLicencia(MenuPrincipal.getInstancia().getUsuario(), licencia);
 					//TODO: Como sabe si la persistio bien?
 					dispose();
 					ImprimirGUI.LanzarGUI(MenuPrincipal.getInstancia(), licencia);

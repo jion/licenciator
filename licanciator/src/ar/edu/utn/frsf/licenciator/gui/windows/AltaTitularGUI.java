@@ -30,7 +30,7 @@ import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Contribuyente;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.TipoSanguineo;
-import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
+import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
 import ar.edu.utn.frsf.licenciator.logica.GestorTitular;
 import ar.edu.utn.frsf.licenciator.logica.TitularExistenteExeption;
 
@@ -117,7 +117,7 @@ public class AltaTitularGUI extends JDialog {
 		
 		tipoDocumentoCBox = new JComboBox<TipoDoc>();
 		// Completo el comboBox con los tipos de documento
-		for( TipoDoc a : EmitirLicencia.obtenerTiposDocumento() ) {
+		for( TipoDoc a : GestorLicencias.obtenerTiposDocumento() ) {
 			tipoDocumentoCBox.addItem( a );
 		}
 		tipoDocumentoCBox.setPreferredSize( new Dimension( 100, 25 ) );

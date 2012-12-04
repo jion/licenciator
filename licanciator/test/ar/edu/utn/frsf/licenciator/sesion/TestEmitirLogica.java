@@ -11,7 +11,7 @@ import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.TipoSanguineo;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
-import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
+import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
 
 public class TestEmitirLogica extends TestCase {
 
@@ -115,7 +115,7 @@ public class TestEmitirLogica extends TestCase {
 		for(int i=0;i<7;i++) {
 			for(ClaseLicencia cl : licenciasNoPro) {
 				
-				Licencia licRecibida = EmitirLicencia.emitirLicencia(titular[i], cl, "Observaciones");
+				Licencia licRecibida = GestorLicencias.emitirLicencia(titular[i], cl, "Observaciones");
 				
 				if(i == MENOR_17) { // Una persona menor de 17 años intenta obtener una licencia
 					assertNull("Crear licencia " +  cl.getTipo() + " para un titular " + txtTitular[i],licRecibida);
@@ -124,7 +124,7 @@ public class TestEmitirLogica extends TestCase {
 							new Licencia (titular[i], cl,
 							"335268541" + cl.getTipo(),
 							new GregorianCalendar(),
-							EmitirLicencia.calcularVigencia( titular[i].getFechaNac(), true ),
+							GestorLicencias.calcularVigencia( titular[i].getFechaNac(), true ),
 							"Observaciones");
 					
 					assertNotNull("Probando: Crear licencia " +  cl.getTipo() + " para un titular " + txtTitular[i],licRecibida);
@@ -160,17 +160,17 @@ public class TestEmitirLogica extends TestCase {
 			
 			// Con una B de ayer
 			crearLicencia(titular[IGUAL_17], claseB, unDiaAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de año antes
 			crearLicencia(titular[IGUAL_17], claseB, unAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de mas de un año
 			crearLicencia(titular[IGUAL_17], claseB, MasDeunAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
 			assertNull(licRecibida);
 		}
 		{ // Comprobacion para titulares de edad = 21
@@ -178,17 +178,17 @@ public class TestEmitirLogica extends TestCase {
 			
 			// Con una B de ayer
 			crearLicencia(titular[IGUAL_21], claseB, unDiaAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de año antes
 			crearLicencia(titular[IGUAL_21], claseB, unAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 			
 			// Con una B de mas de un año
 			crearLicencia(titular[IGUAL_21], claseB, MasDeunAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 		}
 		{ // Comprobacion para titulares de edad entre 21 y 65 (no inclusive)
@@ -196,17 +196,17 @@ public class TestEmitirLogica extends TestCase {
 			
 			// Con una B de ayer
 			crearLicencia(titular[ENTRE_21_65], claseB, unDiaAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de año antes
 			crearLicencia(titular[ENTRE_21_65], claseB, unAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 			
 			// Con una B de mas de un año
 			crearLicencia(titular[ENTRE_21_65], claseB, MasDeunAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 		}
 		{ // Comprobacion para titulares de 65 años
@@ -214,12 +214,12 @@ public class TestEmitirLogica extends TestCase {
 			
 			// Con una B de ayer
 			crearLicencia(titular[IGUAL_65], claseB, unAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_65], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_65], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una C de año antes
 			crearLicencia(titular[IGUAL_65], claseC, unAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[IGUAL_65], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_65], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 		}
 		{ // Comprobacion para titulares de mas de 65 años
@@ -227,12 +227,12 @@ public class TestEmitirLogica extends TestCase {
 			
 			// Con una B de ayer
 			crearLicencia(titular[MAYOR_65], claseB, unAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[MAYOR_65], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[MAYOR_65], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de año antes
 			crearLicencia(titular[MAYOR_65], claseC, unAnioAntes);
-			licRecibida = EmitirLicencia.emitirLicencia(titular[MAYOR_65], claseC, "Observaciones");
+			licRecibida = GestorLicencias.emitirLicencia(titular[MAYOR_65], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 		}
 	}

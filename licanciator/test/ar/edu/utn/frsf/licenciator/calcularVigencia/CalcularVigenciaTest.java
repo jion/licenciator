@@ -2,7 +2,7 @@ package ar.edu.utn.frsf.licenciator.calcularVigencia;
 
 import java.util.Calendar;
 
-import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
+import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
 import junit.framework.TestCase;
 
 public class CalcularVigenciaTest extends TestCase {
@@ -14,7 +14,7 @@ public class CalcularVigenciaTest extends TestCase {
 		fechaNacimientoCalendar = setFecha( 1992, 2, 25 );
 		fechaEsperadaCalendar = setFecha( 2014, 2, 25 );
 
-		Calendar fechaVigencia = EmitirLicencia.calcularVigencia( fechaNacimientoCalendar, true );
+		Calendar fechaVigencia = GestorLicencias.calcularVigencia( fechaNacimientoCalendar, true );
 
 		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
@@ -23,7 +23,7 @@ public class CalcularVigenciaTest extends TestCase {
 		fechaNacimientoCalendar = setFecha( 1984, 11, 21 );
 		fechaEsperadaCalendar = setFecha( 2017, 11, 21 );
 
-		Calendar fechaVigencia = EmitirLicencia.calcularVigencia( fechaNacimientoCalendar, false );
+		Calendar fechaVigencia = GestorLicencias.calcularVigencia( fechaNacimientoCalendar, false );
 		
 		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
@@ -32,7 +32,7 @@ public class CalcularVigenciaTest extends TestCase {
 		fechaNacimientoCalendar = setFecha( 1961, 5, 8 );
 		fechaEsperadaCalendar = setFecha( 2016, 5, 8 );
 
-		Calendar fechaVigencia = EmitirLicencia.calcularVigencia( fechaNacimientoCalendar, false );
+		Calendar fechaVigencia = GestorLicencias.calcularVigencia( fechaNacimientoCalendar, false );
 		
 		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
@@ -41,7 +41,7 @@ public class CalcularVigenciaTest extends TestCase {
 		fechaNacimientoCalendar = setFecha( 1948, 7, 3 );
 		fechaEsperadaCalendar = setFecha( 2015, 7, 3 );
 
-		Calendar fechaVigencia = EmitirLicencia.calcularVigencia( fechaNacimientoCalendar, false );
+		Calendar fechaVigencia = GestorLicencias.calcularVigencia( fechaNacimientoCalendar, false );
 		
 		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}
@@ -50,7 +50,7 @@ public class CalcularVigenciaTest extends TestCase {
 		fechaNacimientoCalendar = setFecha( 1936, 11, 27 );
 		fechaEsperadaCalendar = setFecha( 2013, 11, 27 );
 
-		Calendar fechaVigencia = EmitirLicencia.calcularVigencia( fechaNacimientoCalendar, false );
+		Calendar fechaVigencia = GestorLicencias.calcularVigencia( fechaNacimientoCalendar, false );
 		
 		assertEquals( fechaEsperadaCalendar, fechaVigencia );
 	}

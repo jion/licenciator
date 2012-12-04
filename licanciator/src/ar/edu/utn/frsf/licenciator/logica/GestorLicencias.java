@@ -15,12 +15,12 @@ import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 
-public class EmitirLicencia {
+public class GestorLicencias {
 
 	/* Constante */
 	final static Calendar FECHA_ACTUAL = Calendar.getInstance();
 
-	private EmitirLicencia() {
+	private GestorLicencias() {
 		super();
 	}
 
