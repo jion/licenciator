@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,6 +27,7 @@ import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Contribuyente;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.TipoSanguineo;
+import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
 import ar.edu.utn.frsf.licenciator.logica.GestorTitular;
 import ar.edu.utn.frsf.licenciator.logica.TitularExistenteExeption;
 
@@ -36,14 +38,14 @@ import ar.edu.utn.frsf.licenciator.logica.TitularExistenteExeption;
  * 
  * @author Honorables halcones
  */
-public class AltaTitularGUI extends JFrame {
+public class AltaTitularGUI extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
 	//Declaracion de variables
 	private BorderLayout layout = new BorderLayout();
 	
-	private JComboBox tipoDocumentoCBox;
+	private JComboBox<String> tipoDocumentoCBox;
 
 	private JTextField numeroDocumentoTField;
 
@@ -74,7 +76,7 @@ public class AltaTitularGUI extends JFrame {
 		this.setTitle( "Alta Titular" );
 		
 		//Se setea el tamaño de la ventana
-		this.setPreferredSize( new Dimension( 500, 500 ) );
+		this.setPreferredSize( new Dimension( 500, 460 ) );
 		
 		//Se setea como layout el BorderLayout creado
 		this.getContentPane().setLayout( layout );
@@ -108,9 +110,11 @@ public class AltaTitularGUI extends JFrame {
 		JLabel tipoDocumentoLabel = new JLabel( "Tipo de documento:" );
 		JLabel numeroDocumentoLabel = new JLabel( "Nro de documento:" );
 		
-		tipoDocumentoCBox = new JComboBox();
-		tipoDocumentoCBox.addItem( "D.N.I." );
-		tipoDocumentoCBox.addItem( "Lib. enrol." );
+		tipoDocumentoCBox = new JComboBox<String>();
+		// Completo el comboBox con los tipos de documento
+		for(String a: EmitirLicencia.obtenerTiposDocumento()) {
+			tipoDocumentoCBox.addItem(a);
+		}
 		tipoDocumentoCBox.setPreferredSize( new Dimension( 100, 25 ) );
 		
 		numeroDocumentoTField = new JTextField();
@@ -159,7 +163,7 @@ public class AltaTitularGUI extends JFrame {
 		buscarTitularPanel.add( numeroDocumentoTField, btp );
 		btp.gridy = 3;
 		btp.gridx = 2;
-		btp.insets = new Insets( 0, 70, 0, 0 );
+		btp.insets = new Insets( 0, 90, 0, 0 );
 		buscarTitularPanel.add( buscarButton, btp );
 		
 		btp.gridy = 4;
@@ -250,7 +254,7 @@ public class AltaTitularGUI extends JFrame {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				System.exit( 0 );
+				dispose();
 			}
 		});
 		
@@ -266,7 +270,7 @@ public class AltaTitularGUI extends JFrame {
 		dtp.gridy = 1;
 		dtp.gridx = 1;
 		dtp.gridwidth = 4;
-		dtp.insets = new Insets( 0, 0, 0, 0 );
+		dtp.insets = new Insets( 0, -5, 0, 0 );
 		datosTitularPanel.add( nombresDataLabel, dtp );
 		
 		dtp.gridy = 2;
@@ -280,7 +284,7 @@ public class AltaTitularGUI extends JFrame {
 		dtp.gridy = 3;
 		dtp.gridx = 1;
 		dtp.gridwidth = 4;
-		dtp.insets = new Insets( 0, -7, 0, 0 );
+		dtp.insets = new Insets( 0, -10, 0, 0 );
 		datosTitularPanel.add( apellidoDataLabel, dtp );
 		
 		dtp.gridy = 4;
@@ -312,7 +316,8 @@ public class AltaTitularGUI extends JFrame {
 		
 		dtp.gridy = 5;
 		dtp.gridx = 1;
-		dtp.insets = new Insets( 0, -75, 0, 0 );
+		dtp.gridwidth = 3;
+		dtp.insets = new Insets( 0, 40, 0, 0 );
 		datosTitularPanel.add( fechaNacimientoPanel, dtp );
 		
 		dtp.gridy = 6;
@@ -326,7 +331,7 @@ public class AltaTitularGUI extends JFrame {
 		
 		dlp.gridy = 0;
 		dlp.gridx = 0;
-		dlp.insets = new Insets( 0, 0, 0, 0 );
+		dlp.insets = new Insets( 0, -45, 0, 0 );
 		direccionLocalidadPanel.add( direccionLabel, dlp );
 		dlp.gridy = 0;
 		dlp.gridx = 1;
@@ -358,7 +363,7 @@ public class AltaTitularGUI extends JFrame {
 		dtp.gridy = 9;
 		dtp.gridx = 1;
 		dtp.gridwidth = 3;
-		dtp.insets = new Insets( 0, 110, 0, 0 );
+		dtp.insets = new Insets( 0, 85, 0, 0 );
 		datosTitularPanel.add( claseLicenciaDataLabel, dtp );
 		
 		dtp.gridy = 10;
@@ -372,25 +377,25 @@ public class AltaTitularGUI extends JFrame {
 		
 		gsp.gridy = 0;
 		gsp.gridx = 0;
-		gsp.insets = new Insets( 0, 0, 0, 0 );
+		gsp.insets = new Insets( 0, 20, 0, 0 );
 		grupoSanguineoPanel.add( grupoSanguineoLabel, gsp );
 		gsp.gridy = 0;
 		gsp.gridx = 1;
-		gsp.insets = new Insets( 0, 15, 0, 0 );
+		gsp.insets = new Insets( 0, 10, 0, 0 );
 		grupoSanguineoPanel.add( grupoSanguineoDataLabel, gsp );
 		gsp.gridy = 0;
 		gsp.gridx = 2;
-		gsp.insets = new Insets( 0, 20, 0, 0 );
+		gsp.insets = new Insets( 0, 48, 0, 0 );
 		grupoSanguineoPanel.add( factorRHLabel, gsp );
 		gsp.gridy = 0;
 		gsp.gridx = 3;
-		gsp.insets = new Insets( 0, 15, 0, 0 );
+		gsp.insets = new Insets( 0, 12, 0, 0 );
 		grupoSanguineoPanel.add( factorDataLabel, gsp );
 		
 		dtp.gridy = 11;
 		dtp.gridx = 0;
 		dtp.gridwidth = 5;
-		dtp.insets = new Insets( 0, 0, 0, 0 );
+		dtp.insets = new Insets( 0, -20, 0, 0 );
 		datosTitularPanel.add( grupoSanguineoPanel, dtp );
 		
 		dtp.gridy = 12;
@@ -399,12 +404,12 @@ public class AltaTitularGUI extends JFrame {
 		
 		dtp.gridy = 13;
 		dtp.gridx = 0;
-		dtp.insets = new Insets( 0, 0, 0, 0 );
+		dtp.insets = new Insets( 0, 1, 0, 0 );
 		datosTitularPanel.add( donanteLabel, dtp );
 		dtp.gridy = 13;
 		dtp.gridx = 1;
 		dtp.gridwidth = 1;
-		dtp.insets = new Insets( 0, 60, 0, 0 );
+		dtp.insets = new Insets( 0, 55, 0, 0 );
 		datosTitularPanel.add( donanteCBox, dtp );
 		
 		dtp.gridy = 14;
@@ -451,36 +456,40 @@ public class AltaTitularGUI extends JFrame {
 	//informacion.
 	private void BuscarButtonAction( ActionEvent e ) {
 		if( validarDatos() ) {
-			TipoDoc tipoDocumento = new TipoDoc( 0, tipoDocumentoCBox.getSelectedItem().toString(), "" );
+			TipoDoc tipoDocumento = new TipoDoc( tipoDocumentoCBox.getSelectedIndex() + 1, tipoDocumentoCBox.getSelectedItem().toString(), "" );
 			String numeroDocumento = numeroDocumentoTField.getText();
 			
 			Contribuyente contribuyente = new Contribuyente();
 			
-			//contribuyente = DaoContribuyente.read( tipoDocumento,  Long.parseLong( numeroDocumento ) );
+			contribuyente = DaoContribuyente.read( tipoDocumento,  Long.parseLong( numeroDocumento ) );
 			
-			claseLicenciaDataLabel.setEnabled( true );
-			grupoSanguineoDataLabel.setEnabled( true );
-			factorDataLabel.setEnabled( true );
-			donanteCBox.setEnabled( true );
-			
-			guardarButton.setEnabled( true );
-			
-			nombresDataLabel.setText( contribuyente.getNombre() );
-			apellidoDataLabel.setText( contribuyente.getApellido() );
-			
-			diaDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.DATE ) ) );
-			mesDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.MONTH ) ) );
-			anioDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.YEAR ) ) );
-			
-			direccionDataLabel.setText( contribuyente.getDomicilio() );
-			localidadDataLabel.setText( contribuyente.getLocalidad() );
+			if( contribuyente != null ) {
+				claseLicenciaDataLabel.setEnabled( true );
+				grupoSanguineoDataLabel.setEnabled( true );
+				factorDataLabel.setEnabled( true );
+				donanteCBox.setEnabled( true );
+				
+				guardarButton.setEnabled( true );
+				
+				nombresDataLabel.setText( contribuyente.getNombre() );
+				apellidoDataLabel.setText( contribuyente.getApellido() );
+				
+				diaDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.DATE ) ) );
+				mesDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.MONTH ) ) );
+				anioDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.YEAR ) ) );
+				
+				direccionDataLabel.setText( contribuyente.getDomicilio() );
+				localidadDataLabel.setText( contribuyente.getLocalidad() );
+			} else {
+				JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El contribuyente con " + tipoDocumentoCBox.getSelectedItem().toString() + " " + numeroDocumentoTField.getText() + " no existe", "Error", JOptionPane.ERROR_MESSAGE );
+			}
 		}
 	}
 	
 	//Este metodo permite guardar en BD al titular, verificando primero que este no exista
 	//de ser asi, lo guarda en  la BD con los datos obtenidos de los campos de informacion
 	private void guardarButtonAction( ActionEvent e ) {		
-		TipoDoc tipoDocumento = new TipoDoc( 0, tipoDocumentoCBox.getSelectedItem().toString(), "" );
+		TipoDoc tipoDocumento = new TipoDoc( tipoDocumentoCBox.getSelectedIndex() + 1, tipoDocumentoCBox.getSelectedItem().toString(), "" );
 		String numeroDocumento = numeroDocumentoTField.getText();
 		
 		String nombres = nombresDataLabel.getText();
@@ -501,7 +510,7 @@ public class AltaTitularGUI extends JFrame {
 		
 		ClaseLicencia claseLicencia = new ClaseLicencia( claseLicenciaDataLabel.getSelectedItem().toString(), "", calcularEdad( fechaNacimiento ), 100);
 		
-		TipoSanguineo tipoSanguineo = new TipoSanguineo( grupoSanguineoDataLabel.getSelectedItem().toString(), ( Character ) factorDataLabel.getSelectedItem() );
+		TipoSanguineo tipoSanguineo = new TipoSanguineo( grupoSanguineoDataLabel.getSelectedItem().toString(), factorDataLabel.getSelectedItem().toString().charAt( 0 ) );
 		
 		boolean donante = donanteCBox.isSelected();
 
@@ -535,7 +544,7 @@ public class AltaTitularGUI extends JFrame {
 	public static void lanzarGUI() {   
 		AltaTitularGUI ejemplo = new AltaTitularGUI();
 		
-		ejemplo.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		ejemplo.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		ejemplo.pack();
 		ejemplo.setResizable( false );
 		ejemplo.setLocationRelativeTo( null );
