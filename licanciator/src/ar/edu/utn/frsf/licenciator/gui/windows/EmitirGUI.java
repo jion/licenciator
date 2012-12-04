@@ -29,6 +29,7 @@ import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
+import ar.edu.utn.frsf.licenciator.logica.GestorTitular;
 
 public class EmitirGUI extends JDialog {
 	
@@ -151,7 +152,7 @@ public class EmitirGUI extends JDialog {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (validar_numero(textNroDoc.getText())) {
-					titular = GestorLicencias.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
+					titular = GestorTitular.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
 					if (titular != null){
 						setTitular();
 					}

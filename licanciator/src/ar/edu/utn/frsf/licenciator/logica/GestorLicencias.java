@@ -8,7 +8,6 @@ import java.util.List;
 import ar.edu.utn.frsf.licenciator.dao.DaoClaseLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoTipoDoc;
-import ar.edu.utn.frsf.licenciator.dao.DaoTitular;
 import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
@@ -56,18 +55,13 @@ public class GestorLicencias {
 			return null;
 	}
 
-	public static Titular buscarTitular( String tip, long nro ) {		
-		TipoDoc tipo = DaoTipoDoc.read( tip );
-		return DaoTitular.read( tipo, nro );
-	}
-
 	public static void guardarLicencia(  Usuario usuario, Licencia licencia ) {
 		GestorAuditoria.reportarEmitirLicencia(usuario, licencia);
 		DaoLicencia.create( licencia );
 	}
 
 	/** Verifica un objeto licencia antes de persistirlo en la base de datos segun clase y edad */
-	public static Boolean verificarLicencia( Licencia licencia ) {
+	private static Boolean verificarLicencia( Licencia licencia ) {
 
 		/* ******************************************************************
 		 * 1- Si no cumple con la edad minima para esa clase, retorno false
