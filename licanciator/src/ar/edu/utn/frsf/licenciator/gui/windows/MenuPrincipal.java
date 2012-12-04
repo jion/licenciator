@@ -46,6 +46,7 @@ public class MenuPrincipal extends JFrame {
 	public static void lanzarGUI(Usuario usuario2) {
 		try {
 			instancia = new MenuPrincipal(usuario2);
+			instancia.setLocationRelativeTo( null );
 			instancia.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();

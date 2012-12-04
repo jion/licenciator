@@ -32,8 +32,8 @@ public class LoginGUI extends JDialog {
 		try {
 			LoginGUI dialog = new LoginGUI();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo( null );
 			dialog.setVisible(true);
-			
 			return dialog;
 		} catch (Exception e) {
 			e.printStackTrace();

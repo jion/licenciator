@@ -75,6 +75,7 @@ public class ImprimirGUI extends JDialog {
 			dialog.llenaVentana(licencia);
 			dialog.llenaVentana(licencia);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo( null );
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
