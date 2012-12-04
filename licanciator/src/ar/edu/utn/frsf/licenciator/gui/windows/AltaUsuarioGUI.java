@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
 import ar.edu.utn.frsf.licenciator.logica.UsuarioExistenteExeption;
+import java.awt.Toolkit;
 
 /**
  * Interfaz de Alta de usuario.
@@ -63,7 +64,10 @@ public class AltaUsuarioGUI extends JDialog {
 	///////////////////////////////////////////////////////////////////////////
 	// Metodos de Instancia ///////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
-	protected AltaUsuarioGUI() { super(); inicializar(); };
+	protected AltaUsuarioGUI() {
+		super(); 
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AltaUsuarioGUI.class.getResource("/resources/auto.gif")));
+		inicializar(); };
 	
 	public AltaUsuarioGUI(Frame owner, String string, boolean b) {
 		super(owner, string, b);

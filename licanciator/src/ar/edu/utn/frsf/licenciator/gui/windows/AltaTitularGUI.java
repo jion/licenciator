@@ -7,6 +7,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -77,6 +78,9 @@ public class AltaTitularGUI extends JDialog {
 	}
 	
 	private void inicializar() {
+		//Se setea el icono
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AltaUsuarioGUI.class.getResource("/resources/auto.gif")));
+		
 		//Se setea el titulo
 		this.setTitle( "Alta Titular" );
 		

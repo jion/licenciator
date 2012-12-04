@@ -15,6 +15,9 @@ import javax.swing.JMenuItem;
 
 import ar.edu.utn.frsf.licenciator.dao.EntityManagerManager;
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 public class MenuPrincipal extends JFrame {
 
@@ -58,14 +61,9 @@ public class MenuPrincipal extends JFrame {
 	 */
 	private void initialize() {
 		setTitle("Licenciator");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("auto.gif"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/resources/auto.gif")));
 		setBounds(100, 100, 800, 600);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		
-		JDesktopPane desktopPane = new JDesktopPane();
-		desktopPane.setBackground(Color.WHITE);
-		getContentPane().add(desktopPane, BorderLayout.CENTER);
 		
 		JMenuBar menuBar = new JMenuBar();
 		
@@ -131,8 +129,15 @@ public class MenuPrincipal extends JFrame {
 		mnAyuda.add(mntmAcercaDe);
 		
 		JLabel lblUsuario = new JLabel("");
+		lblUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblUsuario.setText("Usuario: " + usuario.getNombre());
 		getContentPane().add(lblUsuario, BorderLayout.NORTH);
+		
+		JLabel label = new JLabel("");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/resources/logogris.png")));
+		getContentPane().add(label, BorderLayout.CENTER);
 	}
 
 	/* (non-Javadoc)

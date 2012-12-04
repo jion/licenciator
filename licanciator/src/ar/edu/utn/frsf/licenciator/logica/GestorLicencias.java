@@ -140,6 +140,8 @@ public class GestorLicencias {
 	 * Verifica un objeto licencia antes de persistirlo en la base de datos segun
 	 * clase y edad
 	 * 
+	 * @author Las autenticas aguilas
+	 * 
 	 * @param licencia La licencia que se quiere añadir al titular, con la
 	 *        referencia al mismo
 	 * @return
@@ -148,16 +150,15 @@ public class GestorLicencias {
 
 		List<Licencia> 	licenciasTitular = licencia.getTitular().getLicencias();
 		ClaseLicencia	claseSolicitada = licencia.getClaseLicencia();
-		
-		int edadTitular = calcularEdad( licencia.getTitular().getFechaNac() );
-		int edadMinima = licencia.getClaseLicencia().getEdadMinima();
 
 		//////////////////////////////////////////////////////////////////////
 		//                                                                  //
 		// 1- Si no cumple con la edad minima para esa clase, retorno false //
 		//                                                                  //
 		//////////////////////////////////////////////////////////////////////
-		
+		int edadTitular = calcularEdad( licencia.getTitular().getFechaNac() );
+		int edadMinima = licencia.getClaseLicencia().getEdadMinima();
+
 		if(edadTitular < edadMinima)
 			return false;
 

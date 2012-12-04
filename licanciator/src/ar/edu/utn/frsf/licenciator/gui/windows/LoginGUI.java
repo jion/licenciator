@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 import ar.edu.utn.frsf.licenciator.logica.GestorSesion;
+import java.awt.Toolkit;
 
 public class LoginGUI extends JDialog {
 
@@ -45,6 +46,7 @@ public class LoginGUI extends JDialog {
 	 * Create the dialog.
 	 */
 	public LoginGUI() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginGUI.class.getResource("/resources/auto.gif")));
 		setTitle("Licenciator - Login");
 		setResizable(false);
 		setBounds(100, 100, 319, 171);
