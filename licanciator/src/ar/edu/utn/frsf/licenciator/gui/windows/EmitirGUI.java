@@ -30,6 +30,8 @@ import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
 import ar.edu.utn.frsf.licenciator.logica.GestorTitular;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class EmitirGUI extends JDialog {
 	
@@ -140,6 +142,12 @@ public class EmitirGUI extends JDialog {
 		panel_2.add(label_15, gbc_label_15);
 		
 		textNroDoc = new JTextField();
+		textNroDoc.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				rootPane.setDefaultButton(btnBuscar);
+			}
+		});
 		textNroDoc.setColumns(10);
 		GridBagConstraints gbc_textNroDoc = new GridBagConstraints();
 		gbc_textNroDoc.fill = GridBagConstraints.HORIZONTAL;
@@ -385,6 +393,12 @@ public class EmitirGUI extends JDialog {
 		panel_1.add(label_9, gbc_label_9);
 		
 		textClase = new JComboBox<ClaseLicencia>();
+		textClase.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				rootPane.setDefaultButton(btnCrearLic);
+			}
+		});
 		textClase.setBorder(null);
 		// Completo el comboBox con las distintas clase de licencia
 		for(ClaseLicencia a: GestorLicencias.obtenerTiposDeLicencia()) {
