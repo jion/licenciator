@@ -63,6 +63,8 @@ public class ClaseLicencia {
 					descripcion.equalsIgnoreCase(lic.descripcion) &&
 					edadMinima==lic.edadMinima &&
 					costo==lic.costo);
+		} else if(obj.getClass() == String.class) {
+			return ((String) obj).equals(tipo);
 		}
 		return super.equals(obj);
 	}
