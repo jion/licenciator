@@ -77,7 +77,7 @@ public class MenuPrincipal extends JFrame {
 		JMenuItem mntmAltaTitular = new JMenuItem("Alta Titular");
 		mntmAltaTitular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AltaTitularGUI.lanzarGUI();
+				AltaTitularGUI.lanzarGUI(instancia);
 			}
 		});
 		mnDarDeAlta.add(mntmAltaTitular);

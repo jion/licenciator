@@ -3,12 +3,12 @@ package ar.edu.utn.frsf.licenciator.gui.windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -16,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -71,7 +70,9 @@ public class AltaTitularGUI extends JDialog {
 	
 	private JPanel datosTitularPanel = new JPanel();
 	
-	public AltaTitularGUI() {
+	public AltaTitularGUI( Frame owner, String string, boolean b ) {
+		super( owner, string, b );
+		
 		inicializar();
 	}
 	
@@ -467,8 +468,8 @@ public class AltaTitularGUI extends JDialog {
 		}
 	}
 	
-	public static void lanzarGUI() {   
-		AltaTitularGUI ejemplo = new AltaTitularGUI();
+	public static void lanzarGUI( Frame owner ) {   
+		AltaTitularGUI ejemplo = new AltaTitularGUI( owner, "Title", true );
 		
 		ejemplo.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		ejemplo.pack();
