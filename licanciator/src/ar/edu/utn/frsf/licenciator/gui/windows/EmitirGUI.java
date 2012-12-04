@@ -26,6 +26,7 @@ import javax.swing.JTextPane;
 
 import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
+import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.EmitirLicencia;
 
@@ -48,7 +49,7 @@ public class EmitirGUI extends JDialog {
 	private JFormattedTextField textFV;
 	private JTextField textNroDoc;
 	private JTextPane textObs;
-	private JComboBox<String> textTipoDoc;
+	private JComboBox<TipoDoc> textTipoDoc;
 	private JButton btnCrearLic;
 	private JButton btnEmitirLic;
 	private JButton btnBuscar;
@@ -115,9 +116,9 @@ public class EmitirGUI extends JDialog {
 		gbc_label_14.gridy = 0;
 		panel_2.add(label_14, gbc_label_14);
 		
-		textTipoDoc = new JComboBox<String>();
+		textTipoDoc = new JComboBox<TipoDoc>();
 		// Completo el comboBox con los tipos de documento
-		for(String a: EmitirLicencia.obtenerTiposDocumento()) {
+		for(TipoDoc a: EmitirLicencia.obtenerTiposDocumento()) {
 			textTipoDoc.addItem(a);
 		}
 		GridBagConstraints gbc_textTipoDoc = new GridBagConstraints();

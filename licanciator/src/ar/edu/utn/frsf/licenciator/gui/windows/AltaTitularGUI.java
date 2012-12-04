@@ -48,7 +48,7 @@ public class AltaTitularGUI extends JDialog {
 	//Declaracion de variables
 	private BorderLayout layout = new BorderLayout();
 	
-	private JComboBox<String> tipoDocumentoCBox;
+	private JComboBox<TipoDoc> tipoDocumentoCBox;
 
 	private JTextField numeroDocumentoTField;
 
@@ -115,9 +115,9 @@ public class AltaTitularGUI extends JDialog {
 		JLabel tipoDocumentoLabel = new JLabel( "Tipo de documento:" );
 		JLabel numeroDocumentoLabel = new JLabel( "Nro de documento:" );
 		
-		tipoDocumentoCBox = new JComboBox<String>();
+		tipoDocumentoCBox = new JComboBox<TipoDoc>();
 		// Completo el comboBox con los tipos de documento
-		for( String a : EmitirLicencia.obtenerTiposDocumento() ) {
+		for( TipoDoc a : EmitirLicencia.obtenerTiposDocumento() ) {
 			tipoDocumentoCBox.addItem( a );
 		}
 		tipoDocumentoCBox.setPreferredSize( new Dimension( 100, 25 ) );
@@ -436,7 +436,7 @@ public class AltaTitularGUI extends JDialog {
 	//Este metodo permite guardar en BD al titular, verificando primero que este no exista
 	//de ser asi, lo guarda en  la BD con los datos obtenidos de los campos de informacion
 	private void guardarButtonAction( ActionEvent e ) {		
-		TipoDoc tipoDocumento = new TipoDoc( tipoDocumentoCBox.getSelectedIndex() + 1, tipoDocumentoCBox.getSelectedItem().toString(), "" );
+		TipoDoc tipoDocumento = (TipoDoc) tipoDocumentoCBox.getSelectedItem();
 		String numeroDocumento = numeroDocumentoTField.getText();
 		
 		String nombres = nombresDataLabel.getText();

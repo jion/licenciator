@@ -54,7 +54,7 @@ public class TipoDoc {
 	 */
 	@Override
 	public String toString() {
-		return "{ " + tipo + "}";
+		return tipo;
 	}
 	
 }

@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import ar.edu.utn.frsf.licenciator.dao.DaoClaseLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoLicencia;
@@ -214,16 +213,9 @@ public class EmitirLicencia {
 	/* Devuelve una lista de string de todos los tipos de documentos existentes
 	 * en la BD.
 	 */
-	public static List<String> obtenerTiposDocumento() {
-		List<TipoDoc> lista = DaoTipoDoc.readAll();
-		
-		List<String> tipos = new Vector<String>();
-		
-		for(TipoDoc a: lista) {
-			tipos.add(a.getTipo());
-		}
-		
-		return tipos;
+	public static List<TipoDoc> obtenerTiposDocumento() {
+
+		return DaoTipoDoc.readAll();
 	}
 	
 	/* Calcula la edad en años de alguien que nacio en la fecha */
