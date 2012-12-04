@@ -20,7 +20,6 @@ public class EntityManagerManager {
 	}
 	
 	public static void closeEntityManager() {
-		em.flush();
 		em.close();
 		emf.close();
 		em=null;
