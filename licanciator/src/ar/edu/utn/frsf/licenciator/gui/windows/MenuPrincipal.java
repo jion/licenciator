@@ -125,7 +125,7 @@ public class MenuPrincipal extends JFrame {
 		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de");
 		mntmAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				acercaDeGUI.lanzarGUI(instancia);
+				AcercaDeGUI.lanzarGUI(instancia);
 			}
 		});
 		mnAyuda.add(mntmAcercaDe);

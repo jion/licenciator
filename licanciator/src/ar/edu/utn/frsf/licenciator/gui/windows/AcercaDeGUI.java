@@ -14,7 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class acercaDeGUI extends JDialog {
+public class AcercaDeGUI extends JDialog {
 
 	///////////////////////////////////////////////////////////////////////////
 	// Metodos de Clase ///////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ public class acercaDeGUI extends JDialog {
 	 */
 	public static void lanzarGUI(Frame owner) {
 		try {
-			acercaDeGUI dialog = new acercaDeGUI( owner, "Title", true );
+			AcercaDeGUI dialog = new AcercaDeGUI( owner, "Title", true );
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setLocationRelativeTo( null );
 			dialog.setVisible(true);
@@ -39,9 +39,9 @@ public class acercaDeGUI extends JDialog {
 	///////////////////////////////////////////////////////////////////////////
 	// Metodos de Instancia ///////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
-	protected acercaDeGUI() { super(); inicializar(); };
+	protected AcercaDeGUI() { super(); inicializar(); };
 	
-	public acercaDeGUI(Frame owner, String string, boolean b) {
+	public AcercaDeGUI(Frame owner, String string, boolean b) {
 		super(owner, string, b);
 		inicializar();
 	}
@@ -49,7 +49,7 @@ public class acercaDeGUI extends JDialog {
 	 * Create the dialog.
 	 */
 	public void inicializar() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(acercaDeGUI.class.getResource("/resources/auto.gif")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AcercaDeGUI.class.getResource("/resources/auto.gif")));
 		setBounds(100, 100, 310, 274);
 		getContentPane().setLayout(new BorderLayout());
 		{
@@ -70,11 +70,11 @@ public class acercaDeGUI extends JDialog {
 		}
 		{
 			JLabel label = new JLabel("");
-			label.setIcon(new ImageIcon(acercaDeGUI.class.getResource("/resources/acercade.gif")));
+			label.setIcon(new ImageIcon(AcercaDeGUI.class.getResource("/resources/acercade.gif")));
 			getContentPane().add(label, BorderLayout.CENTER);
 		}
 		{
-			ImageIcon iconoAcercaDe = new ImageIcon(acercaDeGUI.class.getResource("/resources/acercade.gif"));
+			ImageIcon iconoAcercaDe = new ImageIcon(AcercaDeGUI.class.getResource("/resources/acercade.gif"));
 		}
 		this.setSize(new Dimension(450, 390)); 
 		setResizable(false);
