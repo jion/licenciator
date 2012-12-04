@@ -13,11 +13,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import ar.edu.utn.frsf.licenciator.dao.EntityManagerManager;
 import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 
-public class MenuPrincipal {
+public class MenuPrincipal extends JFrame {
 
-	private JFrame frmLicenciator;
+	private static final long serialVersionUID = 1L;
 	private static MenuPrincipal instancia;
 	/**
 	 * Launch the application.
@@ -45,7 +46,7 @@ public class MenuPrincipal {
 	public static void lanzarGUI(Usuario usuario2) {
 		try {
 			instancia = new MenuPrincipal(usuario2);
-			instancia.frmLicenciator.setVisible(true);
+			instancia.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,20 +56,19 @@ public class MenuPrincipal {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmLicenciator = new JFrame();
-		frmLicenciator.setTitle("Licenciator");
-		frmLicenciator.setIconImage(Toolkit.getDefaultToolkit().getImage("auto.gif"));
-		frmLicenciator.setBounds(100, 100, 450, 300);
-		frmLicenciator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Licenciator");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("auto.gif"));
+		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
 		JDesktopPane desktopPane = new JDesktopPane();
 		desktopPane.setBackground(Color.WHITE);
-		frmLicenciator.getContentPane().add(desktopPane, BorderLayout.CENTER);
+		getContentPane().add(desktopPane, BorderLayout.CENTER);
 		
 		JMenuBar menuBar = new JMenuBar();
 		
-		frmLicenciator.setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 		
 		JMenu mnDarDeAlta = new JMenu("Dar de Alta");
 		menuBar.add(mnDarDeAlta);
@@ -111,6 +111,11 @@ public class MenuPrincipal {
 		menuBar.add(mnSesin);
 		
 		JMenuItem mntmDesconectarse = new JMenuItem("Desconectarse");
+		mntmDesconectarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		mnSesin.add(mntmDesconectarse);
 		
 		JMenu mnAyuda = new JMenu("Ayuda");
@@ -121,10 +126,18 @@ public class MenuPrincipal {
 		
 		JLabel lblUsuario = new JLabel("");
 		lblUsuario.setText("Usuario: " + usuario.getNombre());
-		frmLicenciator.getContentPane().add(lblUsuario, BorderLayout.NORTH);
+		getContentPane().add(lblUsuario, BorderLayout.NORTH);
 	}
 
-	public static void salir() {
-		instancia.frmLicenciator.dispose();
+	/* (non-Javadoc)
+	 * @see java.awt.Window#dispose()
+	 */
+	@Override
+	public void dispose() {
+		EntityManagerManager.closeEntityManager();
+		instancia = null;
+		LoginGUI.runLogin();
+		super.dispose();
 	}
+
 }

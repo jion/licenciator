@@ -112,7 +112,6 @@ public class LoginGUI extends JDialog {
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
-						MenuPrincipal.salir();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

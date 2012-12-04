@@ -32,13 +32,13 @@ public class DaoLicencia {
 		EntityTransaction tx = em.getTransaction();
 		
 		
-		//try {
+		try {
 			tx.begin();
 			em.persist(licencia);
 			tx.commit();
-		//} catch(Exception e) {
-		//	tx.rollback();
-		//}
+		} catch(Exception e) {
+			tx.rollback();
+		}
 		
 	}
 }

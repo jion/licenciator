@@ -14,6 +14,7 @@ import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
+import ar.edu.utn.frsf.licenciator.entidades.Usuario;
 
 public class EmitirLicencia {
 
@@ -61,7 +62,8 @@ public class EmitirLicencia {
 		return DaoTitular.read( tipo, nro );
 	}
 
-	public static void guardarLicencia( Licencia licencia ) {
+	public static void guardarLicencia(  Usuario usuario, Licencia licencia ) {
+		GestorAuditoria.reportarEmitirLicencia(usuario, licencia);
 		DaoLicencia.create( licencia );
 	}
 
