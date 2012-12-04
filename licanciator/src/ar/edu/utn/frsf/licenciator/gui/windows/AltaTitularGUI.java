@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,7 +24,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import ar.edu.utn.frsf.licenciator.dao.DaoClaseLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoContribuyente;
+import ar.edu.utn.frsf.licenciator.dao.DaoTipoSanguineo;
 import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Contribuyente;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
@@ -51,15 +55,15 @@ public class AltaTitularGUI extends JDialog {
 
 	private JLabel nombresDataLabel;
 	private JLabel apellidoDataLabel;
+	private JLabel fechaNacimientoDataLabel;
 	private JLabel diaDataLabel;
 	private JLabel mesDataLabel;
 	private JLabel anioDataLabel;
 	private JLabel direccionDataLabel;
 	private JLabel localidadDataLabel;
 	
-	private JComboBox claseLicenciaDataLabel;
-	private JComboBox grupoSanguineoDataLabel;
-	private JComboBox factorDataLabel;
+	private JComboBox<ClaseLicencia> claseLicenciaDataLabel;
+	private JComboBox<TipoSanguineo> grupoSanguineoDataLabel;
 	
 	private JCheckBox donanteCBox;
 	
@@ -76,7 +80,7 @@ public class AltaTitularGUI extends JDialog {
 		this.setTitle( "Alta Titular" );
 		
 		//Se setea el tamaño de la ventana
-		this.setPreferredSize( new Dimension( 500, 460 ) );
+		this.setPreferredSize( new Dimension( 400, 490 ) );
 		
 		//Se setea como layout el BorderLayout creado
 		this.getContentPane().setLayout( layout );
@@ -112,8 +116,8 @@ public class AltaTitularGUI extends JDialog {
 		
 		tipoDocumentoCBox = new JComboBox<String>();
 		// Completo el comboBox con los tipos de documento
-		for(String a: EmitirLicencia.obtenerTiposDocumento()) {
-			tipoDocumentoCBox.addItem(a);
+		for( String a : EmitirLicencia.obtenerTiposDocumento() ) {
+			tipoDocumentoCBox.addItem( a );
 		}
 		tipoDocumentoCBox.setPreferredSize( new Dimension( 100, 25 ) );
 		
@@ -163,21 +167,21 @@ public class AltaTitularGUI extends JDialog {
 		buscarTitularPanel.add( numeroDocumentoTField, btp );
 		btp.gridy = 3;
 		btp.gridx = 2;
-		btp.insets = new Insets( 0, 90, 0, 0 );
+		btp.insets = new Insets( 0, 18, 0, 0 );
 		buscarTitularPanel.add( buscarButton, btp );
 		
 		btp.gridy = 4;
 		btp.gridx = 0;
-		buscarTitularPanel.add( jLabelEspacio3, btp );
+		buscarTitularPanel.add( jLabelEspacio2, btp );
 		
 		//Cracion del panel "Datos titular"
 		datosTitularPanel = new JPanel();
 		
-		TitledBorder datosClienteRotulo;
-		datosClienteRotulo = BorderFactory.createTitledBorder( " Datos Titular " );
-		datosClienteRotulo.setBorder(BorderFactory.createLineBorder( new Color( 100, 150, 100 ) ) );
-		datosClienteRotulo.setTitleColor( new Color( 0, 0, 128 ) );
-		datosTitularPanel.setBorder( datosClienteRotulo );
+		TitledBorder datosTitularRotulo;
+		datosTitularRotulo = BorderFactory.createTitledBorder( " Datos Titular " );
+		datosTitularRotulo.setBorder(BorderFactory.createLineBorder( new Color( 100, 150, 100 ) ) );
+		datosTitularRotulo.setTitleColor( new Color( 0, 0, 128 ) );
+		datosTitularPanel.setBorder( datosTitularRotulo );
 		
 		datosTitularPanel.setLayout( new GridBagLayout() );
 		GridBagConstraints dtp = new GridBagConstraints();
@@ -190,7 +194,8 @@ public class AltaTitularGUI extends JDialog {
 		JLabel apellidoLabel = new JLabel( "Apellido:" );
 		apellidoDataLabel = new JLabel( "<Apellidos>" );
 		
-		JLabel FechaNacimientoLabel = new JLabel( "Fecha de nacimiento: " );
+		JLabel fechaNacimientoLabel = new JLabel( "Fecha de nacimiento: " );
+		fechaNacimientoDataLabel = new JLabel( "<Dia> / <Mes> / <Año>" );
 		diaDataLabel = new JLabel( "<Dia>" );
 		mesDataLabel = new JLabel( "<Mes>" );
 		anioDataLabel = new JLabel( "<Año>" );
@@ -202,34 +207,20 @@ public class AltaTitularGUI extends JDialog {
 		localidadDataLabel = new JLabel( "<Localidad>" );
 		
 		JLabel claseLicenciaLabel = new JLabel( "Clase de licencia solicitada: " );
-		claseLicenciaDataLabel = new JComboBox();
-		claseLicenciaDataLabel = new JComboBox();
+		claseLicenciaDataLabel = new JComboBox<ClaseLicencia>();
 		claseLicenciaDataLabel.setEnabled( false );
-		claseLicenciaDataLabel.setPreferredSize( new Dimension( 100, 25 ) );
-		claseLicenciaDataLabel.addItem( "Clase A" );
-		claseLicenciaDataLabel.addItem( "Clase B" );
-		claseLicenciaDataLabel.addItem( "Clase C" );
-		claseLicenciaDataLabel.addItem( "Clase D" );
-		claseLicenciaDataLabel.addItem( "Clase E" );
-		claseLicenciaDataLabel.addItem( "Clase F" );
-		claseLicenciaDataLabel.addItem( "Clase G" );
-
+		claseLicenciaDataLabel.setPreferredSize( new Dimension( 80, 25 ) );
+		for( ClaseLicencia a : DaoClaseLicencia.readAll() ) {
+			claseLicenciaDataLabel.addItem( a );
+		}
 		
-		JLabel grupoSanguineoLabel = new JLabel( "Grupo sanguineo: " );
-		grupoSanguineoDataLabel = new JComboBox();
+		JLabel grupoSanguineoLabel = new JLabel( "Grupo y factor sanguineo: " );
+		grupoSanguineoDataLabel = new JComboBox<TipoSanguineo>();
 		grupoSanguineoDataLabel.setEnabled( false );
-		grupoSanguineoDataLabel.setPreferredSize( new Dimension( 120, 25 ) );
-		grupoSanguineoDataLabel.addItem( "Grupo A" );
-		grupoSanguineoDataLabel.addItem( "Grupo B" );
-		grupoSanguineoDataLabel.addItem( "Grupo AB" );
-		grupoSanguineoDataLabel.addItem( "Grupo 0" );
-		
-		JLabel factorRHLabel = new JLabel( "Factor RH: " );
-		factorDataLabel = new JComboBox();
-		factorDataLabel.setEnabled( false );
-		factorDataLabel.setPreferredSize( new Dimension( 70, 25 ) );
-		factorDataLabel.addItem( "+" );
-		factorDataLabel.addItem( "-" );
+		grupoSanguineoDataLabel.setPreferredSize( new Dimension( 100, 25 ) );
+		for( TipoSanguineo a : DaoTipoSanguineo.readAll() ) {
+			grupoSanguineoDataLabel.addItem( a );
+		}
 		
 		JLabel donanteLabel = new JLabel( "Donante de organos: " );
 		donanteCBox = new JCheckBox();
@@ -258,10 +249,10 @@ public class AltaTitularGUI extends JDialog {
 			}
 		});
 		
-		//Armado del panel "Buscar titular"
+		//Armado del panel "Datos titular"
 		btp.gridy = 0;
 		btp.gridx = 0;
-		datosTitularPanel.add( jLabelEspacio4, dtp );
+		datosTitularPanel.add( jLabelEspacio3, dtp );
 		
 		dtp.gridy = 1;
 		dtp.gridx = 0;
@@ -275,7 +266,7 @@ public class AltaTitularGUI extends JDialog {
 		
 		dtp.gridy = 2;
 		dtp.gridx = 0;
-		datosTitularPanel.add( jLabelEspacio5, dtp );
+		datosTitularPanel.add( jLabelEspacio4, dtp );
 		
 		dtp.gridy = 3;
 		dtp.gridx = 0;
@@ -289,134 +280,88 @@ public class AltaTitularGUI extends JDialog {
 		
 		dtp.gridy = 4;
 		dtp.gridx = 0;
-		datosTitularPanel.add( jLabelEspacio6, dtp );
+		datosTitularPanel.add( jLabelEspacio5, dtp );
 		
 		dtp.gridy = 5;
 		dtp.gridx = 0;
 		dtp.insets = new Insets( 0, 0, 0, 0 );
-		datosTitularPanel.add( FechaNacimientoLabel, dtp );
-		
-		JPanel fechaNacimientoPanel = new JPanel();
-		fechaNacimientoPanel.setLayout( new GridBagLayout() );
-		GridBagConstraints fnp = new GridBagConstraints();
-		fnp.fill = GridBagConstraints.HORIZONTAL;
-		
-		fnp.gridy = 0;
-		fnp.gridx = 0;
-		fnp.insets = new Insets(0, 0, 0, 0);
-		fechaNacimientoPanel.add( diaDataLabel, fnp );
-		fnp.gridy = 0;
-		fnp.gridx = 1;
-		fnp.insets = new Insets( 0, 10, 0, 0 );
-		fechaNacimientoPanel.add( mesDataLabel, fnp );
-		fnp.gridy = 0;
-		fnp.gridx = 2;
-		fnp.insets = new Insets( 0, 10, 0, 0 );
-		fechaNacimientoPanel.add( anioDataLabel, fnp );
-		
+		datosTitularPanel.add( fechaNacimientoLabel, dtp );
 		dtp.gridy = 5;
 		dtp.gridx = 1;
-		dtp.gridwidth = 3;
-		dtp.insets = new Insets( 0, 40, 0, 0 );
-		datosTitularPanel.add( fechaNacimientoPanel, dtp );
+		dtp.insets = new Insets(0, 50, 0, 0);
+		datosTitularPanel.add( fechaNacimientoDataLabel, dtp );
 		
 		dtp.gridy = 6;
 		dtp.gridx = 0;
-		datosTitularPanel.add( jLabelEspacio7, dtp );
-		
-		JPanel direccionLocalidadPanel = new JPanel();
-		direccionLocalidadPanel.setLayout( new GridBagLayout() );
-		GridBagConstraints dlp = new GridBagConstraints();
-		dlp.fill = GridBagConstraints.HORIZONTAL;
-		
-		dlp.gridy = 0;
-		dlp.gridx = 0;
-		dlp.insets = new Insets( 0, -45, 0, 0 );
-		direccionLocalidadPanel.add( direccionLabel, dlp );
-		dlp.gridy = 0;
-		dlp.gridx = 1;
-		dlp.insets = new Insets( 0, 5, 0, 0 );
-		direccionLocalidadPanel.add( direccionDataLabel, dlp );
-		dlp.gridy = 0;
-		dlp.gridx = 2;
-		dlp.insets = new Insets( 0, 130, 0, 0 );
-		direccionLocalidadPanel.add( localidadLabel, dlp );
-		dlp.gridy = 0;
-		dlp.gridx = 3;
-		dlp.insets = new Insets( 0, 5, 0, 0 );
-		direccionLocalidadPanel.add( localidadDataLabel, dlp );
+		datosTitularPanel.add( jLabelEspacio6, dtp );
 		
 		dtp.gridy = 7;
 		dtp.gridx = 0;
-		dtp.gridwidth = 5;
 		dtp.insets = new Insets( 0, 0, 0, 0 );
-		datosTitularPanel.add( direccionLocalidadPanel, dtp );
+		datosTitularPanel.add( direccionLabel, dtp );
+		dtp.gridy = 7;
+		dtp.gridx = 1;
+		dtp.insets = new Insets( 0, -5, 0, 0 );
+		datosTitularPanel.add( direccionDataLabel, dtp );
 		
 		dtp.gridy = 8;
 		dtp.gridx = 0;
-		datosTitularPanel.add( jLabelEspacio8, dtp );
+		datosTitularPanel.add( jLabelEspacio7, dtp );
 		
 		dtp.gridy = 9;
 		dtp.gridx = 0;
 		dtp.insets = new Insets( 0, 0, 0, 0 );
-		datosTitularPanel.add( claseLicenciaLabel, dtp );
+		datosTitularPanel.add( localidadLabel, dtp );
 		dtp.gridy = 9;
 		dtp.gridx = 1;
-		dtp.gridwidth = 3;
-		dtp.insets = new Insets( 0, 85, 0, 0 );
-		datosTitularPanel.add( claseLicenciaDataLabel, dtp );
+		dtp.insets = new Insets( 0, -5, 0, 0 );
+		datosTitularPanel.add( localidadDataLabel, dtp );
 		
 		dtp.gridy = 10;
 		dtp.gridx = 0;
-		datosTitularPanel.add( jLabelEspacio9, dtp );
-		
-		JPanel grupoSanguineoPanel = new JPanel();
-		grupoSanguineoPanel.setLayout( new GridBagLayout() );
-		GridBagConstraints gsp = new GridBagConstraints();
-		gsp.fill = GridBagConstraints.HORIZONTAL;
-		
-		gsp.gridy = 0;
-		gsp.gridx = 0;
-		gsp.insets = new Insets( 0, 20, 0, 0 );
-		grupoSanguineoPanel.add( grupoSanguineoLabel, gsp );
-		gsp.gridy = 0;
-		gsp.gridx = 1;
-		gsp.insets = new Insets( 0, 10, 0, 0 );
-		grupoSanguineoPanel.add( grupoSanguineoDataLabel, gsp );
-		gsp.gridy = 0;
-		gsp.gridx = 2;
-		gsp.insets = new Insets( 0, 48, 0, 0 );
-		grupoSanguineoPanel.add( factorRHLabel, gsp );
-		gsp.gridy = 0;
-		gsp.gridx = 3;
-		gsp.insets = new Insets( 0, 12, 0, 0 );
-		grupoSanguineoPanel.add( factorDataLabel, gsp );
+		datosTitularPanel.add( jLabelEspacio8, dtp );
 		
 		dtp.gridy = 11;
 		dtp.gridx = 0;
-		dtp.gridwidth = 5;
-		dtp.insets = new Insets( 0, -20, 0, 0 );
-		datosTitularPanel.add( grupoSanguineoPanel, dtp );
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( claseLicenciaLabel, dtp );
+		dtp.gridy = 11;
+		dtp.gridx = 1;
+		dtp.insets = new Insets( 0, 85, 0, 0 );
+		datosTitularPanel.add( claseLicenciaDataLabel, dtp );
 		
 		dtp.gridy = 12;
 		dtp.gridx = 0;
-		datosTitularPanel.add( jLabelEspacio10, dtp );
+		datosTitularPanel.add( jLabelEspacio9, dtp );
 		
 		dtp.gridy = 13;
 		dtp.gridx = 0;
+		dtp.insets = new Insets( 0, 0, 0, 0 );
+		datosTitularPanel.add( grupoSanguineoLabel, dtp );
+		dtp.gridy = 13;
+		dtp.gridx = 1;
+		dtp.insets = new Insets( 0, 80, 0, 0 );
+		datosTitularPanel.add( grupoSanguineoDataLabel, dtp );
+		
+		dtp.gridy = 14;
+		dtp.gridx = 0;
+		datosTitularPanel.add( jLabelEspacio10, dtp );
+		
+		dtp.gridy = 15;
+		dtp.gridx = 0;
 		dtp.insets = new Insets( 0, 1, 0, 0 );
 		datosTitularPanel.add( donanteLabel, dtp );
-		dtp.gridy = 13;
+		dtp.gridy = 15;
 		dtp.gridx = 1;
 		dtp.gridwidth = 1;
 		dtp.insets = new Insets( 0, 55, 0, 0 );
 		datosTitularPanel.add( donanteCBox, dtp );
 		
-		dtp.gridy = 14;
+		dtp.gridy = 16;
 		dtp.gridx = 0;
 		datosTitularPanel.add( jLabelEspacio11, dtp );
 		
-		dtp.gridy = 15;
+		dtp.gridy = 17;
 		dtp.gridx = 0;
 		datosTitularPanel.add( jLabelEspacio12, dtp );
 		
@@ -434,13 +379,13 @@ public class AltaTitularGUI extends JDialog {
 		bpa.insets = new Insets( 0, 15, 0, 0 );
 		buttonPanelAlta.add( cancelarAltaButton, bpa );
 		
-		dtp.gridy = 16;
+		dtp.gridy = 18;
 		dtp.gridx = 0;
 		dtp.gridwidth = 5;
-		dtp.insets = new Insets( 0, 170, 0, 0 );
+		dtp.insets = new Insets( 0, 100, 0, 0 );
 		datosTitularPanel.add( buttonPanelAlta, dtp );
 		
-		dtp.gridy = 17;
+		dtp.gridy = 19;
 		dtp.gridx = 0;
 		datosTitularPanel.add( jLabelEspacio13, dtp );
 		
@@ -466,7 +411,6 @@ public class AltaTitularGUI extends JDialog {
 			if( contribuyente != null ) {
 				claseLicenciaDataLabel.setEnabled( true );
 				grupoSanguineoDataLabel.setEnabled( true );
-				factorDataLabel.setEnabled( true );
 				donanteCBox.setEnabled( true );
 				
 				guardarButton.setEnabled( true );
@@ -475,8 +419,10 @@ public class AltaTitularGUI extends JDialog {
 				apellidoDataLabel.setText( contribuyente.getApellido() );
 				
 				diaDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.DATE ) ) );
-				mesDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.MONTH ) ) );
+				mesDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.MONTH ) + 1) );
 				anioDataLabel.setText( String.valueOf( contribuyente.getFechaNac().get( Calendar.YEAR ) ) );
+				
+				fechaNacimientoDataLabel.setText( diaDataLabel.getText() + " / " + mesDataLabel.getText() + " / " + anioDataLabel.getText() );
 				
 				direccionDataLabel.setText( contribuyente.getDomicilio() );
 				localidadDataLabel.setText( contribuyente.getLocalidad() );
@@ -496,7 +442,7 @@ public class AltaTitularGUI extends JDialog {
 		String apellido = apellidoDataLabel.getText();
 		
 		int dia = Integer.parseInt( diaDataLabel.getText() );
-		int mes = Integer.parseInt( mesDataLabel.getText() );
+		int mes = Integer.parseInt( mesDataLabel.getText() ) - 1;
 		int anio = Integer.parseInt( anioDataLabel.getText() );
 		
 		Calendar fechaNacimiento = Calendar.getInstance();
@@ -508,37 +454,17 @@ public class AltaTitularGUI extends JDialog {
 		String direccion = direccionDataLabel.getText();
 		String localidad = localidadDataLabel.getText();
 		
-		ClaseLicencia claseLicencia = new ClaseLicencia( claseLicenciaDataLabel.getSelectedItem().toString(), "", calcularEdad( fechaNacimiento ), 100);
-		
-		TipoSanguineo tipoSanguineo = new TipoSanguineo( grupoSanguineoDataLabel.getSelectedItem().toString(), factorDataLabel.getSelectedItem().toString().charAt( 0 ) );
-		
 		boolean donante = donanteCBox.isSelected();
 
 		try {
-			GestorTitular.createTitular( tipoDocumento, Long.parseLong( numeroDocumento ), nombres, apellido, fechaNacimiento, direccion, localidad, claseLicencia, tipoSanguineo, donante );
+			GestorTitular.createTitular( tipoDocumento, Long.parseLong( numeroDocumento ), nombres, apellido, fechaNacimiento, direccion, localidad, ( ClaseLicencia ) claseLicenciaDataLabel.getSelectedItem(), ( TipoSanguineo ) grupoSanguineoDataLabel.getSelectedItem(), donante );
 			
-			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El titular se ha creado con exito", "Error", JOptionPane.ERROR_MESSAGE );
+			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El titular se ha creado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE );
 			
 			dispose();
 		} catch( TitularExistenteExeption ex ) {
 			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El titular ya existe", "Error", JOptionPane.ERROR_MESSAGE );
 		}
-	}
-	
-	//Este metodo permite calcular la edad en base a una fecha de nacimiento recibida
-	private int calcularEdad( Calendar fechaNacimientoCalendar ) {
-		Calendar FECHA_ACTUAL = Calendar.getInstance();
-		
-		//Se restan la fecha actual y la fecha de nacimiento
-		int anio = FECHA_ACTUAL.get( Calendar.YEAR ) - fechaNacimientoCalendar.get( Calendar.YEAR );
-		int mes = FECHA_ACTUAL.get( Calendar.MONTH ) - fechaNacimientoCalendar.get( Calendar.MONTH );
-		int dia = FECHA_ACTUAL.get( Calendar.DATE ) - fechaNacimientoCalendar.get( Calendar.DATE );
-		
-		//Se ajusta el año dependiendo el mes y el dia
-		if( mes < 0 || ( mes == 0 && dia < 0 ) )
-			anio--;
-		
-		return anio;
 	}
 	
 	public static void lanzarGUI() {   
