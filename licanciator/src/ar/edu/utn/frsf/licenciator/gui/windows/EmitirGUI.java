@@ -3,9 +3,11 @@ package ar.edu.utn.frsf.licenciator.gui.windows;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -19,6 +21,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -52,26 +55,35 @@ public class EmitirGUI extends JDialog {
 	private JButton btnEmitirLic;
 	private JButton btnBuscar;
 	
+	
 	/**
 	 * Lanza una nueva instancia de la ventana de Alta Usuario.
 	 * 
 	 * @param superusuario Si es true, nos habilita la opcion de crear un superusuario.
 	 *                     Si es false, no aparece dicha opción.
 	 */
-	public static void lanzarGUI() {
+	public static void lanzarGUI(Frame owner) {
 		try {
-			EmitirGUI dialog = new EmitirGUI();
+			EmitirGUI dialog = new EmitirGUI(owner, "Emitir Licencia", true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo( null );
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	private EmitirGUI() { super(); }
+	
+	public EmitirGUI(Frame owner, String string, boolean b) {
+		super(owner, string, b);
+		inicializar();
+	}
+	
 	/**
 	 * Create the panel.
 	 */
-	public EmitirGUI() {
+	private void inicializar() {
 		
 		setMinimumSize(new Dimension(430, 550));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

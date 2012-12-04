@@ -17,8 +17,10 @@ public class DaoContribuyente {
 		query.setParameter( "tipoD", tipoD );
 		query.setParameter( "nroD", nroD );
 
-		if( query.getResultList().size() == 1 )
+		if( query.getResultList().size() == 1 ) {
+			System.out.println(query.getSingleResult());
 			contribuyente = query.getSingleResult();
+		}
 		
 		return contribuyente;
 	}
