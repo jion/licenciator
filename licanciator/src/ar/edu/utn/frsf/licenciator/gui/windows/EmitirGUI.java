@@ -497,7 +497,7 @@ public class EmitirGUI extends JDialog {
 				if (licencia !=null)
 				{
 					licencia.setObservaciones(textObs.getText());
-					EmitirLicencia.guardarLicencia(licencia);
+					EmitirLicencia.guardarLicencia(MenuPrincipal.getInstancia().getUsuario(), licencia);
 					//TODO: Como sabe si la persistio bien?
 					dispose();
 				}
