@@ -30,6 +30,8 @@ import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
 import ar.edu.utn.frsf.licenciator.logica.GestorTitular;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class EmitirGUI extends JDialog {
 	
@@ -140,6 +142,12 @@ public class EmitirGUI extends JDialog {
 		panel_2.add(label_15, gbc_label_15);
 		
 		textNroDoc = new JTextField();
+		textNroDoc.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				rootPane.setDefaultButton(btnBuscar);
+			}
+		});
 		textNroDoc.setColumns(10);
 		GridBagConstraints gbc_textNroDoc = new GridBagConstraints();
 		gbc_textNroDoc.fill = GridBagConstraints.HORIZONTAL;
@@ -222,6 +230,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_1, gbc_label_1);
 		
 		textApellido = new JTextField();
+		textApellido.setBorder(null);
 		textApellido.setEnabled(false);
 		textApellido.setColumns(10);
 		GridBagConstraints gbc_textApellido = new GridBagConstraints();
@@ -240,6 +249,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_2, gbc_label_2);
 		
 		textNombre = new JTextField();
+		textNombre.setBorder(null);
 		textNombre.setEnabled(false);
 		textNombre.setColumns(10);
 		GridBagConstraints gbc_textNombre = new GridBagConstraints();
@@ -258,6 +268,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_3, gbc_label_3);
 		
 		textDomicilio = new JTextField();
+		textDomicilio.setBorder(null);
 		textDomicilio.setEnabled(false);
 		textDomicilio.setColumns(10);
 		GridBagConstraints gbc_textDomicilio = new GridBagConstraints();
@@ -276,6 +287,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_4, gbc_label_4);
 		
 		textLocalidad = new JTextField();
+		textLocalidad.setBorder(null);
 		textLocalidad.setEnabled(false);
 		textLocalidad.setColumns(10);
 		GridBagConstraints gbc_textLocalidad = new GridBagConstraints();
@@ -294,6 +306,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_5, gbc_label_5);
 		
 		textNac = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));   
+		textNac.setBorder(null);
 		textNac.setEnabled(false);
 		textNac.setColumns(10);
 		GridBagConstraints gbc_textNac = new GridBagConstraints();
@@ -312,6 +325,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_6, gbc_label_6);
 		
 		textDonante = new JTextField();
+		textDonante.setBorder(null);
 		textDonante.setEnabled(false);
 		textDonante.setColumns(10);
 		GridBagConstraints gbc_textDonante = new GridBagConstraints();
@@ -330,6 +344,7 @@ public class EmitirGUI extends JDialog {
 		panel.add(label_7, gbc_label_7);
 		
 		textFactor = new JTextField();
+		textFactor.setBorder(null);
 		textFactor.setEnabled(false);
 		textFactor.setColumns(10);
 		GridBagConstraints gbc_textFactor = new GridBagConstraints();
@@ -378,6 +393,13 @@ public class EmitirGUI extends JDialog {
 		panel_1.add(label_9, gbc_label_9);
 		
 		textClase = new JComboBox<ClaseLicencia>();
+		textClase.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				rootPane.setDefaultButton(btnCrearLic);
+			}
+		});
+		textClase.setBorder(null);
 		// Completo el comboBox con las distintas clase de licencia
 		for(ClaseLicencia a: GestorLicencias.obtenerTiposDeLicencia()) {
 			textClase.addItem(a);
@@ -422,6 +444,7 @@ public class EmitirGUI extends JDialog {
 		panel_1.add(label_10, gbc_label_10);
 		
 		textNroLic = new JTextField();
+		textNroLic.setBorder(null);
 		textNroLic.setEnabled(false);
 		textNroLic.setColumns(10);
 		GridBagConstraints gbc_textNroLic = new GridBagConstraints();
@@ -440,6 +463,7 @@ public class EmitirGUI extends JDialog {
 		panel_1.add(label_11, gbc_label_11);
 		
 		textFE = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy")); 
+		textFE.setBorder(null);
 		textFE.setEnabled(false);
 		textFE.setColumns(10);
 		GridBagConstraints gbc_textFE = new GridBagConstraints();
@@ -458,6 +482,7 @@ public class EmitirGUI extends JDialog {
 		panel_1.add(label_12, gbc_label_12);
 		
 		textFV =  new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy")); 
+		textFV.setBorder(null);
 		textFV.setEnabled(false);
 		textFV.setColumns(10);
 		GridBagConstraints gbc_textFV = new GridBagConstraints();
@@ -477,7 +502,7 @@ public class EmitirGUI extends JDialog {
 		
 		textObs = new JTextPane();
 		textObs.setEnabled(false);
-		textObs.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		textObs.setBorder(null);
 		GridBagConstraints gbc_textObs = new GridBagConstraints();
 		gbc_textObs.insets = new Insets(0, 0, 0, 5);
 		gbc_textObs.fill = GridBagConstraints.BOTH;
