@@ -3,6 +3,7 @@ package ar.edu.utn.frsf.licenciator.gui.windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -20,11 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
-import javax.swing.border.LineBorder;
 
 public class ImprimirGUI extends JDialog {
 
@@ -45,6 +45,38 @@ public class ImprimirGUI extends JDialog {
 	private JTextField tf_fechaEmision;
 	private JTextPane tf_observaciones;
 	
+	///////////////////////////////////////////////////////////////////////////
+	// Metodos de Clase ///////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	/**
+	 * Muestra la ventana de Imprimir.
+	 * 
+	 * @param licencia La licencia a ser impresa
+	 */
+	public static void LanzarGUI(Frame owner, Licencia licencia) {
+		try {
+			ImprimirGUI dialog = new ImprimirGUI(owner, "Imprimir", true);
+			
+			dialog.llenaVentana(licencia);
+			dialog.llenaVentana(licencia);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo( null );
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// Metodos de Instancia ///////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	private ImprimirGUI() { super(); }
+	
+	public ImprimirGUI(Frame owner, String string, boolean b) {
+		super(owner, string, b);
+		inicializar();
+	}
+	
 	private void llenaVentana(Licencia licencia) {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		tf_clase.setText(licencia.getClaseLicencia().getTipo());
@@ -63,31 +95,12 @@ public class ImprimirGUI extends JDialog {
 		tf_fechaEmision.setText(dateFormat.format(licencia.getFechaEmision().getTime()));
 	}
 
-	/**
-	 * Muestra la ventana de Imprimir.
-	 * 
-	 * @param licencia La licencia a ser impresa
-	 */
-	public static void runImprimir(Licencia licencia) {
-		try {
-			ImprimirGUI dialog = new ImprimirGUI();
-			
-			dialog.llenaVentana(licencia);
-			dialog.llenaVentana(licencia);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setLocationRelativeTo( null );
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/* Autogenerado por WindowBuilder ****************************/
 	
 	/**
 	 * Create the dialog.
 	 */
-	public ImprimirGUI() {
+	public void inicializar() {
 		setTitle("Imprimir");
 		setResizable(false);
 		setBounds(100, 100, 440, 590);

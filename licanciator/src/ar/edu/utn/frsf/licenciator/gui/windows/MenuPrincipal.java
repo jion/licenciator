@@ -91,7 +91,7 @@ public class MenuPrincipal extends JFrame {
 		
 		mntmAltaUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AltaUsuarioGUI.lanzarGUI();
+				AltaUsuarioGUI.lanzarGUI(instancia);
 			}
 		});
 		
@@ -103,7 +103,7 @@ public class MenuPrincipal extends JFrame {
 		JMenuItem mntmEmitir = new JMenuItem("Emitir");
 		mntmEmitir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EmitirGUI.lanzarGUI();
+				EmitirGUI.lanzarGUI(instancia);
 			}
 		});
 		mnLicencia.add(mntmEmitir);
