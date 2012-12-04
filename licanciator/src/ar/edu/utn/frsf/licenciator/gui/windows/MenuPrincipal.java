@@ -123,6 +123,11 @@ public class MenuPrincipal extends JFrame {
 		menuBar.add(mnAyuda);
 		
 		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de");
+		mntmAcercaDe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				acercaDeGUI.lanzarGUI(instancia);
+			}
+		});
 		mnAyuda.add(mntmAcercaDe);
 		
 		JLabel lblUsuario = new JLabel("");

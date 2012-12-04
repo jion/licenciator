@@ -1,51 +1,54 @@
 package ar.edu.utn.frsf.licenciator.gui.windows;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.Font;
-import java.awt.SystemColor;
-import javax.swing.SwingConstants;
-import java.awt.Canvas;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JList;
-import java.awt.Label;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
 
 public class acercaDeGUI extends JDialog {
 
+	///////////////////////////////////////////////////////////////////////////
+	// Metodos de Clase ///////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 	/**
-	 * Launch the application.
+	 * Lanza una nueva instancia de la ventana de Alta Usuario.
+	 * 
+	 * @param superusuario Si es true, nos habilita la opcion de crear un superusuario.
+	 *                     Si es false, no aparece dicha opción.
 	 */
-	public static void main(String[] args) {
+	public static void lanzarGUI(Frame owner) {
 		try {
-			acercaDeGUI dialog = new acercaDeGUI();
+			acercaDeGUI dialog = new acercaDeGUI( owner, "Title", true );
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo( null );
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	///////////////////////////////////////////////////////////////////////////
+	// Metodos de Instancia ///////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	protected acercaDeGUI() { super(); inicializar(); };
+	
+	public acercaDeGUI(Frame owner, String string, boolean b) {
+		super(owner, string, b);
+		inicializar();
+	}
 	/**
 	 * Create the dialog.
 	 */
-	public acercaDeGUI() {
+	public void inicializar() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(acercaDeGUI.class.getResource("/resources/auto.gif")));
 		setBounds(100, 100, 310, 274);
 		getContentPane().setLayout(new BorderLayout());
