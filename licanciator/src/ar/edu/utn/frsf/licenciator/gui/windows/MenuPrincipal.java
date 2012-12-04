@@ -60,7 +60,7 @@ public class MenuPrincipal extends JFrame {
 		setTitle("Licenciator");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("auto.gif"));
 		setBounds(100, 100, 800, 600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		
 		JDesktopPane desktopPane = new JDesktopPane();
