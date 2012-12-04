@@ -41,6 +41,7 @@ public class GestorSesion {
 			}
 			
 			usuario = new Usuario(nombre, password, isSuperUser);
+			GestorAuditoria.reportarAltaUsuario(creador, usuario);
 			DaoUsuarios.create(usuario);
 			
 			return usuario;//DaoUsuarios.read(nombre);
