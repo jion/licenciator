@@ -458,7 +458,7 @@ public class AltaTitularGUI extends JDialog {
 		boolean donante = donanteCBox.isSelected();
 
 		try {
-			GestorTitular.createTitular( tipoDocumento, Long.parseLong( numeroDocumento ), nombres, apellido, fechaNacimiento, direccion, localidad, ( ClaseLicencia ) claseLicenciaDataLabel.getSelectedItem(), ( TipoSanguineo ) grupoSanguineoDataLabel.getSelectedItem(), donante );
+			GestorTitular.createTitular( MenuPrincipal.getInstancia().getUsuario(), tipoDocumento, Long.parseLong( numeroDocumento ), nombres, apellido, fechaNacimiento, direccion, localidad, ( ClaseLicencia ) claseLicenciaDataLabel.getSelectedItem(), ( TipoSanguineo ) grupoSanguineoDataLabel.getSelectedItem(), donante );
 			
 			JOptionPane.showMessageDialog( JOptionPane.getRootFrame(), "El titular se ha creado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE );
 			
