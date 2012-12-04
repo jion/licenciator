@@ -8,6 +8,7 @@
 		<class>ar.edu.utn.frsf.licenciator.entidades.Titular</class>
 		<class>ar.edu.utn.frsf.licenciator.entidades.Contribuyente</class>
 		<class>ar.edu.utn.frsf.licenciator.entidades.Usuario</class>
+		<class>ar.edu.utn.frsf.licenciator.entidades.Auditoria</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
@@ -19,7 +20,7 @@
 			
 			<!-- ATENCION!!!!! GRUPO METODOS AGILES!!! -->
 			<!-- Descomentar la siguiente linea la primera vez, para que cree las tablas  -->
-			<!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> --> 
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
 			<!-- EclipseLink should create the database schema automatically -->
 			<property name="eclipselink.ddl-generation.output-mode"
 				value="database" />

@@ -2,6 +2,7 @@ package ar.edu.utn.frsf.licenciator.gui.windows;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -39,77 +40,41 @@ public class AltaUsuarioGUI extends JDialog {
 	private JPasswordField passwordField_2;
 	private JCheckBox cBsuperUsuario;
 	
-	/**
-	 * Verifica que los campos de la interfaz de alta usuario se hayan completado
-	 * correctamente.
-	 * En caso de que algun campo no este completado de la manera correcta, muestra
-	 * un mensaje de error advirtiendo acerca de la situación.
-	 * 
-	 * @return true si cumple todos los requisitos para dar de alta un usuario
-	 * 			false si no los cumple
-	 */
-	private boolean validar() {
-		// ** Validaciones de nombre de usuario *******************************
-		String nombreUsuario = txtfNombre.getText();
-
-		// Comprobación de longitud y de caracteres válidos
-		// compilamos el patron
-		Pattern pat = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]{0,24}$");
-		Matcher mat = pat.matcher(nombreUsuario);
-		if(!mat.find()) {
-			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-					"Nombre de usuario inválido. El nombre solo deberá contener" +
-					" letras y/o numeros\ny un tamaño máximo de 25 caracteres.",
-					"Licenciator", JOptionPane.ERROR_MESSAGE);
-			
-			return false;
-		}
-		
-		// ** Validacion de contraseña ****************************************
-		String passwd1 = new String(passwordField_1.getPassword());
-		String passwd2 = new String(passwordField_2.getPassword());
-		
-		// Comprueba que se haya ingresado una contraseña
-		if(passwd1.length() == 0 && passwd2.length() == 0) {
-			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-					"Debe ingresar una contraseña",
-					"Licenciator", JOptionPane.ERROR_MESSAGE);
-			
-			return false;
-		}
-		
-		// Comprueba que las contraseñas coincidan
-		if( !(passwd1.equals(passwd2)) ) {
-			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
-					"Las contraseñas no coinciden.",
-					"Licenciator", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		
-		// Si todas las validaciones estan bien, retorna true.
-		return true;
-	}
-
+	///////////////////////////////////////////////////////////////////////////
+	// Metodos de Clase ///////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 	/**
 	 * Lanza una nueva instancia de la ventana de Alta Usuario.
 	 * 
 	 * @param superusuario Si es true, nos habilita la opcion de crear un superusuario.
 	 *                     Si es false, no aparece dicha opción.
 	 */
-	public static void lanzarGUI() {
+	public static void lanzarGUI(Frame owner) {
 		try {
-			AltaUsuarioGUI dialog = new AltaUsuarioGUI();
+			AltaUsuarioGUI dialog = new AltaUsuarioGUI( owner, "Title", true );
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo( null );
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	// Metodos de Instancia ///////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	protected AltaUsuarioGUI() { super(); inicializar(); };
+	
+	public AltaUsuarioGUI(Frame owner, String string, boolean b) {
+		super(owner, string, b);
+		inicializar();
+	}
+	
 
 	/**
 	 * Create the dialog.
 	 */
-	public AltaUsuarioGUI() {
+	public void inicializar() {
 		setResizable(false);
 		setTitle("Alta de usuario");
 		setBounds(100, 100, 400, 230);
@@ -241,5 +206,57 @@ public class AltaUsuarioGUI extends JDialog {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Verifica que los campos de la interfaz de alta usuario se hayan completado
+	 * correctamente.
+	 * En caso de que algun campo no este completado de la manera correcta, muestra
+	 * un mensaje de error advirtiendo acerca de la situación.
+	 * 
+	 * @return true si cumple todos los requisitos para dar de alta un usuario
+	 * 			false si no los cumple
+	 */
+	private boolean validar() {
+		// ** Validaciones de nombre de usuario *******************************
+		String nombreUsuario = txtfNombre.getText();
 
+		// Comprobación de longitud y de caracteres válidos
+		// compilamos el patron
+		Pattern pat = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]{0,24}$");
+		Matcher mat = pat.matcher(nombreUsuario);
+		if(!mat.find()) {
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+					"Nombre de usuario inválido. El nombre solo deberá contener" +
+					" letras y/o numeros\ny un tamaño máximo de 25 caracteres.",
+					"Licenciator", JOptionPane.ERROR_MESSAGE);
+			
+			return false;
+		}
+		
+		// ** Validacion de contraseña ****************************************
+		String passwd1 = new String(passwordField_1.getPassword());
+		String passwd2 = new String(passwordField_2.getPassword());
+		
+		// Comprueba que se haya ingresado una contraseña
+		if(passwd1.length() == 0 && passwd2.length() == 0) {
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+					"Debe ingresar una contraseña",
+					"Licenciator", JOptionPane.ERROR_MESSAGE);
+			
+			return false;
+		}
+		
+		// Comprueba que las contraseñas coincidan
+		if( !(passwd1.equals(passwd2)) ) {
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),
+					"Las contraseñas no coinciden.",
+					"Licenciator", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		// Si todas las validaciones estan bien, retorna true.
+		return true;
+	}
+	
 }

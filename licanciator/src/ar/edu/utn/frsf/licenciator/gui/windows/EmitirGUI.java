@@ -3,6 +3,7 @@ package ar.edu.utn.frsf.licenciator.gui.windows;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -52,26 +53,35 @@ public class EmitirGUI extends JDialog {
 	private JButton btnEmitirLic;
 	private JButton btnBuscar;
 	
+	
 	/**
 	 * Lanza una nueva instancia de la ventana de Alta Usuario.
 	 * 
 	 * @param superusuario Si es true, nos habilita la opcion de crear un superusuario.
 	 *                     Si es false, no aparece dicha opción.
 	 */
-	public static void lanzarGUI() {
+	public static void lanzarGUI(Frame owner) {
 		try {
-			EmitirGUI dialog = new EmitirGUI();
+			EmitirGUI dialog = new EmitirGUI(owner, "Emitir Licencia", true);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo( null );
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	protected EmitirGUI() { super(); inicializar(); }
+	
+	public EmitirGUI(Frame owner, String string, boolean b) {
+		super(owner, string, b);
+		inicializar();
+	}
+	
 	/**
 	 * Create the panel.
 	 */
-	public EmitirGUI() {
+	private void inicializar() {
 		
 		setMinimumSize(new Dimension(430, 550));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -500,6 +510,7 @@ public class EmitirGUI extends JDialog {
 					EmitirLicencia.guardarLicencia(MenuPrincipal.getInstancia().getUsuario(), licencia);
 					//TODO: Como sabe si la persistio bien?
 					dispose();
+					ImprimirGUI.LanzarGUI(MenuPrincipal.getInstancia(), licencia);
 				}
 			}
 		});

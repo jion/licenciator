@@ -46,6 +46,7 @@ public class MenuPrincipal extends JFrame {
 	public static void lanzarGUI(Usuario usuario2) {
 		try {
 			instancia = new MenuPrincipal(usuario2);
+			instancia.setLocationRelativeTo( null );
 			instancia.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +91,7 @@ public class MenuPrincipal extends JFrame {
 		
 		mntmAltaUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AltaUsuarioGUI.lanzarGUI();
+				AltaUsuarioGUI.lanzarGUI(instancia);
 			}
 		});
 		
@@ -102,7 +103,7 @@ public class MenuPrincipal extends JFrame {
 		JMenuItem mntmEmitir = new JMenuItem("Emitir");
 		mntmEmitir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EmitirGUI.lanzarGUI();
+				EmitirGUI.lanzarGUI(instancia);
 			}
 		});
 		mnLicencia.add(mntmEmitir);
@@ -122,6 +123,11 @@ public class MenuPrincipal extends JFrame {
 		menuBar.add(mnAyuda);
 		
 		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de");
+		mntmAcercaDe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				acercaDeGUI.lanzarGUI(instancia);
+			}
+		});
 		mnAyuda.add(mntmAcercaDe);
 		
 		JLabel lblUsuario = new JLabel("");
