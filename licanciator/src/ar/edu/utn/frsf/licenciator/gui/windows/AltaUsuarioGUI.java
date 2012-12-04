@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -64,18 +63,18 @@ public class AltaUsuarioGUI extends JDialog {
 	///////////////////////////////////////////////////////////////////////////
 	// Metodos de Instancia ///////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
-	private AltaUsuarioGUI() { super(); };
+	protected AltaUsuarioGUI() { super(); inicializar(); };
 	
 	public AltaUsuarioGUI(Frame owner, String string, boolean b) {
 		super(owner, string, b);
-		Inicializar();
+		inicializar();
 	}
 	
 
 	/**
 	 * Create the dialog.
 	 */
-	public void Inicializar() {
+	public void inicializar() {
 		setResizable(false);
 		setTitle("Alta de usuario");
 		setBounds(100, 100, 400, 230);

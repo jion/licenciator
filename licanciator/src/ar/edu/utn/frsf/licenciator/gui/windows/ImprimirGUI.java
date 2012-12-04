@@ -70,7 +70,7 @@ public class ImprimirGUI extends JDialog {
 	///////////////////////////////////////////////////////////////////////////
 	// Metodos de Instancia ///////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
-	private ImprimirGUI() { super(); }
+	protected ImprimirGUI() { super(); inicializar(); }
 	
 	public ImprimirGUI(Frame owner, String string, boolean b) {
 		super(owner, string, b);
@@ -481,7 +481,7 @@ public class ImprimirGUI extends JDialog {
 				JButton cancelButton = new JButton("Cerrar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						// TODO: Llamar al metodo del handler cuando esté creado
+						dispose();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

@@ -7,7 +7,6 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -21,7 +20,6 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -73,7 +71,7 @@ public class EmitirGUI extends JDialog {
 		}
 	}
 	
-	private EmitirGUI() { super(); }
+	protected EmitirGUI() { super(); inicializar(); }
 	
 	public EmitirGUI(Frame owner, String string, boolean b) {
 		super(owner, string, b);
@@ -512,6 +510,7 @@ public class EmitirGUI extends JDialog {
 					EmitirLicencia.guardarLicencia(MenuPrincipal.getInstancia().getUsuario(), licencia);
 					//TODO: Como sabe si la persistio bien?
 					dispose();
+					ImprimirGUI.LanzarGUI(MenuPrincipal.getInstancia(), licencia);
 				}
 			}
 		});
