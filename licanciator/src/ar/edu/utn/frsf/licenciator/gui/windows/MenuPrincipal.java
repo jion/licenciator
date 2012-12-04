@@ -122,7 +122,7 @@ public class MenuPrincipal extends JFrame {
 		JMenu mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
 		
-		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de");
+		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de Licenciator");
 		mntmAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AcercaDeGUI.lanzarGUI(instancia);
