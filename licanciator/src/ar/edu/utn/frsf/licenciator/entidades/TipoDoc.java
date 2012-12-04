@@ -45,6 +45,8 @@ public class TipoDoc {
 		if(obj.getClass() == TipoDoc.class) {
 			TipoDoc doc = (TipoDoc) obj;
 			return (tipo.equalsIgnoreCase(doc.tipo));
+		} else if(obj.getClass() == String.class) {
+			return ((String) obj).equals(tipo);
 		}
 		return super.equals(obj);
 	}

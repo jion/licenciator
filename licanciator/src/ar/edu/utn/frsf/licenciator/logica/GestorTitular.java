@@ -2,6 +2,7 @@ package ar.edu.utn.frsf.licenciator.logica;
 
 import java.util.Calendar;
 
+import ar.edu.utn.frsf.licenciator.dao.DaoTipoDoc;
 import ar.edu.utn.frsf.licenciator.dao.DaoTitular;
 import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
@@ -13,6 +14,11 @@ public class GestorTitular {
 	
 	private GestorTitular() {
 		super();
+	}
+	
+	public static Titular buscarTitular( String tip, long nro ) {		
+		TipoDoc tipo = DaoTipoDoc.read( tip );
+		return DaoTitular.read( tipo, nro );
 	}
 	
 	public static Titular createTitular( Usuario creador, TipoDoc tipoDocumento, long numeroDocumento, String nombreTitular, String apellidoTitular, Calendar fechaNacimiento, String direccion, String localidad, ClaseLicencia claseLicencia, TipoSanguineo grupoSanguineo, boolean donante ) throws TitularExistenteExeption {		

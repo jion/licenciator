@@ -2,13 +2,11 @@ package ar.edu.utn.frsf.licenciator.logica;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 import ar.edu.utn.frsf.licenciator.dao.DaoClaseLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoTipoDoc;
-import ar.edu.utn.frsf.licenciator.dao.DaoTitular;
 import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
@@ -20,10 +18,13 @@ public class GestorLicencias {
 	/* Constante */
 	final static Calendar FECHA_ACTUAL = Calendar.getInstance();
 
-	private GestorLicencias() {
-		super();
-	}
+	private GestorLicencias() { super(); }
 
+///////////////////////////////////////////////////////////////////////////////
+////                  /////////////////////////////////////////////////////////
+//// Métodos públicos /////////////////////////////////////////////////////////
+////                  /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 	public static Licencia emitirLicencia( Titular titular, ClaseLicencia clase, String obs ) {
 		Calendar emision; 
 		Calendar venc;
@@ -56,98 +57,9 @@ public class GestorLicencias {
 			return null;
 	}
 
-	public static Titular buscarTitular( String tip, long nro ) {		
-		TipoDoc tipo = DaoTipoDoc.read( tip );
-		return DaoTitular.read( tipo, nro );
-	}
-
 	public static void guardarLicencia(  Usuario usuario, Licencia licencia ) {
 		GestorAuditoria.reportarEmitirLicencia(usuario, licencia);
 		DaoLicencia.create( licencia );
-	}
-
-	/** Verifica un objeto licencia antes de persistirlo en la base de datos segun clase y edad */
-	public static Boolean verificarLicencia( Licencia licencia ) {
-
-		/* ******************************************************************
-		 * 1- Si no cumple con la edad minima para esa clase, retorno false
-		 * ******************************************************************/
-		int edad = calcularEdad( licencia.getTitular().getFechaNac() );		
-		if( edad < licencia.getClaseLicencia().getEdadMinima() ) 
-		{
-			return false;
-		}
-		
-		/* ******************************************************************
-		 * 2- Verificamos que no tenga una licencia de la misma clase que este
-		 *    vigente
-		 * ******************************************************************/
-		List<Licencia> licencias = licencia.getTitular().getLicencias();
-		Iterator<Licencia> it = licencias.iterator();
-		String clase = licencia.getClaseLicencia().getTipo();
-
-		Calendar fechaActual = Calendar.getInstance();
-
-		while(it.hasNext())
-		{
-			Licencia licenciaExistente = (Licencia) it.next();
-			String claseExistente = licenciaExistente.getClaseLicencia().getTipo(); 
-			Calendar fechaVencimiento = licenciaExistente.getFechaVencimiento();
-			if(claseExistente.equals(clase) && fechaVencimiento.after(fechaActual))
-			{
-				return false;
-			}
-		}
-		
-		/* ******************************************************************
-		 * 3- Verificaciones para conductores profesionales
-		 * ******************************************************************/
-		if( clase.equals( "C" ) || clase.equals( "D" ) || clase.equals( "E" ) ) {
-
-			/* Si tiene mas de 65, no puede obtenerla por primera vez */
-			if( edad >= 65 ) {
-				it = licencias.iterator();
-
-				Boolean puede = false;
-				/* Se recorre el conjunto de licencias del titular buscando una
-				 * licencia profesional ya existente
-				 */
-				while( it.hasNext() && !puede ) {
-					Licencia lic = (Licencia)it.next();
-					String claseExistente = lic.getClaseLicencia().getTipo();
-					if( claseExistente.equals( "C" ) || 
-						claseExistente.equals( "D" ) ||
-						claseExistente.equals( "E" ) )
-					{
-						puede = true;
-					}
-				}
-
-				if( !puede )
-					return false;
-			} else {
-	
-				/* Y recorremos para ver si previamente tenia una B */
-				it = licencias.iterator();
-	
-				while( it.hasNext() ) {
-					Licencia lic = ( Licencia )it.next();
-	
-					if( lic.getClaseLicencia().getTipo().equals( "B" ) ) 
-					{  
-						/* La obtuvo minimo un año antes? */
-						int anyos = calcularEdad( lic.getFechaEmision() );
-	
-						if( anyos >= 1 )
-							return true;
-					}
-				}
-	
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	public static Calendar calcularVigencia( Calendar fechaNacimientoCalendar, boolean primeraVez  ) {		
@@ -216,6 +128,114 @@ public class GestorLicencias {
 	public static List<TipoDoc> obtenerTiposDocumento() {
 
 		return DaoTipoDoc.readAll();
+	}
+	
+///////////////////////////////////////////////////////////////////////////////
+////                  /////////////////////////////////////////////////////////
+//// Métodos privados /////////////////////////////////////////////////////////
+////                  /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Verifica un objeto licencia antes de persistirlo en la base de datos segun
+	 * clase y edad
+	 * 
+	 * @param licencia La licencia que se quiere añadir al titular, con la
+	 *        referencia al mismo
+	 * @return
+	 */
+	private static Boolean verificarLicencia( Licencia licencia ) {
+
+		List<Licencia> 	licenciasTitular = licencia.getTitular().getLicencias();
+		ClaseLicencia	claseSolicitada = licencia.getClaseLicencia();
+		
+		int edadTitular = calcularEdad( licencia.getTitular().getFechaNac() );
+		int edadMinima = licencia.getClaseLicencia().getEdadMinima();
+
+		//////////////////////////////////////////////////////////////////////
+		//                                                                  //
+		// 1- Si no cumple con la edad minima para esa clase, retorno false //
+		//                                                                  //
+		//////////////////////////////////////////////////////////////////////
+		
+		if(edadTitular < edadMinima)
+			return false;
+
+		//////////////////////////////////////////////////////////////////////
+		//                                                                  //
+		// 2- Verificamos que no tenga una licencia de la misma clase que   //
+		//    vigente													    //
+		//                                                                  //
+		//////////////////////////////////////////////////////////////////////
+		
+		Calendar fechaActual = Calendar.getInstance();
+
+		/* Para cada licencia perteneciente al titular, verificamos
+		 * tipo y fecha de vencimiento
+		 */
+		for(Licencia l : licenciasTitular) {
+			ClaseLicencia claseExistente = l.getClaseLicencia(); 
+			Calendar fechaVencimiento = l.getFechaVencimiento();
+			if(claseExistente.equals(claseSolicitada) && fechaVencimiento.after(fechaActual))
+			{
+				return false;
+			}
+		}
+		
+		//////////////////////////////////////////////////////////////////////
+		//                                                                  //
+		// 3- Verificaciones para conductores profesionales                 //
+		//                                                                  //
+		//////////////////////////////////////////////////////////////////////
+
+		if(	claseSolicitada.equals( "C" ) ||
+			claseSolicitada.equals( "D" ) ||
+			claseSolicitada.equals( "E" ) )
+		{
+
+			/* *****************************************************************
+			 *  A- Si tiene mas de 65, no puede obtenerla por primera vez 
+			 ******************************************************************/
+			if( edadTitular >= 65 ) {
+				Boolean puede = false;
+				
+				/* Se recorre el conjunto de licencias del titular buscando una
+				 * licencia profesional ya existente
+				 */
+				for(Licencia lic : licenciasTitular) {
+					ClaseLicencia claseExistente = lic.getClaseLicencia();
+					if( claseExistente.equals( "C" ) || 
+						claseExistente.equals( "D" ) ||
+						claseExistente.equals( "E" ) )
+					{
+						puede = true;
+					}
+				}
+				
+				return puede;
+			}
+			
+			/* *****************************************************************
+			 *  B- Si tiene hasta de 65, debe tener al menos una licencia B
+			 *     sacada un año antes 
+			 ******************************************************************/
+			
+			/* Recorremos para ver si previamente tenia una B */
+			for(Licencia lic : licenciasTitular) {
+				if( lic.equals( "B" ) ) 
+				{
+					/* La obtuvo minimo un año antes? */
+					int anyos = calcularEdad( lic.getFechaEmision() );
+
+					if( anyos >= 1 )
+						return true;
+				}
+			}
+
+			return false;
+		}
+
+		return true;
 	}
 	
 	/* Calcula la edad en años de alguien que nacio en la fecha */

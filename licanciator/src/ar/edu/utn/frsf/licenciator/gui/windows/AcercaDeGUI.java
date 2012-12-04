@@ -27,7 +27,7 @@ public class AcercaDeGUI extends JDialog {
 	 */
 	public static void lanzarGUI(Frame owner) {
 		try {
-			AcercaDeGUI dialog = new AcercaDeGUI( owner, "Title", true );
+			AcercaDeGUI dialog = new AcercaDeGUI( owner, "Acerca de Licenciator", true );
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setLocationRelativeTo( null );
 			dialog.setVisible(true);
@@ -39,7 +39,9 @@ public class AcercaDeGUI extends JDialog {
 	///////////////////////////////////////////////////////////////////////////
 	// Metodos de Instancia ///////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
-	protected AcercaDeGUI() { super(); inicializar(); };
+	protected AcercaDeGUI() { super(); 
+ setTitle("Acerca de Licenciator");
+ setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);inicializar(); };
 	
 	public AcercaDeGUI(Frame owner, String string, boolean b) {
 		super(owner, string, b);
