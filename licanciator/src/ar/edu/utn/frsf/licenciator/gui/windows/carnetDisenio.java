@@ -8,15 +8,21 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 public class carnetDisenio extends JPanel  {
-	
-    @Override
+	String imagen;
+    public carnetDisenio(String imagen) {
+		this.imagen = imagen;
+	}
+
+	@Override
     protected void paintComponent(Graphics g) {
-    	InputStream is = new BufferedInputStream(this.getClass().getResourceAsStream("/resources/licFront.png"));
+    	InputStream is = new BufferedInputStream(this.getClass().getResourceAsStream(imagen));
         Image image;
+        this.setBackground(Color.WHITE);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(getForeground());
         g.setColor(Color.WHITE);
 		try {
 			image = ImageIO.read(is);
