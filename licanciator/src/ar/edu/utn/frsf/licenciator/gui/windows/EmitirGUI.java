@@ -32,6 +32,7 @@ import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
 import ar.edu.utn.frsf.licenciator.logica.GestorTitular;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.Toolkit;
 
 public class EmitirGUI extends JDialog {
 	
@@ -75,7 +76,8 @@ public class EmitirGUI extends JDialog {
 		}
 	}
 	
-	protected EmitirGUI() { super(); inicializar(); }
+	protected EmitirGUI() { super(); 
+ setIconImage(Toolkit.getDefaultToolkit().getImage(EmitirGUI.class.getResource("/resources/auto.gif")));inicializar(); }
 	
 	public EmitirGUI(Frame owner, String string, boolean b) {
 		super(owner, string, b);
