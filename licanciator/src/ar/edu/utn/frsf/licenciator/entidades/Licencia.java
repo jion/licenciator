@@ -68,9 +68,13 @@ public class Licencia {
 	{
 		return observaciones;
 	}
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
+
 		if(obj.getClass() == Licencia.class) {
 			Licencia l = (Licencia) obj;
 			return (titular.equals(l.titular) && clase.equals(l.clase)	&&
@@ -79,6 +83,10 @@ public class Licencia {
 					fechaEmision.get(Calendar.DAY_OF_YEAR) == fechaEmision.get(Calendar.DAY_OF_YEAR) &&
 					fechaVencimiento.get(Calendar.YEAR) == fechaVencimiento.get(Calendar.YEAR) &&
 					fechaVencimiento.get(Calendar.DAY_OF_YEAR) == fechaVencimiento.get(Calendar.DAY_OF_YEAR));
+		} else if(obj.getClass() == String.class) {
+			String clase = (String) obj;
+			
+			return ( this.clase != null ) &&  clase.equalsIgnoreCase(this.clase.getTipo());
 		}
 		return super.equals(obj);
 	}
@@ -89,10 +97,6 @@ public class Licencia {
 	@Override
 	public String toString() {
 		return "{ " + titular + ", " + clase + ", " + nroLicencia + ", " + fechaEmision + ", " + fechaVencimiento + "}" ;
-	}
-
-	public void setObservaciones(String observaciones) {
-		this.observaciones = observaciones;
 	}
 
 } 

@@ -59,12 +59,9 @@ public class ClaseLicencia {
 	public boolean equals(Object obj) {
 		if(obj.getClass() == ClaseLicencia.class) {
 			ClaseLicencia lic = (ClaseLicencia) obj;
-			return (tipo.equals(lic.tipo) &&
-					descripcion.equalsIgnoreCase(lic.descripcion) &&
-					edadMinima==lic.edadMinima &&
-					costo==lic.costo);
+			return (tipo.equalsIgnoreCase(lic.tipo));
 		} else if(obj.getClass() == String.class) {
-			return ((String) obj).equals(tipo);
+			return ((String) obj).equalsIgnoreCase(tipo);
 		}
 		return super.equals(obj);
 	}
