@@ -13,7 +13,7 @@ import ar.edu.utn.frsf.licenciator.entidades.TipoSanguineo;
 import ar.edu.utn.frsf.licenciator.entidades.Titular;
 import ar.edu.utn.frsf.licenciator.logica.GestorLicencias;
 
-public class TestEmitirLogica extends TestCase {
+public class TestGestorLicencia extends TestCase {
 
 	Calendar hoy;
 	
@@ -47,12 +47,12 @@ public class TestEmitirLogica extends TestCase {
 	 * Constructores -- Inicialización **************************************
 	 * **********************************************************************/
 	
-	public TestEmitirLogica() {
+	public TestGestorLicencia() {
 		super();
 		inicializar();
 	}
 
-	public TestEmitirLogica(String name) {
+	public TestGestorLicencia(String name) {
 		super(name);
 		inicializar();
 	}
@@ -92,18 +92,40 @@ public class TestEmitirLogica extends TestCase {
 		titular[MAYOR_65] = crearTitular(1, 1, hoy.get(Calendar.YEAR) - 80);
 		
 		txtTitular = new String[7];
-		txtTitular[0] = "Menor a 17";
-		txtTitular[1] = "Igual a 17";
-		txtTitular[2] = "Entre 17 y 21";
-		txtTitular[3] = "Igual a 21";
-		txtTitular[4] = "Entre 21 y 65";
-		txtTitular[5] = "Igual a 65";
-		txtTitular[6] = "Mayor a 65";
+		txtTitular[MENOR_17]	= "Menor a 17";
+		txtTitular[IGUAL_17]	= "Igual a 17";
+		txtTitular[ENTRE_17_21] = "Entre 17 y 21";
+		txtTitular[IGUAL_21]	= "Igual a 21";
+		txtTitular[ENTRE_21_65] = "Entre 21 y 65";
+		txtTitular[IGUAL_65]	= "Igual a 65";
+		txtTitular[MAYOR_65]	= "Mayor a 65";
 	}
 
 	/* **********************************************************************
 	 * Tests ****************************************************************
 	 * **********************************************************************/
+	/**
+	 * El objetivo de esta prueba es verificar que el sistema no deje
+	 * asignar un canet ya poseido por el titular
+	 * 
+	 * Requisito: El titular debe ser mayor de 17 años
+	 */
+	public void testEmitirLicenciasEnVigencia() {
+		Calendar fechaEmision = new GregorianCalendar();
+		Calendar fechaVencimiento = new GregorianCalendar();
+
+		fechaEmision.add(Calendar.YEAR, -2);
+		fechaEmision.add(Calendar.YEAR, +3);
+		
+		// Se crea una licencia B que venza dentro de 3 años
+		crearLicencia(titular[ENTRE_21_65], claseB, fechaEmision, fechaVencimiento);
+		
+		// Se intenta emitir una nueva licencia B al titular
+		Licencia licRecibida;
+		licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_21], claseB, "Observaciones");
+		assertNull(licRecibida);
+	}
+	
 	/**
 	 * El objetivo de esta prueba es verificar los requisitos para solicitar
 	 * una licencia no profesional.
@@ -159,17 +181,17 @@ public class TestEmitirLogica extends TestCase {
 			Licencia licRecibida;
 			
 			// Con una B de ayer
-			crearLicencia(titular[IGUAL_17], claseB, unDiaAntes);
+			crearLicencia(titular[IGUAL_17], claseB, unDiaAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de año antes
-			crearLicencia(titular[IGUAL_17], claseB, unAnioAntes);
+			crearLicencia(titular[IGUAL_17], claseB, unAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de mas de un año
-			crearLicencia(titular[IGUAL_17], claseB, MasDeunAnioAntes);
+			crearLicencia(titular[IGUAL_17], claseB, MasDeunAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_17], claseC, "Observaciones");
 			assertNull(licRecibida);
 		}
@@ -177,17 +199,17 @@ public class TestEmitirLogica extends TestCase {
 			Licencia licRecibida;
 			
 			// Con una B de ayer
-			crearLicencia(titular[IGUAL_21], claseB, unDiaAntes);
+			crearLicencia(titular[IGUAL_21], claseB, unDiaAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de año antes
-			crearLicencia(titular[IGUAL_21], claseB, unAnioAntes);
+			crearLicencia(titular[IGUAL_21], claseB, unAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 			
 			// Con una B de mas de un año
-			crearLicencia(titular[IGUAL_21], claseB, MasDeunAnioAntes);
+			crearLicencia(titular[IGUAL_21], claseB, MasDeunAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_21], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 		}
@@ -195,17 +217,17 @@ public class TestEmitirLogica extends TestCase {
 			Licencia licRecibida;
 			
 			// Con una B de ayer
-			crearLicencia(titular[ENTRE_21_65], claseB, unDiaAntes);
+			crearLicencia(titular[ENTRE_21_65], claseB, unDiaAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de año antes
-			crearLicencia(titular[ENTRE_21_65], claseB, unAnioAntes);
+			crearLicencia(titular[ENTRE_21_65], claseB, unAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 			
 			// Con una B de mas de un año
-			crearLicencia(titular[ENTRE_21_65], claseB, MasDeunAnioAntes);
+			crearLicencia(titular[ENTRE_21_65], claseB, MasDeunAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[ENTRE_21_65], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 		}
@@ -213,12 +235,12 @@ public class TestEmitirLogica extends TestCase {
 			Licencia licRecibida;
 			
 			// Con una B de ayer
-			crearLicencia(titular[IGUAL_65], claseB, unAnioAntes);
+			crearLicencia(titular[IGUAL_65], claseB, unAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_65], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una C de año antes
-			crearLicencia(titular[IGUAL_65], claseC, unAnioAntes);
+			crearLicencia(titular[IGUAL_65], claseC, unAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_65], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 		}
@@ -226,12 +248,12 @@ public class TestEmitirLogica extends TestCase {
 			Licencia licRecibida;
 			
 			// Con una B de ayer
-			crearLicencia(titular[MAYOR_65], claseB, unAnioAntes);
+			crearLicencia(titular[MAYOR_65], claseB, unAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[MAYOR_65], claseC, "Observaciones");
 			assertNull(licRecibida);
 			
 			// Con una B de año antes
-			crearLicencia(titular[MAYOR_65], claseC, unAnioAntes);
+			crearLicencia(titular[MAYOR_65], claseC, unAnioAntes, hoy);
 			licRecibida = GestorLicencias.emitirLicencia(titular[MAYOR_65], claseC, "Observaciones");
 			assertNotNull(licRecibida);
 		}
@@ -241,12 +263,12 @@ public class TestEmitirLogica extends TestCase {
 	 * Metodos auxiliares ***************************************************
 	 * **********************************************************************/
 	
-	private void crearLicencia(Titular titular, ClaseLicencia cl, Calendar fechaEmision) {
+	private void crearLicencia(Titular titular, ClaseLicencia cl, Calendar fechaEmision, Calendar fechavigencia) {
 		Licencia lic =
 				new Licencia (titular, cl,
 				"335268541" + cl.getTipo(),
 				fechaEmision,
-				hoy,
+				fechavigencia,
 				"Observaciones");
 		ArrayList<Licencia> lista = new ArrayList<Licencia>();
 		lista.add(lic);
