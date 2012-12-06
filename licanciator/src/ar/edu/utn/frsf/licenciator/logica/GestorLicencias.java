@@ -7,6 +7,7 @@ import java.util.List;
 import ar.edu.utn.frsf.licenciator.dao.DaoClaseLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoLicencia;
 import ar.edu.utn.frsf.licenciator.dao.DaoTipoDoc;
+import ar.edu.utn.frsf.licenciator.dao.DaoTitular;
 import ar.edu.utn.frsf.licenciator.entidades.ClaseLicencia;
 import ar.edu.utn.frsf.licenciator.entidades.Licencia;
 import ar.edu.utn.frsf.licenciator.entidades.TipoDoc;
@@ -26,8 +27,8 @@ public class GestorLicencias {
 ////                  /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 	public static Licencia emitirLicencia( Titular titular, ClaseLicencia clase, String obs ) {
-		Calendar emision; 
-		Calendar venc;
+		Calendar fechaEmision; 
+		Calendar fechaVencimiento;
 
 		String nro;
 
@@ -37,29 +38,33 @@ public class GestorLicencias {
 		nro = "3" + Long.toString( nroDoc ) + clase.getTipo();
 
 		/* Fecha de emision: es la fecha actual */
-		emision = new GregorianCalendar();
-		emision.set( Calendar.MINUTE, 0 );
-		emision.set( Calendar.SECOND, 0 );
-		emision.set( Calendar.MILLISECOND, 0 );
+		fechaEmision = new GregorianCalendar();
+		fechaEmision.set( Calendar.HOUR_OF_DAY, 0 );
+		//TODO: Borrar
+		//fechaEmision.set( Calendar.SECOND, 0 );
+		//fechaEmision.set( Calendar.MILLISECOND, 0 );
 
 		/* Se calcula la fecha de vigencia */
-		venc = calcularVigencia( titular.getFechaNac(), titular.getLicencias().isEmpty() );
+		fechaVencimiento = calcularVigencia( titular.getFechaNac(), titular.getLicencias().isEmpty() );
 
 		/* Se crea la licencia a partir de los datos calculados */
-		Licencia licencia = new Licencia( titular, clase, nro, emision, venc, obs );
+		Licencia licencia = new Licencia( titular, clase, nro, fechaEmision, fechaVencimiento, obs );
 
 		/* Se verifica la licencia, si todo está ok se retorna la misma,
 		 * si no, retornamos null.
 		 */
 		if( verificarLicencia(licencia) )
 			return licencia;
-		else 
-			return null;
+		
+		return null;
 	}
 
 	public static void guardarLicencia(  Usuario usuario, Licencia licencia ) {
 		GestorAuditoria.reportarEmitirLicencia(usuario, licencia);
+		
 		DaoLicencia.create( licencia );
+		licencia.getTitular().licencias.add(licencia);
+		DaoTitular.update(licencia.getTitular());
 	}
 
 	public static Calendar calcularVigencia( Calendar fechaNacimientoCalendar, boolean primeraVez  ) {		
@@ -140,14 +145,14 @@ public class GestorLicencias {
 	 * Verifica un objeto licencia antes de persistirlo en la base de datos segun
 	 * clase y edad
 	 * 
-	 * @author Las autenticas aguilas
+	 * @author Las Autenticas Aguilas
 	 * 
 	 * @param licencia La licencia que se quiere añadir al titular, con la
 	 *        referencia al mismo
-	 * @return
+	 * @return <b>True</b> si es valido emitir la licencia<br>
+	 *         <b>False</b> si no se cumple alguna condición
 	 */
 	private static Boolean verificarLicencia( Licencia licencia ) {
-
 		List<Licencia> 	licenciasTitular = licencia.getTitular().getLicencias();
 		ClaseLicencia	claseSolicitada = licencia.getClaseLicencia();
 
@@ -177,11 +182,14 @@ public class GestorLicencias {
 		for(Licencia l : licenciasTitular) {
 			ClaseLicencia claseExistente = l.getClaseLicencia(); 
 			Calendar fechaVencimiento = l.getFechaVencimiento();
+			
+			System.out.println("Licencia: " +l.getNrolicencia() +"claseExistente.equals(claseSolicitada): " +claseExistente.equals(claseSolicitada) + "\nfechaVencimiento.after(fechaActual):" +fechaVencimiento.after(fechaActual) + "\n");
 			if(claseExistente.equals(claseSolicitada) && fechaVencimiento.after(fechaActual))
 			{
 				return false;
 			}
 		}
+		System.out.println("---------------\n\n");
 		
 		//////////////////////////////////////////////////////////////////////
 		//                                                                  //

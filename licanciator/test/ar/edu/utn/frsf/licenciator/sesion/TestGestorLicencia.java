@@ -115,14 +115,14 @@ public class TestGestorLicencia extends TestCase {
 		Calendar fechaVencimiento = new GregorianCalendar();
 
 		fechaEmision.add(Calendar.YEAR, -2);
-		fechaEmision.add(Calendar.YEAR, +3);
+		fechaVencimiento.add(Calendar.YEAR, +3);
 		
 		// Se crea una licencia B que venza dentro de 3 años
 		crearLicencia(titular[ENTRE_21_65], claseB, fechaEmision, fechaVencimiento);
 		
 		// Se intenta emitir una nueva licencia B al titular
 		Licencia licRecibida;
-		licRecibida = GestorLicencias.emitirLicencia(titular[IGUAL_21], claseB, "Observaciones");
+		licRecibida = GestorLicencias.emitirLicencia(titular[ENTRE_21_65], claseB, "Observaciones");
 		assertNull(licRecibida);
 	}
 	
