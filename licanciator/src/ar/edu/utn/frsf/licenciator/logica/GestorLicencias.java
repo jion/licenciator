@@ -183,13 +183,11 @@ public class GestorLicencias {
 			ClaseLicencia claseExistente = l.getClaseLicencia(); 
 			Calendar fechaVencimiento = l.getFechaVencimiento();
 			
-			System.out.println("Licencia: " +l.getNrolicencia() +"claseExistente.equals(claseSolicitada): " +claseExistente.equals(claseSolicitada) + "\nfechaVencimiento.after(fechaActual):" +fechaVencimiento.after(fechaActual) + "\n");
 			if(claseExistente.equals(claseSolicitada) && fechaVencimiento.after(fechaActual))
 			{
 				return false;
 			}
 		}
-		System.out.println("---------------\n\n");
 		
 		//////////////////////////////////////////////////////////////////////
 		//                                                                  //

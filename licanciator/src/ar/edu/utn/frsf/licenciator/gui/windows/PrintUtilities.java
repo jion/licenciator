@@ -2,14 +2,17 @@ package ar.edu.utn.frsf.licenciator.gui.windows;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.RepaintManager;
+import javax.swing.border.StrokeBorder;
 
 public class PrintUtilities implements Printable {
 	private Component componentToBePrinted1;
@@ -23,6 +26,9 @@ public class PrintUtilities implements Printable {
 	public PrintUtilities(Component componentToBePrinted1, Component componentToBePrinted2) {
 		this.componentToBePrinted1 = componentToBePrinted1;
 		this.componentToBePrinted2 = componentToBePrinted2;
+		
+		((JPanel) this.componentToBePrinted1).setBorder(BorderFactory.createEmptyBorder());
+		((JPanel) this.componentToBePrinted2).setBorder(BorderFactory.createEmptyBorder());
 	}
 
 	public void print() {
@@ -31,10 +37,9 @@ public class PrintUtilities implements Printable {
 		PageFormat pageFormat = printJob.defaultPage();
 		Paper paper = new Paper();
 		paper.setSize(237,414); // Large Address Dimension
-		paper.setImageableArea(0, 0, 237, 414);
+		paper.setImageableArea(0, 0, 0, 0);
 		pageFormat.setPaper(paper);
 		pageFormat.setOrientation(PageFormat.LANDSCAPE);
-
 
 		printJob.setPrintable(this, pageFormat);
 		if (printJob.printDialog())

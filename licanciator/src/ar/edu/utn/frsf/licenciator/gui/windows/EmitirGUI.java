@@ -162,7 +162,8 @@ public class EmitirGUI extends JDialog {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (validar_numero(textNroDoc.getText())) {
-					titular = GestorTitular.buscarTitular(textTipoDoc.getSelectedItem().toString(), Long.parseLong(textNroDoc.getText()));
+					titular = GestorTitular.buscarTitular(textTipoDoc.getSelectedItem().toString(),
+							Long.parseLong(textNroDoc.getText()));
 					if (titular != null){
 						setTitular();
 					}
@@ -179,6 +180,7 @@ public class EmitirGUI extends JDialog {
 			}
 
 			private boolean validar_numero(String text) {
+				if(text.length() >= 10) return false;
 				for(char a: text.toCharArray()) {
 					if(a < '0' || a > '9')
 						return false;
